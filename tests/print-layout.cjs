@@ -18,6 +18,7 @@ for (const tag of html.matchAll(/<(?:input|select)[^>]*id="([^"]+)"[^>]*>/g)) {
   element(tag[1]).value = tag[0].match(/value="([^"]*)"/)?.[1] || '';
 }
 element('borderMode').value = 'equal';
+element('framePreset').options = [...html.match(/<select id="framePreset"[\s\S]*?<\/select>/)[0].matchAll(/<option value="([^"]+)"/g)].map(match=>({value:match[1]}));
 element('aiRoomStyle').value = 'swiss';
 const handles=['nw','ne','sw','se'].map(corner=>{const node=element('handle-'+corner);node.dataset.corner=corner;return node;});
 const modes=['none','equal','passepartout'].map(mode=>{const node=element('mode-'+mode);node.dataset.borderMode=mode;return node;});
@@ -239,6 +240,95 @@ assert.equal(element('dpiInfo').innerText,'Auflösung nicht berechenbar');
 run('state.imgSrc=null;calcAndRender()');assert.equal(element('printQuality').hidden,true);
 assert.equal(element('dpiInfo').innerText,'Maße nach dem Hochladen');
 console.log('PASS resolution: known ppi and thresholds, rounded pixel requirements, all layouts, live scaling/borders/frame invariance, stable paper choice, missing/invalid data and non-blocking warnings.');
+
+// Suggestions are frame END sizes, with borders, rather than an A-sheet enlarged to fill.
+function setupSuggestion(w=2400,h=3200,orientation='portrait',mode='equal',top=10,bottom=10,product='print') {
+  run(`state.productType='${product}';state.orientation='${orientation}';state.imgSrc='blob:suggestion';state.sourceFile=null;state.imgW_PX=${w};state.imgH_PX=${h};state.userScale=1;state.fitToFormat=false;els.inWidth.value=30;els.inHeight.value=40;els.borderMode.value='${mode}';els.bTop.value=${top};els.bBottom.value=${bottom};calcAndRender()`);
+}
+setupSuggestion();
+const beforeSuggestion=run('JSON.stringify({state,layout:getPrintLayout(),width:els.inWidth.value,height:els.inHeight.value,border:els.bTop.value})');
+let suggestion=run('getFormatRecommendation()');
+assert.equal(suggestion.value,'21x30');assert.equal(suggestion.layout.paper.name,'A3');
+near(suggestion.layout.width,210);near(suggestion.layout.height,300);
+near(suggestion.layout.imageWidth,190);near(suggestion.quality.effectivePpi,2400*25.4/190);
+assert.equal(run('JSON.stringify({state,layout:getPrintLayout(),width:els.inWidth.value,height:els.inHeight.value,border:els.bTop.value})'),beforeSuggestion,'proposing must not mutate current settings');
+assert.ok(element('qualitySourceSummary').innerText.includes('2.400 × 3.200 px'));
+assert.equal(element('btnApplySuggestion').hidden,false);
+element('btnApplySuggestion').events.click();
+assert.equal(run('state.fitToFormat'),true);assert.equal(element('framePreset').value,'21x30');
+let adopted=execute(true,2400,3200);
+near(adopted.layout.width,210);near(adopted.layout.height,300);
+near(adopted.ps.paperW,297);near(adopted.ps.paperH,420);
+near(adopted.ps.cutLeftMM,43.5);near(adopted.ps.cutTopMM,60);
+assert.ok(adopted.ps.cropMarkRects.length>0,'exact frame on a larger A-sheet needs cut marks');
+assert.equal(element('qualityChoices').hidden,true);assert.equal(element('printQuality').dataset.level,'good');
+assert.ok(element('printInfo').innerText.includes('21 × 30 cm inklusive Rand'));
+assert.equal(element('btnResetScale').disabled,false);
+element('btnResetScale').events.click();
+assert.equal(run('state.fitToFormat'),false);near(run('getPrintLayout().width'),297);
+// Sometimes the selected frame already suffices once printed at its exact end size.
+setupSuggestion(3400,4800);suggestion=run('getFormatRecommendation()');assert.equal(suggestion.value,'30x40');
+// Preserve landscape and genuine square frame entries.
+setupSuggestion(3200,2400,'landscape');suggestion=run('getFormatRecommendation()');
+near(suggestion.reference.w,30);near(suggestion.reference.h,21);
+setupSuggestion(2400,2400,'square');suggestion=run('getFormatRecommendation()');
+assert.equal(suggestion.value,'20x20');assert.equal(suggestion.layout.paper.name,'A4');
+// No standard frame fits: use a conservative millimetre-rounded custom end size.
+setupSuggestion(600,800);suggestion=run('getFormatRecommendation()');
+assert.equal(suggestion.custom,true);near(suggestion.reference.w,7);near(suggestion.reference.h,8.7);
+assert.equal(suggestion.layout.paper.name,'A5');assert.ok(element('suggestionDetail').innerText.includes('Kein Standardrahmen'));
+run('applyFormatRecommendation()');adopted=execute(true,600,800);
+near(adopted.layout.width,70);near(adopted.layout.height,87);
+assert.ok(run('getPrintQuality(getPrintLayout()).effectivePpi')>=300);
+assert.equal(element('customDimensions').style.display,'flex');
+element('btnResetScale').events.click();
+suggestion=run('getFormatRecommendation()');near(suggestion.reference.w,7);near(suggestion.reference.h,8.7);
+// Click uses the NEW image/border state, never the last rendered proposal.
+setupSuggestion();run('state.imgW_PX=600;state.imgH_PX=800;applyFormatRecommendation()');
+assert.equal(element('framePreset').value,'custom');near(run('getPrintLayout().width'),70);
+setupSuggestion(1,1,'portrait','none',0,0);
+assert.equal(run('getFormatRecommendation()'),null);assert.equal(element('btnApplySuggestion').hidden,true);
+setupSuggestion(6000,8000);assert.equal(run('getFormatRecommendation()'),null);assert.equal(element('qualityChoices').hidden,true);
+run('state.imgSrc=null;calcAndRender()');assert.equal(run('getFormatRecommendation()'),null);
+
+let recommendationCases=0;
+for(const product of ['print','canvas']) for(const orientation of ['portrait','landscape','square']) for(const [w,h] of [[600,800],[2400,3200],[3200,2400],[2400,2400],[1,1000]]) for(const [mode,top,bottom] of [['none',0,0],['equal',3,3],['equal',20,20],['passepartout',10,40]]) {
+  setupSuggestion(w,h,orientation,mode,top,bottom,product);
+  const proposed=run('getFormatRecommendation()');
+  if (!proposed) continue;
+  const minimum=product==='canvas'||mode==='none'?0:top;
+  const minimumBottom=product==='canvas'||mode==='none'?0:mode==='equal'?top:bottom;
+  assert.ok(proposed.layout.imageWidth<=w*25.4/300+1e-7);
+  assert.ok(proposed.layout.imageHeight<=h*25.4/300+1e-7);
+  assert.ok(proposed.layout.left>=minimum-1e-7&&proposed.layout.top>=minimum-1e-7);
+  near(proposed.layout.bottom-proposed.layout.top,minimumBottom-minimum);
+  assert.notEqual(proposed.layout.paper.name,'Benutzerdefiniert');
+  if(!proposed.custom) {
+    // Independently reject every larger listed frame: invalid space, low ppi or no A-paper.
+    for(const option of element('framePreset').options) {
+      if(option.value==='custom') continue;
+      const dims=option.value.split('x').map(Number);
+      if(orientation==='square'&&dims[0]!==dims[1]) continue;
+      const [rw,rh]=orientation==='landscape'?[Math.max(...dims),Math.min(...dims)]:[Math.min(...dims),Math.max(...dims)];
+      const bound=orientation==='square'?[40,40]:orientation==='landscape'?[40,30]:[30,40];
+      if(rw>bound[0]||rh>bound[1]||rw*rh<=proposed.reference.w*proposed.reference.h) continue;
+      const aw=rw*10-minimum*2,ah=rh*10-minimum-minimumBottom;
+      const bleed=product==='canvas'?80:0;
+      const paperFits=[[148,210],[210,297],[297,420],[420,594]].some(([pw,ph])=>(rw*10+bleed<=pw&&rh*10+bleed<=ph)||(rw*10+bleed<=ph&&rh*10+bleed<=pw));
+      const ppi=Math.max(w*25.4/aw,h*25.4/ah);
+      assert.ok(!(aw>0&&ah>0&&paperFits&&ppi>=300-1e-7),'a larger suitable frame was missed');
+    }
+  }
+  run('applyFormatRecommendation()');
+  const result=execute(true,w,h);
+  near(result.layout.width,proposed.reference.w*10);near(result.layout.height,proposed.reference.h*10);
+  near(result.layout.imageWidth,proposed.layout.imageWidth);near(result.layout.imageHeight,proposed.layout.imageHeight);
+  assert.ok(run('getPrintQuality(getPrintLayout()).effectivePpi')>=300-1e-7);
+  near(Number(element('borderSizeTop').value),top);near(Number(element('borderSizeBottom').value),bottom);
+  recommendationCases++;
+}
+console.log(`PASS recommendations: ${recommendationCases} adopted frame/custom proposals across orientations, image ratios, borders and canvas; largest available frame, safe custom fallback, unchanged settings before adoption, stale-click safety, cut marks and preview/JSX agreement.`);
+run('state.fitToFormat=false');
 
 async function verifyV14() {
   run("state.productType='print';state.orientation='portrait';state.userScale=0.8;state.imgW_PX=600;state.imgH_PX=800;els.inWidth.value=30;els.inHeight.value=40;els.borderMode.value='equal';els.bTop.value=10");

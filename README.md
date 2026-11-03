@@ -1,4 +1,4 @@
-# Print Studio V14.1
+# Print Studio V14.2
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 
@@ -38,6 +38,18 @@ Nach dem Laden zeigt die App die effektiven ppi der tatsächlichen Bildfläche a
 „Pixel und Druckgrösse“ zeigt vorhandene Pixel und die maximale Bildfläche bei 300 ppi. Beispiel: A2, 1 cm Mindestrand und Motiv 3:4 ergeben 40 × 53,33 cm Bildfläche; dafür sind 4.725 × 6.300 px empfohlen. Mit 600 × 800 px sind es 38,1 ppi. Durch Verkleinern des Bildes steigt die Auflösung; ein grösserer Rand oder kleineres Referenzformat kann ebenfalls helfen. Leinwand bezieht die Bewertung auf die sichtbare Bildfläche, ohne den Umschlag.
 
 Die Warnung ist kein Exportverbot. Das JSX enthält die Bewertung aus der Export-Momentaufnahme als Kommentar, ohne zusätzliche druckbare Elemente. Die 300-ppi-Dokumentauflösung ersetzt keine fehlenden Bilddetails. Änderungen betreffen weder die unveränderten Originalbytes noch die Smartobjekt-Platzierung.
+
+## Vorschläge bei niedriger Auflösung
+
+Bei weniger als 300 ppi zeigt die App zwei Wege. „Grösse behalten · Bild extern aufbereiten“ nennt die Originalpixel, die empfohlenen Zielpixel und den notwendigen linearen Vergrösserungsfaktor. Das Bild wird in einem eigenen Werkzeug aufbereitet und anschliessend über „Bild wechseln“ geladen. Die App bietet keine eigene Hochskalierung an und sendet keine Bilddaten an einen Dienst.
+
+„Passendes Rahmenformat verwenden“ prüft die tatsächlich in der Auswahlliste vorhandenen Rahmen. Massgeblich ist das fertige Endmaß inklusive der eingestellten Mindestränder und der vollständigen, proportionalen Bildfläche bei 100 % Einpassung. Der grösste geeignete Rahmen bis zur aktuellen Referenzgrösse wird vorgeschlagen. Bei genügend Pixeln kann auch das bereits gewählte Rahmenformat ausreichen, wenn der Print auf dessen Endmaß begrenzt wird. Zu jedem Vorschlag stehen A-Papier, Bildfläche und effektive Auflösung. Passt kein Standardrahmen, wird ein benutzerdefiniertes Endmaß angeboten, auf ganze Millimeter abgerundet und als „Kein Standardrahmen“ gekennzeichnet. Ein Format ohne gültige Bildfläche oder ohne passendes A-Papier bis A2 wird nicht empfohlen. Leinwand wird entsprechend mit Umschlag geprüft.
+
+Erst „Vorschlag übernehmen“ übernimmt das Endmaß und setzt die Bildskalierung auf 100 %. Der fertige Print wird auf dem Papier zentriert; Schnittmarken begrenzen das Endmaß. Der Rahmenschalter beeinflusst weiterhin nur die Darstellung. Änderungen an Format und Rand passen das Endmaß weiter an; „Papier optimal nutzen“ kehrt ausdrücklich zur ganzen Papierfläche zurück. Das tatsächliche Endmaß steht direkt unter den Druckmaßen. Auch hier bleibt das Original vollständig erhalten.
+
+Beispiel: 2.400 × 3.200 px, Referenz 30 × 40 cm, 1 cm Mindestrand: vorgeschlagen wird Rahmen 21 × 30 cm auf A3. Die Bildfläche beträgt 19 × 25,33 cm bei ca. 320,8 ppi. Mit nur 600 × 800 px passt kein Standardrahmen; die App schlägt 7 × 8,7 cm Endmaß auf A5 vor, mit ca. 304,8 ppi. Die Vorschläge werden beim Klick erneut berechnet, damit ein zwischenzeitlicher Bild- oder Randwechsel keine veralteten Einstellungen übernehmen kann.
+
+V14.2 wurde zusätzlich lokal in Chrome mit einem 600 × 800 px PNG geprüft: Vorschlag übernehmen, exaktes Endmaß, A5, 304,8 ppi und Rückkehr zur Papierfläche. Beide Wege und die Übernahme sind auch bei 390 × 844 px bedienbar. Der echte Browserdownload enthält weiterhin die unveränderten PNG-Bytes. Das daraus erzeugte Dokument wurde in Photoshop 2026 kontrolliert: `PrintTemplate_70x87_auf_A5`, 1 cm Mindestrand, eingebettetes Smartobjekt und acht druckbare Schnittmarken ausserhalb des Endmaßes. Die bestehenden Dokumente bleiben erhalten. Zusätzlich zum bisherigen Layoutsatz werden 112 übernommene Vorschläge mit Vorschau-/JSX-Vergleich geprüft.
 
 ## Photoshop
 

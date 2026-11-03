@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.1.0"><title>Print Studio V14.1</title>
+<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.2.0"><title>Print Studio V14.2</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root {
@@ -33,6 +33,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 .stage-tip {position:absolute;bottom:12px;left:12px;right:12px;text-align:center;font-size:11px;color:#6b6e75;pointer-events:none}.scale-controls {display:flex;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid var(--border)}.scale-label{display:flex;gap:8px;align-items:center;min-width:114px;font-size:12px}.scale-label output{font-variant-numeric:tabular-nums;color:var(--text-muted);min-width:35px}.scale-controls input{flex:1;min-width:40px}.scale-controls button{font-size:12px;min-height:32px;padding:4px 0 4px 8px;color:var(--accent);white-space:nowrap}.scale-controls button:hover{background:none;text-decoration:underline}
 .print-stats{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:16px;padding:18px 0 14px}.stat-label{display:block;color:var(--text-muted);font-size:11px;margin-bottom:5px}.stat-value{font-size:13px;font-weight:550;line-height:1.5;display:block;font-variant-numeric:tabular-nums}.stat-detail{display:block;font-size:11px;color:var(--text-muted);margin-top:3px}.print-info{font-size:12px;color:var(--text-muted);line-height:1.6}.notice{font-size:12px;color:#b43624;padding:8px 0;min-height:0}.quality-note{font-size:11px;color:var(--text-muted)}
 .print-quality{border-top:1px solid var(--border);margin-top:16px;padding-top:16px;font-size:12px;line-height:1.6}.quality-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}.quality-heading h3{font-size:12px;font-weight:600}.quality-status{font-weight:600;font-variant-numeric:tabular-nums}.print-quality[data-level=good] .quality-status{color:var(--quality-good)}.print-quality[data-level=caution] .quality-status{color:var(--quality-caution)}.print-quality[data-level=low] .quality-status{color:var(--quality-low)}.quality-message{margin-top:6px}.quality-advice{margin-top:4px;color:var(--text-muted)}.quality-details{margin-top:8px;color:var(--text-muted)}.quality-details summary{cursor:pointer;min-height:32px;padding:5px 0}.quality-details dl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:6px 16px;margin:8px 0 12px}.quality-details dt,.quality-details dd{margin:0;overflow-wrap:anywhere}.quality-details dd{color:var(--text-main);font-variant-numeric:tabular-nums}.quality-details p+p{margin-top:8px}
+.quality-choices{margin-top:16px;display:grid;gap:16px}.quality-choice{border-left:2px solid var(--border);padding-left:12px}.quality-choice h4{margin:0 0 4px;font-size:12px;font-weight:600}.quality-choice p{margin:4px 0;overflow-wrap:anywhere}.quality-choice .btn{margin-top:8px;font-size:12px}.quality-choice .help{font-size:12px}.print-quality.has-choices .quality-advice{display:none}
 .inspector{border-left:1px solid var(--border);padding:0 24px;min-width:0;background:#fcfcfd;border-radius:0 16px 16px 0}.inspector-section {padding:22px 0;display:flex;flex-direction:column;gap:12px;border-bottom:1px solid var(--border)}.inspector-section:last-child{border-bottom:0}.section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.section-heading h2,.section-heading h3{font-size:14px;font-weight:600;letter-spacing:-.15px}.section-note,.help{font-size:11px;color:var(--text-muted);line-height:1.6}.field-label {font-size:12px;display:block;color:var(--text-main);margin-bottom:6px}.field-row{display:flex;align-items:center;gap:8px}.field-row>*{min-width:0}.field-grow{flex:1}.input,.select{border:1px solid #d8d8dd;background:#fff;border-radius:8px;color:var(--text-main);padding:9px 10px;min-height:40px;width:100%;font-size:13px}.input:focus,.select:focus{border-color:var(--accent)}.number-field{display:flex;align-items:center;border:1px solid #d8d8dd;border-radius:8px;background:#fff;overflow:hidden}.number-field:focus-within{border-color:var(--accent)}.number-field .input{border:0;box-shadow:none;background:none;border-radius:0;text-align:right;font-variant-numeric:tabular-nums}.number-field span{color:var(--text-muted);font-size:12px;padding:0 12px 0 2px}.number-field:has(.input:focus-visible){outline:3px solid #007aff50;outline-offset:2px}.number-field .input:focus-visible{outline:none}
 .segmented {display:flex;padding:3px;background:#eaeaf0;border-radius:9px;gap:2px}.segmented button{flex:1;border:0;background:transparent;border-radius:6px;min-height:32px;font-size:12px;font-weight:500;color:#60616a;padding:5px 8px;white-space:nowrap}.segmented button.active{background:#fff;color:var(--text-main);box-shadow:0 1px 4px #00000014}.segmented button:hover:not(.active){background:#ffffff50}
 .preset-row {display:flex;gap:6px;flex-wrap:wrap}.calc-btn {flex:1;min-height:32px;white-space:nowrap;padding:5px 10px;border:1px solid var(--border);border-radius:7px;background:white;color:#62646b;font-size:12px}.calc-btn:hover{border-color:#007aff66;color:var(--accent)}.calc-btn.active{color:var(--accent);border-color:#007aff55;background:var(--accent-soft)}.advanced {font-size:12px}.advanced>summary{cursor:pointer;color:var(--text-muted);padding:4px 0}.advanced[open]>summary{margin-bottom:10px}.advanced .preset-row{margin-top:6px}.switch{position:relative;display:inline-flex;align-items:center;gap:10px;cursor:pointer}.switch input{position:absolute;opacity:0;width:36px;height:24px;right:0;margin:0}.switch-track {height:22px;width:36px;border-radius:20px;background:#d1d1d6;position:relative;transition:background var(--fs-transition-fast);flex-shrink:0}.switch-track::after{content:"";width:18px;height:18px;border-radius:50%;background:white;box-shadow:0 1px 3px #00000025;position:absolute;left:2px;top:2px;transition:transform var(--fs-transition-fast)}.switch input:checked+.switch-track{background:var(--accent)}.switch input:checked+.switch-track::after{transform:translateX(14px)}.switch input:focus-visible+.switch-track{outline:3px solid #007aff50;outline-offset:3px}.frame-options{display:flex;flex-direction:column;gap:14px}.material-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.material-grid button{display:flex;align-items:center;gap:7px;border:1px solid transparent;border-radius:8px;background:transparent;color:#666870;padding:6px;font-size:11px;min-height:36px}.material-grid button.active{border-color:#007aff40;color:var(--text-main);background:var(--accent-soft)}.material-dot{width:17px;height:17px;border-radius:50%;border:1px solid #00000015;display:inline-block;flex-shrink:0}.color-row{display:flex;align-items:center;justify-content:space-between;gap:12px}.color-row .field-label{margin:0}.color-picks{display:flex;gap:10px}.color-pick{width:24px;height:24px;border-radius:50%;border:1px solid #b9bbc3;position:relative}.color-pick.active::after{content:"";position:absolute;inset:-4px;border:1.5px solid var(--accent);border-radius:50%}input[type=range]{accent-color:var(--accent);cursor:pointer;height:20px;margin:0;min-width:0}input[type=checkbox]{accent-color:var(--accent)}
@@ -53,7 +54,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 .frame-style-gold { background-color: #d4af37; background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.1) 2px, transparent 3px), linear-gradient(120deg, #b45309 0%, #fcd34d 20%, #d4af37 40%, #78350f 70%, #fde68a 85%, #b45309 100%); box-shadow: inset 1px 1px 2px rgba(255,255,255,0.8), inset -1px -1px 3px rgba(90,40,0,0.6); }</style></head>
 <body><div class="app">
 <header class="app-header">
- <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.1</small></div></div>
+ <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.2</small></div></div>
  <div class="header-actions">
   <details class="more-menu"><summary aria-label="Weitere Aktionen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></summary><div class="more-content">
    <button id="btnDownload" class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Vorschau als PNG sichern</button>
@@ -84,6 +85,10 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
    <div class="quality-heading"><h3>Druckauflösung</h3><span id="qualityStatus" class="quality-status" role="status" aria-live="polite" aria-atomic="true"></span></div>
    <p id="qualityMessage" class="quality-message"></p>
    <p id="qualityAdvice" class="quality-advice"></p>
+   <div id="qualityChoices" class="quality-choices" hidden>
+    <div class="quality-choice"><h4>Grösse behalten · Bild extern aufbereiten</h4><p id="qualitySourceSummary"></p><p class="help">Das Original in deinem Bildwerkzeug aufbereiten und danach über „Bild wechseln“ laden. Die App selbst skaliert keine Bilddateien hoch.</p></div>
+    <div class="quality-choice"><h4 id="suggestionHeading">Passendes Rahmenformat verwenden</h4><p id="suggestionSummary"></p><p id="suggestionDetail" class="help"></p><button id="btnApplySuggestion" class="btn" hidden>Vorschlag übernehmen</button></div>
+   </div>
    <details id="qualityDetails" class="quality-details"><summary>Pixel und Druckgrösse</summary>
     <dl><dt>Dein Original</dt><dd id="qualityOriginal">—</dd><dt>Empfohlen bei 300 ppi</dt><dd id="qualityRequired">—</dd><dt>Max. Bildfläche bei 300 ppi</dt><dd id="qualityMaxSize">—</dd></dl>
     <p>300 ppi (Bildpixel pro Zoll) sind ein Richtwert für detailreiche Drucke aus der Nähe. Mit grösserem Betrachtungsabstand kann weniger ausreichen. Die Anzeige prüft die Pixelauflösung, nicht die Schärfe des Motivs.</p>
@@ -129,7 +134,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
   <section class="inspector-section"><details class="extras"><summary>Mockup-Prompt</summary><div class="extras-body"><p class="help">Eine passende Raumbeschreibung für dein Motiv und seine Maße.</p><label class="field-label" for="aiRoomStyle">Raumstil</label><select id="aiRoomStyle" class="select"><option value="swiss">Modern Swiss</option><option value="gallery">Galerie</option><option value="midcentury">Mid-Century</option><option value="industrial">Industrial Loft</option><option value="scandi">Skandinavisch</option></select><textarea id="aiPromptOutput" class="input" aria-label="Mockup-Prompt" readonly></textarea><button id="btnCopyPrompt" class="btn">Prompt kopieren</button><p id="aiLoading" class="help" role="status" style="display:none">Prompt kopiert.</p></div></details></section>
  </aside>
 </main>
-<footer class="footer"><span>© 2026 by MrM · V14.1</span><span>Das Original bleibt vollständig erhalten.</span></footer>
+<footer class="footer"><span>© 2026 by MrM · V14.2</span><span>Das Original bleibt vollständig erhalten.</span></footer>
 <input type="checkbox" id="chkTransparent" checked hidden aria-hidden="true">
 </div><script>
 // DOM Elements
@@ -181,6 +186,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
     let state = {
       productType: 'print', // 'print' or 'canvas'
       userScale: 1,
+      fitToFormat: false,
       showFrame: false,
       sourceFile: null,
       exporting: false,
@@ -260,6 +266,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
           els.productTypeBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active');
           state.productType = btn.dataset.type;
           state.userScale = 1;
+          state.fitToFormat = false;
           
           calcAndRender();
         });
@@ -355,7 +362,8 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
     function addWorkspaceListeners() {
       document.getElementById('btnChangeImage').addEventListener('click', () => els.fileInput.click());
       document.getElementById('imageScale').addEventListener('input', e => setImageScale(Number(e.target.value) / 100));
-      document.getElementById('btnResetScale').addEventListener('click', () => setImageScale(1));
+      document.getElementById('btnResetScale').addEventListener('click', () => { state.fitToFormat = false; setImageScale(1); });
+      document.getElementById('btnApplySuggestion').addEventListener('click', applyFormatRecommendation);
       document.getElementById('borderSlider').addEventListener('input', e => {
         els.bTop.value = e.target.value;
         state.userScale = 1;
@@ -400,6 +408,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
     }
 
     function formatCM(mm) { return (mm / 10).toLocaleString('de-DE', { maximumFractionDigits: 2 }); }
+    function formatPpi(ppi) { return (Math.floor((ppi + 1e-9) * 10) / 10).toLocaleString('de-DE', { maximumFractionDigits: 1 }); }
 
     function syncWorkspace(layout) {
       const hasImage = Boolean(state.imgSrc);
@@ -416,7 +425,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       document.getElementById('imageScale').value = Math.round(state.userScale * 1000) / 10;
       document.getElementById('imageScale').disabled = !hasImage || !layout.valid;
       document.getElementById('scaleValue').innerText = `${(state.userScale * 100).toLocaleString('de-DE', { maximumFractionDigits: 1 })} %`;
-      document.getElementById('btnResetScale').disabled = !hasImage || state.userScale >= 0.999;
+      document.getElementById('btnResetScale').disabled = !hasImage || (!state.fitToFormat && state.userScale >= 0.999);
       const slider = document.getElementById('borderSlider');
       slider.max = Math.max(50, Number(els.bTop.value) || 0);
       slider.value = els.bTop.value;
@@ -445,25 +454,26 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       return { w: min, h: max }; 
     }
 
-    function getPrintLayout() {
-      const reference = getVisualDimensions();
+    function getPrintLayout(options = {}) {
+      const reference = options.reference || getVisualDimensions();
       const isCanvas = state.productType === 'canvas';
       const mode = els.borderMode.value;
       const minimum = isCanvas || mode === 'none' ? 0 : Number(els.bTop.value);
       const minimumBottom = isCanvas || mode === 'none' ? 0 : mode === 'equal' ? minimum : Number(els.bBottom.value);
-      // Select the paper from the reference format once, then enlarge within that same sheet.
+      // The reference selects the paper. Adopted frame suggestions keep an exact end size.
       const paper = getPaperLayout(reference.w * 10, reference.h * 10, isCanvas ? 40 : 0) || {
         name: 'Benutzerdefiniert', w: reference.w * 10 + (isCanvas ? 80 : 0) + 30,
         h: reference.h * 10 + (isCanvas ? 80 : 0) + 30
       };
-      const width = isCanvas ? reference.w * 10 : paper.w;
-      const height = isCanvas ? reference.h * 10 : paper.h;
+      const fitToFormat = options.fitToFormat === undefined ? state.fitToFormat : options.fitToFormat;
+      const width = isCanvas || fitToFormat ? reference.w * 10 : paper.w;
+      const height = isCanvas || fitToFormat ? reference.h * 10 : paper.h;
       const availableWidth = width - minimum * 2;
       const availableHeight = height - minimum - minimumBottom;
       // Use the original image proportions. Before upload the reference format supplies the ratio.
       const sourceWidth = state.imgW_PX || reference.w * 10;
       const sourceHeight = state.imgH_PX || reference.h * 10;
-      const factor = Math.min(availableWidth / sourceWidth, availableHeight / sourceHeight) * state.userScale;
+      const factor = Math.min(availableWidth / sourceWidth, availableHeight / sourceHeight) * (options.userScale === undefined ? state.userScale : options.userScale);
       const imageWidth = sourceWidth * factor, imageHeight = sourceHeight * factor;
       const left = (width - imageWidth) / 2, right = left;
       const top = minimum + (availableHeight - imageHeight) / 2;
@@ -493,7 +503,10 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
         ? 'radial-gradient(ellipse at 50% 30%, #f8f8fa, #e1e2e7)'
         : 'radial-gradient(ellipse at center, #5e6068, #34353d)';
       document.getElementById('previewTitle').innerText = isCanvas ? 'Leinwand-Vorschau' : isFrame ? 'Print mit Rahmensimulation' : 'Print ohne Rahmen';
-      document.getElementById('formatLabel').innerText = isCanvas ? 'Leinwandformat:' : 'Format für die Papierwahl:';
+      document.getElementById('formatLabel').innerText = isCanvas ? 'Leinwandformat:' : state.fitToFormat ? 'Rahmenformat · Endmaß:' : 'Format für die Papierwahl:';
+      document.getElementById('formatHelp').innerText = state.fitToFormat && !isCanvas
+        ? 'Das Endmaß enthält deinen Rand. Das Papier wird passend gewählt; Schnittmarken zeigen, wo du schneiden musst.'
+        : 'Wir wählen das kleinste passende Papier. Dein Bild nutzt es proportional aus.';
       els.chkLightBg.closest('.export-controls').style.display = isFrame || isCanvas ? 'flex' : 'none';
       document.getElementById('frameToggleSection').style.display = isCanvas ? 'none' : 'flex';
       els.sectionRahmen.style.display = isFrame ? 'flex' : 'none';
@@ -506,7 +519,9 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       document.getElementById('actualVertical').innerText = valid ? `${formatCM(top)} oben · ${formatCM(bottom)} unten` : '—';
       els.btnScript.disabled = !valid || state.exporting;
       els.btnDownload.disabled = !valid;
-      document.getElementById('printInfo').innerText = !valid ? 'Der Rand lässt keinen Platz für das Bild. Bitte verkleinern.' : state.userScale < 0.999
+      document.getElementById('printInfo').innerText = !valid ? 'Der Rand lässt keinen Platz für das Bild. Bitte verkleinern.' : state.fitToFormat && !isCanvas
+        ? `Endmaß für den Rahmen: ${formatCM(width)} × ${formatCM(height)} cm inklusive Rand. Auf ${paper.name} zentriert; Schnittmarken im Photoshop-Script.`
+        : state.userScale < 0.999
         ? 'Deine Bildgrösse und die angezeigten Ränder werden genau so an Photoshop übergeben.'
         : 'Das ganze Motiv wird innerhalb deines Randes so gross wie möglich eingepasst.';
       els.frameOuter.style.width = `${outerW * scale}px`;
@@ -537,11 +552,101 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       };
     }
 
+    function getFormatRecommendation() {
+      const current = getPrintLayout();
+      const quality = state.imgSrc && getPrintQuality(current);
+      if (!quality || quality.level === 'good') return null;
+      const reference = getVisualDimensions();
+      const candidateFor = (size, value) => {
+        const layout = getPrintLayout({ reference: size, fitToFormat: true, userScale: 1 });
+        const quality = getPrintQuality(layout);
+        if (!quality || quality.level !== 'good' || layout.paper.name === 'Benutzerdefiniert') return null;
+        // Never recommend enlarging an already manually reduced image.
+        if (layout.imageWidth > current.imageWidth + 1e-7 || layout.imageHeight > current.imageHeight + 1e-7) return null;
+        return { reference: size, value, layout, quality, custom: value === 'custom' };
+      };
+      const candidates = Array.from(els.framePreset.options).flatMap(option => {
+        if (!/^\d+(?:\.\d+)?x\d+(?:\.\d+)?$/.test(option.value)) return [];
+        const [w, h] = option.value.split('x').map(Number);
+        if (state.orientation === 'square' && w !== h) return [];
+        const size = state.orientation === 'landscape' ? { w: Math.max(w,h), h: Math.min(w,h) } : { w: Math.min(w,h), h: Math.max(w,h) };
+        if (size.w > reference.w + 1e-7 || size.h > reference.h + 1e-7) return [];
+        const candidate = candidateFor(size, option.value);
+        return candidate ? [candidate] : [];
+      });
+      candidates.sort((a,b) => b.reference.w * b.reference.h - a.reference.w * a.reference.h || b.layout.imageWidth * b.layout.imageHeight - a.layout.imageWidth * a.layout.imageHeight);
+      if (candidates.length) return candidates[0];
+      const currentCustom = candidateFor(reference, 'custom');
+      if (currentCustom) return currentCustom;
+
+      // No standard frame fits: derive an exact end size from the available pixels and borders.
+      const isCanvas = state.productType === 'canvas';
+      const mode = els.borderMode.value;
+      const side = isCanvas || mode === 'none' ? 0 : Number(els.bTop.value);
+      const bottom = isCanvas || mode === 'none' ? 0 : mode === 'equal' ? side : Number(els.bBottom.value);
+      const bleed = isCanvas ? 80 : 0;
+      const a2 = state.orientation === 'landscape' ? { w:594, h:420 } : { w:420, h:594 };
+      let limitW = Math.min(reference.w * 10, a2.w - bleed);
+      let limitH = Math.min(reference.h * 10, a2.h - bleed);
+      if (state.orientation === 'square') limitW = limitH = Math.min(limitW,limitH);
+      const factor = Math.min(25.4 / quality.targetPpi, (limitW - side * 2) / state.imgW_PX, (limitH - side - bottom) / state.imgH_PX);
+      if (!(factor > 0)) return null;
+      let w = state.imgW_PX * factor + side * 2;
+      let h = state.imgH_PX * factor + side + bottom;
+      if (state.orientation === 'square') w = h = Math.max(w,h);
+      else if (state.orientation === 'portrait') h = Math.max(w,h);
+      else w = Math.max(w,h);
+      // Whole millimetres are practical to cut and must never round a print above the quality limit.
+      w = Math.floor(w + 1e-9); h = Math.floor(h + 1e-9);
+      if (w < 10 || h < 10 || w > limitW || h > limitH) return null;
+      return candidateFor({ w:w / 10, h:h / 10 }, 'custom');
+    }
+
+    function applyFormatRecommendation() {
+      // Recompute on click, so a changed image, border or format cannot apply an obsolete suggestion.
+      const suggestion = getFormatRecommendation();
+      if (!suggestion) { calcAndRender(); return; }
+      els.framePreset.value = suggestion.value;
+      els.inWidth.value = Math.min(suggestion.reference.w, suggestion.reference.h);
+      els.inHeight.value = Math.max(suggestion.reference.w, suggestion.reference.h);
+      els.customDims.style.display = suggestion.custom ? 'flex' : 'none';
+      setOrientation(suggestion.reference.w === suggestion.reference.h ? 'square' : suggestion.reference.w > suggestion.reference.h ? 'landscape' : 'portrait');
+      state.fitToFormat = state.productType !== 'canvas';
+      state.userScale = 1;
+      setNotice('');
+      calcAndRender();
+    }
+
+    function renderQualityChoices(quality) {
+      const show = Boolean(quality && quality.level !== 'good');
+      document.getElementById('qualityChoices').hidden = !show;
+      document.getElementById('printQuality').classList.toggle('has-choices', show);
+      if (!show) return;
+      const px = n => n.toLocaleString('de-DE');
+      const factor = (Math.ceil(Math.max(quality.requiredWidth / quality.sourceWidth, quality.requiredHeight / quality.sourceHeight) * 100) / 100).toLocaleString('de-DE', { maximumFractionDigits:2 });
+      document.getElementById('qualitySourceSummary').innerText = `Original: ${px(quality.sourceWidth)} × ${px(quality.sourceHeight)} px. Ziel: mindestens ${px(quality.requiredWidth)} × ${px(quality.requiredHeight)} px · Vergrösserung mindestens Faktor ${factor}.`;
+      const suggestion = getFormatRecommendation();
+      const isCanvas = state.productType === 'canvas';
+      document.getElementById('suggestionHeading').innerText = isCanvas ? 'Passendes Leinwandformat verwenden' : 'Passendes Rahmenformat verwenden';
+      document.getElementById('btnApplySuggestion').hidden = !suggestion;
+      if (!suggestion) {
+        document.getElementById('suggestionSummary').innerText = 'Mit diesen Pixelmaßen und Rändern ist kein passendes Format ab 1 cm möglich.';
+        document.getElementById('suggestionDetail').innerText = 'Bitte den Rand verkleinern oder ein höher aufgelöstes Original laden. Deine aktuelle Gestaltung bleibt erhalten.';
+        return;
+      }
+      const { reference, layout: proposed, quality: proposedQuality } = suggestion;
+      const name = suggestion.custom ? 'Eigenes Endmaß' : isCanvas ? 'Leinwand' : 'Rahmen';
+      document.getElementById('suggestionSummary').innerText = `${name}: ${formatCM(reference.w * 10)} × ${formatCM(reference.h * 10)} cm · Papier ${proposed.paper.name} (${formatCM(proposed.paper.w)} × ${formatCM(proposed.paper.h)} cm).`;
+      const ppi = formatPpi(proposedQuality.effectivePpi);
+      document.getElementById('suggestionDetail').innerText = `${suggestion.custom ? isCanvas ? 'Kein Standardformat. ' : 'Kein Standardrahmen. ' : ''}Bildfläche ${formatCM(proposed.imageWidth)} × ${formatCM(proposed.imageHeight)} cm · ${ppi} ppi. Dein Rand bleibt erhalten. Das Endmaß wird auf dem Papier zentriert.`;
+    }
+
     function renderPrintQuality(layout) {
       const panel = document.getElementById('printQuality');
       const hasImage = Boolean(state.imgSrc);
       panel.hidden = !hasImage;
       const quality = hasImage ? getPrintQuality(layout) : null;
+      renderQualityChoices(quality);
       document.getElementById('qualityDetails').hidden = !quality;
       panel.dataset.level = quality ? quality.level : 'neutral';
       if (!quality) {
@@ -553,7 +658,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       }
       const px = n => n.toLocaleString('de-DE');
       // Round down to one decimal so 299.99 ppi never appears as an adequate 300 ppi.
-      const ppi = (Math.floor((quality.effectivePpi + 1e-9) * 10) / 10).toLocaleString('de-DE', { maximumFractionDigits: 1 });
+      const ppi = formatPpi(quality.effectivePpi);
       const required = `${px(quality.requiredWidth)} × ${px(quality.requiredHeight)} px`;
       const titles = { good: 'Auflösung ausreichend', caution: 'Unter der Empfehlung', low: 'Auflösung niedrig' };
       els.dpiInfo.innerText = `${ppi} ppi im Druck`;
@@ -570,6 +675,8 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       document.getElementById('qualityMaxSize').innerText = `${cm(quality.maxWidth)} × ${cm(quality.maxHeight)} cm`;
       document.getElementById('qualityPaperHelp').innerText = state.productType === 'canvas'
         ? 'Bei Leinwand ergibt sich das Papier aus dem gewählten Format plus 4 cm Umschlag pro Seite. Die Auflösungsanzeige bezieht sich auf die sichtbare Bildfläche.'
+        : state.fitToFormat
+          ? 'Dein Rahmenformat ist das fertige Endmaß inklusive Rand. Das ganze Bild wird darin eingepasst und auf dem kleinsten passenden A-Papier zentriert. Die Schnittmarken im Script begrenzen das Endmaß.'
         : 'Das gewählte Format bestimmt das kleinste passende Papier aus A5, A4, A3 und A2; darüber ist es benutzerdefiniert. Das ganze Bild wird innerhalb deines Randes möglichst gross eingepasst. Die Auflösung ändert die Papierwahl nicht automatisch.';
     }
 
@@ -681,7 +788,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 #target photoshop
 app.bringToFront();
 
-// --- GENERATED BY PRINT STUDIO V14.1 ---
+// --- GENERATED BY PRINT STUDIO V14.2 ---
 // Embedded image bytes stay local. No external image download is performed.
 // Print at 100% / actual size. Printer "fit to page" changes the calculated dimensions.
 // Source pixels: ${settings.quality ? settings.quality.sourceWidth + ' x ' + settings.quality.sourceHeight : 'unknown (template without original)'}.
@@ -846,7 +953,7 @@ finally {
       const link = document.createElement('a');
       const downloadUrl = URL.createObjectURL(blob);
       link.href = downloadUrl;
-      link.download = `PS_V14.1_${settings.fileName}_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
+      link.download = `PS_V14.2_${settings.fileName}_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 60000);
     }

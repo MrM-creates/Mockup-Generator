@@ -1,5 +1,14 @@
 # Änderungen
 
+## V14.2 · 03.11.2026
+
+- Bei niedriger Auflösung zwei Wege: aktuelle Grösse beibehalten und das Original extern aufbereiten oder ein passendes Format übernehmen. Originalpixel, Zielpixel und erforderlicher Vergrösserungsfaktor stehen direkt am Vorschlag. Keine integrierte Hochskalierung oder Bildübertragung.
+- Grösster geeigneter Rahmen aus der vorhandenen Liste mit mindestens 300 ppi, unveränderten Mindesträndern und passendem A-Papier. Das aktuelle Rahmenformat wird berücksichtigt, wenn sein exaktes Endmaß bereits ausreicht.
+- Wenn kein Standardrahmen passt: konservativ auf ganze Millimeter abgerundetes benutzerdefiniertes Endmaß mit ausdrücklicher Kennzeichnung.
+- Übernommene Rahmenvorschläge sind exakte Endmaße inklusive Rand, zentriert auf dem Druckbogen, mit Schnittmarken im Photoshop-Script. Vorschau, Maße und Script verwenden dieselbe Berechnung. „Papier optimal nutzen“ kehrt zur ganzen Papierfläche zurück.
+- Vorschläge aktualisieren sich mit Bild, Format, Ausrichtung und Rändern; beim Übernehmen wird nochmals neu berechnet. Vor dem Übernehmen bleibt die Gestaltung unverändert.
+- Zusätzlich 112 übernommene Vorschläge für Print/Leinwand, Ausrichtungen, Bildproportionen, Ränder/Passepartout sowie Tests für grössten Rahmen, Custom-Fallback, ungültige Fälle, Schnittmarken und Vorschau-/Script-Gleichheit.
+
 ## V14.1 · 03.11.2026
 
 - Live-Anzeige der effektiven Bildauflösung auf der tatsächlichen Bildfläche, unabhängig von der Papiergrösse und den 300 ppi des Photoshop-Dokuments.
