@@ -1,5 +1,14 @@
 # Änderungen
 
+## V14.3 · 03.11.2026
+
+- Sichtbarer „Druck-Info“-Button direkt an den berechneten Druckmaßen. Native Dialogansicht mit aktuellen Papier-/End-/Bildmaßen, tatsächlichen Rändern und Originalpixeln samt effektiven ppi.
+- Kurze Anleitung für das Papierformat im Druckdialog, 100-%-Maßstab ohne automatische Anpassung, Medientyp, Fotoqualität, ICC-Profil/Farbmanagement und Kontrolle der bedruckbaren Fläche.
+- Wählbare Hinweise für Canon PRO-1000 oder andere Drucker. Canon-Angaben zu A5/oberem Einzug, medienabhängigen Einschränkungen und normaler bedruckbarer Fläche; offizielle Herstellerlinks im Dialog.
+- „Info kopieren“ übernimmt die aktuelle Zusammenfassung und Anleitung. Ohne geladenes Bild klar als Vorlage gekennzeichnet; ungültige Ränder führen zu einem Korrekturhinweis.
+- Der Dialog setzt keine Druckeinstellungen und löst keinen Druckauftrag aus. Layout, Originaldatei und Photoshop-Platzierung bleiben unverändert.
+- Ergänzende Prüfungen für aktuelle Maße nach Vorschlagsübernahme, Ausrichtung, Druckerwechsel, Kopieren/Fehler und Vorlagen-/Fehlerzustände.
+
 ## V14.2 · 03.11.2026
 
 - Bei niedriger Auflösung zwei Wege: aktuelle Grösse beibehalten und das Original extern aufbereiten oder ein passendes Format übernehmen. Originalpixel, Zielpixel und erforderlicher Vergrösserungsfaktor stehen direkt am Vorschlag. Keine integrierte Hochskalierung oder Bildübertragung.

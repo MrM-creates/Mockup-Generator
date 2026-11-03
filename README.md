@@ -1,4 +1,4 @@
-# Print Studio V14.2
+# Print Studio V14.3
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 
@@ -78,6 +78,16 @@ Prüft zusätzlich 2.640 Kombinationen aus allen neun Format-Presets, zwei eigen
 ## Originalbild im Script
 
 Ein geladenes Original wird unverändert in das heruntergeladene JSX eingebettet. Es wird weder komprimiert noch neu als Bildschirmvorschau gerastert. Die Datei ist dadurch ungefähr ein Drittel grösser als das Original. Die Browser-App lädt keine Bilder zu einem Server hoch. Photoshop rekonstruiert das Bild kurz im lokalen temporären Ordner, platziert es als eingebettetes Smartobjekt und entfernt die temporäre Datei danach. Ein Export ohne geladenes Bild bleibt als leere Vorlage mit optionaler Dateiauswahl möglich.
+
+## Druck-Info
+
+„Druck-Info“ steht neben den berechneten Maßen. Die Übersicht nennt den aktuellen Papierbogen für den Druckdialog, Ausrichtung, fertiges Endmaß, Bildfläche, tatsächliche Ränder und die Originalpixel samt effektiven ppi. Die Angaben werden aus derselben Layoutberechnung wie Vorschau und Export übernommen und beim Öffnen bzw. bei Änderungen aktualisiert. Ohne Bild steht „Vorlage“, bei ungültiger Geometrie ein Korrekturhinweis.
+
+Die Anleitung erläutert die getrennte Papierwahl im Druckertreiber, Maßstab 100 % ohne automatische Anpassung, geeigneten Medientyp, Fotoqualität und einen einzigen Farbmanagement-Weg. Für Photoshop-Farbmanagement ist das passende installierte ICC-Profil für die konkrete Drucker-/Papierkombination erforderlich; Rendering Intent und Tiefenkompensierung richten sich nach deren Herstellerempfehlung. Ohne passendes Profil wird als Alternative das Farbmanagement des Druckers erläutert. Die Übersicht erkennt keine installierten Drucker oder Profile und verändert keine Druckeinstellungen.
+
+Die Druckerwahl bietet Canon PRO-1000 als Beispiel oder allgemeine Hinweise für andere Drucker. Für den PRO-1000 werden insbesondere A5/oberer Einzug, ausgeschlossene Kombinationen mit Medien für den manuellen Einzug und die normale bedruckbare Fläche gezeigt. Diese Angaben ersetzen nicht die aktuelle Treibervorschau. Die offizielle Anleitung zu [Canons Papierzufuhr](https://ij.manual.canon/ij/webmanual/PrinterDriver/M/PRO-1000%20series/1.0/DE/PPG/dg-c_paper.html), [Canons Druckfläche](https://ij.manual.canon/ij/webmanual/Manual/All/PRO-1000%20series/EN/BG/bg-079.html), [Adobe-Maßstab](https://helpx.adobe.com/photoshop/desktop/print/position-and-scale-images-for-printing.html) und [Adobe-Farbmanagement](https://helpx.adobe.com/photoshop/desktop/print/print-with-color-management.html) ist im Dialog verlinkt.
+
+„Info kopieren“ kopiert die aktuellen Maße und die gewählte Druckeranleitung. Ist der Zugriff auf die Zwischenablage nicht verfügbar, bietet derselbe Button ausdrücklich eine Textdatei zum Herunterladen an. Der Dialog ist per Escape und über sichtbare Schliessen-Buttons bedienbar. Prüfungen vergleichen die dynamischen Angaben vor/nach Vorschlagsübernahme, Hoch-/Querformat, A5-Einzug und normale Druckfläche, allgemeine Druckerhinweise, Kopieren/Textdatei sowie Vorlagen-/Fehlerzustände. Die vorherigen Layout- und Exportprüfungen bleiben bestehen. Desktop und 390 × 844 px wurden in Chrome visuell geprüft, inklusive Öffnen, Escape/Fokusrückkehr, Druckerwechsel und verständlicher Fehlermeldung bei fehlendem Zugriff auf die Zwischenablage.
 
 ## Build und Veröffentlichung
 

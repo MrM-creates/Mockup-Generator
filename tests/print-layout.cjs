@@ -9,6 +9,7 @@ function element(key) {
     attributes:{},setAttribute(name,value){this.attributes[name]=value;},
     getBoundingClientRect(){return {left:0,top:0,width:parseFloat(this.style.width)||100,height:parseFloat(this.style.height)||100};},
     setPointerCapture(){},contains(target){return target===this;},
+    showModal(){this.open=true;},close(){this.open=false;},
     classList: {values:new Set(),add(v){this.values.add(v);},remove(v){this.values.delete(v);},toggle(v,active){if(active)this.values.add(v);else this.values.delete(v);},contains(v){return this.values.has(v);}}, events: {}, addEventListener(type, fn){this.events[type]=fn;}, click(){},
     closest(){return element(key+'-parent');}, querySelector(){return element(key+'-child');}, querySelectorAll(){return []}
   });
@@ -24,12 +25,14 @@ const handles=['nw','ne','sw','se'].map(corner=>{const node=element('handle-'+co
 const modes=['none','equal','passepartout'].map(mode=>{const node=element('mode-'+mode);node.dataset.borderMode=mode;return node;});
 function queryAll(selector) {return selector === '.resize-handle' ? handles : selector === '[data-border-mode]' ? modes : [];}
 let output;
+let clipboardText, clipboardFails=false;
 class FakeImage {set src(value){this.width=600;this.height=800;if(this.onload)this.onload();}}
 const windowEvents={};
 const context = vm.createContext({
   document: { getElementById:element, querySelector:element, querySelectorAll:queryAll, createElement:()=>element('link') },
   window:{addEventListener(type,fn){windowEvents[type]=fn;}}, URL:{createObjectURL(blob){if(blob.content!==undefined)output=blob.content; return 'blob:test';},revokeObjectURL(){}},
   Image:FakeImage,setTimeout(){},btoa:value=>Buffer.from(value,'binary').toString('base64'),
+  navigator:{clipboard:{async writeText(value){if(clipboardFails)throw Error('Clipboard unavailable');clipboardText=value;}}},
   Blob:class{constructor(parts){this.content=parts.join('');}}, alert(message){throw Error(message);}, console
 });
 const source = html.match(/<script>\s*([\s\S]*?)<\/script>/)[1];
@@ -330,7 +333,61 @@ for(const product of ['print','canvas']) for(const orientation of ['portrait','l
 console.log(`PASS recommendations: ${recommendationCases} adopted frame/custom proposals across orientations, image ratios, borders and canvas; largest available frame, safe custom fallback, unchanged settings before adoption, stale-click safety, cut marks and preview/JSX agreement.`);
 run('state.fitToFormat=false');
 
+async function verifyPrintGuide() {
+  setupSuggestion();
+  const original=run('JSON.stringify({state,layout:getPrintLayout()})');
+  element('btnPrintGuide').events.click();
+  assert.equal(element('printGuide').open,true);
+  assert.equal(element('guideSheet').innerText,'A2 · 42 × 59,4 cm');
+  assert.equal(element('guideOrientation').innerText,'Hochformat');
+  assert.ok(element('guidePaperStep').innerText.includes('stellt den Druckdialog nicht automatisch auf A2 um'));
+  assert.ok(element('guideScaleStep').innerText.includes('100 %'));
+  assert.ok(element('guideResolution').innerText.includes('2.400 × 3.200 px'));
+  assert.ok(element('guideCanonArea').innerText.includes('41,32 × 58,6 cm'));
+  assert.equal(run('JSON.stringify({state,layout:getPrintLayout()})'),original,'reading print instructions must not change the layout or source');
+  run('applyFormatRecommendation()');
+  assert.equal(element('guideSheet').innerText,'A3 · 29,7 × 42 cm','an open guide must track adopted recommendations');
+  assert.equal(element('guideEnd').innerText,'21 × 30 cm');
+  run('setOrientation("landscape");calcAndRender()');
+  assert.equal(element('guideSheet').innerText,'A3 · 42 × 29,7 cm');
+  assert.equal(element('guideOrientation').innerText,'Querformat');
+  assert.ok(element('guideCanonArea').innerText.includes('41,2 × 29,02 cm'));
+  setupSuggestion(600,800);run('applyFormatRecommendation()');
+  assert.equal(element('guideSheet').innerText,'A5 · 14,8 × 21 cm');
+  assert.equal(element('guideEnd').innerText,'7 × 8,7 cm');
+  assert.ok(element('guideCanonFeed').innerText.includes('A5: oberen Einzug'));
+  assert.ok(element('guideCanonArea').innerText.includes('14,12 × 20,2 cm'));
+  await run('copyPrintGuide()');
+  assert.ok(clipboardText.includes('Papier im Druckdialog: A5 · 14,8 × 21 cm'));
+  assert.ok(clipboardText.includes('Endmaß inkl. Rand: 7 × 8,7 cm'));
+  assert.ok(clipboardText.includes('304,8 ppi'));
+  assert.equal(element('guideCopyStatus').innerText,'Druck-Info kopiert.');
+  element('guidePrinter').value='other';element('guidePrinter').events.change();
+  assert.equal(element('guideCanon').hidden,true);assert.equal(element('guideCanonSources').hidden,true);
+  assert.ok(!run('getPrintGuideText()').includes('Canon'),'other printers must not inherit Canon-specific feed restrictions');
+  clipboardFails=true;await run('copyPrintGuide()');clipboardFails=false;
+  assert.ok(element('guideCopyStatus').innerText.includes('nicht verfügbar'));
+  assert.equal(element('btnCopyPrintGuide').innerText,'Als Textdatei laden');
+  await run('copyPrintGuide()');
+  assert.equal(element('link').download,'Print_Studio_DruckInfo.txt');
+  assert.ok(output.includes('Papier im Druckdialog: A5'));
+  assert.ok(!output.includes('Canon'));
+  run('state.imgSrc=null;calcAndRender()');
+  assert.equal(element('guideJobTitle').innerText,'Deine aktuelle Vorlage');
+  assert.ok(element('guideResolution').innerText.includes('Noch kein Motiv'));
+  run('els.bTop.value=100;calcAndRender()');
+  assert.equal(element('guideJobTitle').innerText,'Bitte die Gestaltung korrigieren');
+  assert.equal(element('guideImage').innerText,'—');
+  assert.ok(run('getPrintGuideText()').includes('Nicht druckbereit'));
+  element('btnDonePrintGuide').events.click();assert.equal(element('printGuide').open,false);
+  setupSuggestion();element('btnPrintGuide').events.click();
+  element('btnClosePrintGuide').events.click();assert.equal(element('printGuide').open,false);
+  element('guidePrinter').value='canon';run('state.fitToFormat=false');
+  console.log('PASS print guide: current paper/end/image dimensions, live recommendation updates, orientation, A5 feed and printable area, generic printer, copying/failure, template/invalid states and unchanged geometry.');
+}
+
 async function verifyV14() {
+  await verifyPrintGuide();
   run("state.productType='print';state.orientation='portrait';state.userScale=0.8;state.imgW_PX=600;state.imgH_PX=800;els.inWidth.value=30;els.inHeight.value=40;els.borderMode.value='equal';els.bTop.value=10");
   for(const length of [1,2,3,12287,12288,12289,24577,65537]) {
     const bytes=Buffer.from(Array.from({length},(_,i)=>(i*71+19)%256));

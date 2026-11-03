@@ -40,6 +40,14 @@ Erst „Vorschlag übernehmen“ verändert Format und Papier. Ein übernommenes
 
 Flider-Typografie, Abstände und Trennlinien werden weitergenutzt, ohne neue Navigation oder dekorative Karten. Sekundärer Übernahme-Button, klare Überschriften, mobile Umbrüche, native Tastaturbedienung und ausgeschriebene Statusmeldungen bleiben verbindlich. Tests prüfen die grösste geeignete Auswahl, den Custom-Fallback, Ausrichtungen, Ränder/Passepartout, unveränderte Einstellungen vor Übernahme, Aktualisierung nach Änderungen und die identische Übernahme samt Schnittmarken ins Script.
 
+## Ergänzung: Druck-Info
+
+Zweck: den berechneten Druckbogen mit den Einstellungen in Photoshop und dem Druckertreiber abgleichen. Ein sichtbarer sekundärer Button „Druck-Info“ steht direkt bei den berechneten Druckmaßen; der Photoshop-Export bleibt die Hauptaktion. Ein natives modales Dialogfenster bündelt aktuelle Bogen-/End-/Bildmaße und Bildauflösung sowie kurze Schritte für Papierformat, 100-%-Maßstab, Medientyp, Qualität und Farbmanagement. Die App liest keine installierten Drucker oder ICC-Profile aus und verändert keine Druckeinstellungen.
+
+Flider-Tokens, ruhige Trennlinien, Systemschrift, keine zusätzlichen Karten oder Hauptnavigation. Die Zusammenfassung ist dynamisch aus `getPrintLayout()`, beim Öffnen und bei Neuberechnungen aktuell. Ohne Bild ist sie als Vorlage gekennzeichnet; ungültige Ränder zeigen keine scheinbar gültigen Bild-/Endmaße. Druckerwahl im Dialog: Canon PRO-1000 als ausdrücklich bezeichnetes Beispiel, alternativ allgemeine Hinweise. Papierabhängige Medientypen, ICC-Profile, Rendering Intent und Tiefenkompensierung werden nicht pauschal vorgegeben. Canon-Hinweise nennen A5/oberen Einzug, die normale bedruckbare Fläche und verlinken die Quellen. Ein anderer Drucker erhält keine Canon-spezifischen Vorgaben.
+
+Das Dialogfenster ist innen scrollbar, auf Mobilgeräten auf die Viewportbreite begrenzt, mit sichtbarer Schliessen-Aktion, Escape und nativem Fokusmanagement. „Info kopieren“ ist eine sekundäre Hilfsaktion mit Erfolg-/Fehlermeldung. Der Text umfasst die aktuellen Maße und die ausgewählten Druckerhinweise. Es wird weder gedruckt noch eine Anwendungseinstellung automatisch geändert. Offizielle Adobe- und Canon-Links stehen im Dialog. Prüfung: dynamische Papier-/Endmaße inklusive übernommener Vorschläge, Vorlagen-/Fehlerzustände, Druckerwechsel, Kopiertext und unveränderte Layout-/Exportgeometrie; Desktop und Mobile visuell bedienen.
+
 ## Prüfung
 
 Die bestehende geometrische Prüfung bleibt verbindlich. Ergänzungen prüfen Skalierung, zentrierte Bildplatzierung, Randrücksetzung und Exportgleichheit. Sichtprüfung am bereits vom Nutzer geöffneten lokalen Chrome-Tab, inklusive Upload, Rand, Rahmen und manueller Bildgrösse. V14 wird auf ausdrücklichen Nutzerauftrag über den bestehenden GitHub-Hauptzweig und das bestehende Vercel-Projekt veröffentlicht. Originalbilder bleiben ausschliesslich lokal und im persönlichen JSX-Download.
