@@ -179,9 +179,66 @@ for(const product of ['print','canvas']) for(const [w,h] of formats) for(const o
   const first=standard.find(([pw,ph])=>(reqW<=pw&&reqH<=ph)||(reqW<=ph&&reqH<=pw));
   if(first) near(Math.min(ps.paperW,ps.paperH),first[0]);
   else assert.equal(layout.paper.name,'Benutzerdefiniert');
+  const quality=run('getPrintQuality(getPrintLayout())');
+  near(quality.effectivePpi,Math.min(srcW*25.4/layout.imageWidth,srcH*25.4/layout.imageHeight));
+  assert.ok(quality.requiredWidth>=layout.imageWidth/25.4*300-1e-7);
+  assert.ok(quality.requiredHeight>=layout.imageHeight/25.4*300-1e-7);
+  assert.ok(quality.requiredWidth<layout.imageWidth/25.4*300+1+1e-7);
   combinations++;
 }
 console.log(`PASS: ${combinations} format/orientation/image-ratio/border/product combinations; full-image Photoshop placement, A-paper selection, preview/export equality, frame-toggle invariance, pointer/keyboard scaling, scale reset and invalid inputs.`);
+
+// Resolution uses actual image millimetres, never paper dimensions or document ppi.
+let quality=run('getPrintQuality({valid:true,imageWidth:101.6,imageHeight:152.4},1200,1800)');
+near(quality.effectivePpi,300);assert.equal(quality.level,'good');
+assert.equal(quality.requiredWidth,1200);assert.equal(quality.requiredHeight,1800);
+near(quality.maxWidth,101.6);near(quality.maxHeight,152.4);
+assert.equal(run('getPrintQuality({valid:true,imageWidth:101.6,imageHeight:152.4},600,900).level'),'caution');
+assert.equal(run('getPrintQuality({valid:true,imageWidth:101.6,imageHeight:152.4},599,900).level'),'low');
+assert.equal(run('getPrintQuality({valid:true,imageWidth:101.6,imageHeight:152.4},1199,1800).level'),'caution');
+// Both axes matter, and fractional requirements must be rounded UP.
+near(run('getPrintQuality({valid:true,imageWidth:101.6,imageHeight:152.4},1200,600).effectivePpi'),100);
+assert.equal(run('getPrintQuality({valid:true,imageWidth:100,imageHeight:100},2000,2000).requiredWidth'),1182);
+run("state.imgSrc='blob:quality';state.imgW_PX=1200;state.imgH_PX=1800;renderPrintQuality({valid:true,imageWidth:101.601,imageHeight:152.4})");
+assert.ok(element('qualityStatus').innerText.includes('Unter der Empfehlung · 299,9 ppi'));
+for(const expression of [
+  'getPrintQuality({valid:false,imageWidth:100,imageHeight:100},1000,1000)',
+  'getPrintQuality({valid:true,imageWidth:0,imageHeight:100},1000,1000)',
+  'getPrintQuality({valid:true,imageWidth:100,imageHeight:100},0,1000)',
+  'getPrintQuality({valid:true,imageWidth:100,imageHeight:100},NaN,1000)',
+  'getPrintQuality({valid:true,imageWidth:Infinity,imageHeight:100},1000,1000)'
+]) assert.equal(run(expression),null);
+run("state.productType='print';state.orientation='portrait';state.imgSrc='blob:quality';state.imgW_PX=600;state.imgH_PX=800;state.userScale=1;state.showFrame=false;els.inWidth.value=30;els.inHeight.value=40;els.borderMode.value='equal';els.bTop.value=10;calcAndRender()");
+const lowResolutionLayout=run('getPrintLayout()');
+quality=run('getPrintQuality(getPrintLayout())');near(quality.effectivePpi,38.1);
+assert.equal(element('printQuality').dataset.level,'low');assert.equal(element('printQuality').hidden,false);
+assert.equal(element('qualityDetails').hidden,false);
+assert.equal(element('qualityOriginal').innerText,'600 × 800 px');
+assert.equal(element('qualityRequired').innerText,'4.725 × 6.300 px');
+assert.equal(element('qualityMaxSize').innerText,'5 × 6,7 cm');
+assert.ok(element('qualityStatus').innerText.includes('Auflösung niedrig'));
+assert.equal(element('btnDownloadScript').disabled,false,'low resolution must not block export');
+run('setImageScale(0.5)');
+near(run('getPrintQuality(getPrintLayout()).effectivePpi'),quality.effectivePpi*2);
+assert.equal(element('dpiInfo').innerText,'76,2 ppi im Druck');
+run('state.userScale=1;state.imgW_PX=6000;state.imgH_PX=8000;calcAndRender()');
+const highResolutionLayout=run('getPrintLayout()');
+assert.equal(JSON.stringify(highResolutionLayout.paper),JSON.stringify(lowResolutionLayout.paper),'pixel count must not change paper');
+for(const key of ['width','height','left','right','top','bottom','imageWidth','imageHeight']) near(highResolutionLayout[key],lowResolutionLayout[key]);
+assert.equal(element('printQuality').dataset.level,'good');
+assert.ok(element('qualityStatus').innerText.includes('Auflösung ausreichend'));
+const highPpi=run('getPrintQuality(getPrintLayout()).effectivePpi');
+run('state.showFrame=true;calcAndRender()');near(run('getPrintQuality(getPrintLayout()).effectivePpi'),highPpi);
+run('els.bTop.value=20;calcAndRender()');assert.ok(run('getPrintQuality(getPrintLayout()).effectivePpi')>highPpi);
+run("state.imgW_PX=3000;state.imgH_PX=4000;els.bTop.value=10;calcAndRender()");
+assert.equal(element('printQuality').dataset.level,'caution');
+// Invalid borders clear the previous ppi and suppress misleading source requirements.
+run('els.bTop.value=210;calcAndRender()');
+assert.equal(element('qualityDetails').hidden,true);assert.equal(element('printQuality').dataset.level,'neutral');
+assert.equal(element('dpiInfo').innerText,'Auflösung nicht berechenbar');
+run('state.imgSrc=null;calcAndRender()');assert.equal(element('printQuality').hidden,true);
+assert.equal(element('dpiInfo').innerText,'Maße nach dem Hochladen');
+console.log('PASS resolution: known ppi and thresholds, rounded pixel requirements, all layouts, live scaling/borders/frame invariance, stable paper choice, missing/invalid data and non-blocking warnings.');
 
 async function verifyV14() {
   run("state.productType='print';state.orientation='portrait';state.userScale=0.8;state.imgW_PX=600;state.imgH_PX=800;els.inWidth.value=30;els.inHeight.value=40;els.borderMode.value='equal';els.bTop.value=10");
@@ -212,11 +269,14 @@ async function verifyV14() {
   const pending=run('downloadPhotoshopScript()');
   assert.equal(run('state.exporting'),true);
   // Changing UI while reading a large file must not change the captured export settings.
-  run("state.matColor='#1a1a1a';state.fileName='changed';els.inWidth.value=18;els.inHeight.value=24");
+  run("state.matColor='#1a1a1a';state.fileName='changed';state.imgW_PX=1200;state.imgH_PX=1600;els.inWidth.value=18;els.inHeight.value=24");
   await pending;
   assert.equal(run('state.exporting'),false);
   assert.ok(output.includes('var borderColor = "ffffff"'));
   assert.ok(output.includes('var targetWidthMM = 420;'));
+  assert.ok(output.includes('// Source pixels: 600 x 800.'));
+  assert.ok(output.includes('// Effective image resolution: 38.10 ppi; low.'));
+  assert.ok(output.includes('// Recommended source for this image area at 300 ppi: 4725 x 6300 px.'));
   assert.match(output,/embeddedImageChunks = \[\s*"AP8lgA=="\s*\]/);
   assert.ok(prevented>=3);
   console.log('PASS V14: drag/drop & replacement, invalid/multiple drops, embedded original roundtrip over chunk/padding boundaries, no extra image dialog, cleanup, asynchronous export snapshot.');

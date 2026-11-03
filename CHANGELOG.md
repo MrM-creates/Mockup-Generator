@@ -1,5 +1,14 @@
 # Änderungen
 
+## V14.1 · 03.11.2026
+
+- Live-Anzeige der effektiven Bildauflösung auf der tatsächlichen Bildfläche, unabhängig von der Papiergrösse und den 300 ppi des Photoshop-Dokuments.
+- Verständliche Hinweise bei weniger als 300 ppi, verstärkte Warnung unter 150 ppi. Papierwahl und Export werden dadurch nicht automatisch geändert oder gesperrt.
+- Konkrete empfohlene Original-Pixelmaße für 300 ppi, auf ganze Pixel aufgerundet; aufklappbar vorhandene Pixel und maximale Bildfläche bei 300 ppi.
+- Erläuterung der Papierwahl und der Rolle des Betrachtungsabstands. Skalierung, Rand, Format und Bildwechsel aktualisieren die Anzeige unmittelbar.
+- Photoshop-Script enthält dieselbe Auflösungsbewertung als Kommentar und den Hinweis, bei 100 % zu drucken. Originaldaten, Platzierung und druckbare Elemente bleiben unverändert.
+- Zusätzliche Prüfungen für Auflösungsgrenzen, Rundung, fehlende/ungültige Daten, Live-Aktualisierung, unveränderte Papierwahl und die Export-Momentaufnahme.
+
 ## V14 · 03.11.2026
 
 - Neue helle Oberfläche mit grosser Arbeitsfläche und zusammenhängendem Inspektor für Format, Rand und Rahmen.

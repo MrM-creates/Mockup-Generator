@@ -6,4 +6,4 @@ fs.mkdirSync(output, { recursive: true });
 for (const file of ['index.html', 'version.json']) {
   fs.copyFileSync(path.join(root, file), path.join(output, file));
 }
-console.log('Built Print Studio V14: index.html and version.json.');
+console.log(`Built Print Studio ${require('../version.json').version}: index.html and version.json.`);

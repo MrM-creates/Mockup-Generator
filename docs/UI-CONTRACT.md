@@ -19,5 +19,17 @@ Basis: Flider `modern/D-04` (Hintergrund #F5F5F7, Text #1D1D1F) mit dem Blau aus
 ## Interaktion und Zugänglichkeit
 Zwei funktionale Bewegungen: direkte proportionale Skalierung mit Live-Massen; kurze Zustandswechsel bei Schaltern und Fokus/Hover. Kein zeitverzögertes Nachlaufen während des Ziehens. Reduced-motion wird respektiert. Native Inputs, beschriftete Felder, Tastatur-Upload, sichtbarer Fokus, `aria-pressed` für Auswahlbuttons, Live-Status für Datei- und Eingabefehler. Eckgriffe sind per Pfeiltasten bedienbar; Prozentregler bietet dieselbe Funktion. Mindesttrefferfläche 40–44 px für Hauptbedienelemente. Zahlen nutzen tabellarische Ziffern und deutsche Dezimalkommas.
 
+## Ergänzung: Druckauflösung
+
+Zweck: vor dem Export erkennen, ob die vorhandenen Bildpixel für die tatsächliche Bildfläche reichen. Papierwahl und Motiv bleiben bewusst unverändert; geringe Auflösung ist ein Hinweis, keine automatische Formatänderung und keine Exportsperre.
+
+Die bestehende Struktur bleibt bestehen. Unter den Druckmaßen folgt ein kompakter Bereich „Druckauflösung“ mit Status, effektiven ppi und konkretem Bedarf für 300 ppi. Weitere Angaben stehen aufklappbar unter „Pixel und Druckgrösse“: vorhandene Pixel, benötigte Pixel, maximale Bildfläche bei 300 ppi und Erklärung der Papierwahl. Der bestehende Export bleibt die einzige primäre Aktion.
+
+300 ppi sind eine Empfehlung für detailreiche Drucke aus der Nähe, keine Qualitätsgarantie. Eigene Hinweisstufen: ab 300 ppi „Auflösung ausreichend“, 150 bis unter 300 ppi „Unter der Empfehlung“, unter 150 ppi „Auflösung niedrig“. Die Bewertung betrifft nur Pixelauflösung, nicht Schärfe oder Bildinhalt. Kein Upload und kein gültiges Layout: neutrale Anzeige ohne Warnung. Meldungen erklären die Alternative: Bild verkleinern, kleineres Format wählen oder höher aufgelöstes Original laden.
+
+Flider-Abstände, Schrift und Trennlinien werden weiterverwendet. Statusfarben haben jeweils einen ausgeschriebenen Zustand; kein Farbcode allein. Text darf auf Mobilgeräten umbrechen, Aufklappen ist per Tastatur möglich. Bei Skalierung, Rand-, Format- und Bildwechsel aktualisiert sich alles unmittelbar aus derselben Druckgeometrie; Frame-Umschalten ändert die Auflösung nicht. Die Berechnung ist unabhängig von Dateimetadaten und der 300-ppi-Auflösung des Photoshop-Dokuments. Der Export enthält dieselben Werte als Kommentar, keine zusätzlichen druckbaren Elemente.
+
+Prüfung: bekannte Pixel-/Millimeter-Beispiele, Grenzwerte, Rundung nach oben beim Pixelbedarf, ungültige/fehlende Daten, Querformat/Leinwand, Live-Aktualisierung, Export-Momentaufnahme und unveränderte Papierwahl. Desktop- und Mobilansicht visuell prüfen.
 ## Prüfung
+
 Die bestehende geometrische Prüfung bleibt verbindlich. Ergänzungen prüfen Skalierung, zentrierte Bildplatzierung, Randrücksetzung und Exportgleichheit. Sichtprüfung am bereits vom Nutzer geöffneten lokalen Chrome-Tab, inklusive Upload, Rand, Rahmen und manueller Bildgrösse. V14 wird auf ausdrücklichen Nutzerauftrag über den bestehenden GitHub-Hauptzweig und das bestehende Vercel-Projekt veröffentlicht. Originalbilder bleiben ausschliesslich lokal und im persönlichen JSX-Download.

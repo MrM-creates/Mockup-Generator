@@ -1,4 +1,4 @@
-# Print Studio V14
+# Print Studio V14.1
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 
@@ -28,6 +28,16 @@ Beispiel ohne Upload, Referenzformat 30 × 40 cm, Hochformat, Papier ausnutzen:
 | 2 cm | A2, 42 × 59,4 cm | 38 × 50,67 cm | je ca. 4,37 cm |
 
 Der Schalter **Rahmen anzeigen** beeinflusst nur die Simulation. Er verändert weder Papierwahl noch Bild- und Randmaße im Script. Leinwand ist weiterhin separat wählbar.
+
+## Druckauflösung und Papierwahl
+
+Die Papierwahl berücksichtigt die erforderlichen Maße, nicht die Anzahl der Bildpixel. Das gewählte Referenzformat bestimmt das kleinste passende A-Papier; das vollständige Motiv wird anschliessend innerhalb der Mindestränder möglichst gross eingepasst. Eine niedrige Auflösung verkleinert weder das Papier noch das Bild automatisch.
+
+Nach dem Laden zeigt die App die effektiven ppi der tatsächlichen Bildfläche an: `min(Pixelbreite / Bildbreite in Zoll, Pixelhöhe / Bildhöhe in Zoll)`. Referenz sind 300 ppi für detailreiche Drucke aus der Nähe. Die benötigten Pixelmaße werden jeweils auf ganze Pixel aufgerundet. Eigene Hinweisstufen: ab 300 ppi ausreichend, 150 bis unter 300 ppi unter der Empfehlung, darunter niedrig. Das sind Orientierungshilfen, keine verbindlichen Qualitätsgrenzen. Schärfe, Kompression und Motivinhalt werden nicht analysiert. Bei grösserem Betrachtungsabstand kann weniger Auflösung ausreichen; siehe [Adobe: Print resolution for images](https://helpx.adobe.com/photoshop/desktop/crop-resize-transform/resize-adjust-resolution/resolution-specs-for-printing-images.html).
+
+„Pixel und Druckgrösse“ zeigt vorhandene Pixel und die maximale Bildfläche bei 300 ppi. Beispiel: A2, 1 cm Mindestrand und Motiv 3:4 ergeben 40 × 53,33 cm Bildfläche; dafür sind 4.725 × 6.300 px empfohlen. Mit 600 × 800 px sind es 38,1 ppi. Durch Verkleinern des Bildes steigt die Auflösung; ein grösserer Rand oder kleineres Referenzformat kann ebenfalls helfen. Leinwand bezieht die Bewertung auf die sichtbare Bildfläche, ohne den Umschlag.
+
+Die Warnung ist kein Exportverbot. Das JSX enthält die Bewertung aus der Export-Momentaufnahme als Kommentar, ohne zusätzliche druckbare Elemente. Die 300-ppi-Dokumentauflösung ersetzt keine fehlenden Bilddetails. Änderungen betreffen weder die unveränderten Originalbytes noch die Smartobjekt-Platzierung.
 
 ## Photoshop
 
@@ -63,4 +73,6 @@ Ein geladenes Original wird unverändert in das heruntergeladene JSX eingebettet
 
 GitHub: [MrM-creates/Mockup-Generator](https://github.com/MrM-creates/Mockup-Generator). Bestehende Produktionsadresse: [Print Studio](https://mockup-generator-sable.vercel.app/). Die installierte Chrome-App verwendet diese Adresse und zeigt neue Versionen nach dem Neuladen.
 
-Der alte unterbrochene Rebase wurde mit gesichertem Arbeitsstand abgebrochen. Der frühere lokale Upload-Commit bleibt im lokalen Zweig `codex/archive-pre-v14-upload` erhalten. V14 wird auf dem bestehenden GitHub-Hauptzweig veröffentlicht; veröffentlichte Historie wird nicht überschrieben.
+Der alte unterbrochene Rebase wurde mit gesichertem Arbeitsstand abgebrochen. Der frühere lokale Upload-Commit bleibt im lokalen Zweig `codex/archive-pre-v14-upload` erhalten. Veröffentlichungen erfolgen auf dem bestehenden GitHub-Hauptzweig; veröffentlichte Historie wird nicht überschrieben.
+
+V14.1: Die Auflösungsberechnung wird für alle 2.640 Layoutkombinationen mitgeprüft. Zusätzliche Beispiele prüfen 300/150-ppi-Grenzen, Aufrundung des Pixelbedarfs, Rundung der Anzeige unter 300 ppi, ungültige und fehlende Daten, unveränderte Papierwahl bei anderer Pixelzahl sowie die Auflösungs-Momentaufnahme während des Exports. Im lokalen Chrome wurde ein 600 × 800 px Testbild geladen: 38,1 ppi auf 40 × 53,33 cm; nach Verkleinern auf 10 % korrekt 381 ppi mit unverändertem A2-Papier. Desktop und 390 × 844 px wurden visuell geprüft, inklusive aufklappbarer Pixelangaben; keine Konsolenmeldungen.
