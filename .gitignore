@@ -1,0 +1,16 @@
+.DS_Store
+**/.DS_Store
+node_modules/
+dist/
+.vercel/
+.env
+.env.*
+/Generated Pics/
+/Generated Mockups/
+/HTML Script/*
+!/HTML Script/print-mockup generator V13.html
+!/HTML Script/print-mockup generator V14.html
+/Photoshop Script/*
+!/Photoshop Script/Print_30x40_3mm.jsx
+!/Photoshop Script/Print_A2_1cm_ohne_Beschnitt.jsx
+!/Photoshop Script/Print_A2_2cm_ohne_Beschnitt.jsx

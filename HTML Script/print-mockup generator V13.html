@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Print Mockup Creator V13</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f172a; --card-bg: #020617; --accent: #38bdf8; --accent-soft: rgba(56, 189, 248, 0.15);
+      --border-subtle: #1e293b; --text-main: #e5e7eb; --text-muted: #9ca3af;
+      --radius-lg: 16px; --radius-md: 10px;
+      --tech-font: "SF Mono", "Monaco", "Inconsolata", monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: system-ui, -apple-system, sans-serif; background: radial-gradient(circle at top, #1f2937, #020617 55%); color: var(--text-main); display: flex; justify-content: center; padding: 24px; }
+    .app { max-width: 1250px; width: 100%; background: radial-gradient(circle at top left, #020617, #020617 45%, #0b1120 100%); border-radius: 24px; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); border: 1px solid rgba(148, 163, 184, 0.18); padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+    .app-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .app-header h1 { margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+    .accent-text { color: var(--accent); }
+    .app-body { display: grid; grid-template-columns: 1fr 1.3fr; gap: 24px; }
+    @media (max-width: 950px) { .app-body { grid-template-columns: 1fr; } }
+    .panel { background: #0b1120; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+    .section { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(51, 65, 85, 0.5); border-radius: var(--radius-md); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .section-header h3 { margin: 0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+    .field-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; display: block; }
+    .field-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .input, .select { background: #1e293b; border: 1px solid #334155; color: white; padding: 8px 10px; border-radius: 6px; font-size: 0.9rem; outline: none; }
+    .input:focus, .select:focus { border-color: var(--accent); }
+    .btn { background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(56,189,248,0.3); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: 0.2s; }
+    .btn:hover { background: rgba(56,189,248,0.25); }
+    .btn-primary { background: var(--accent); color: #0f172a; font-weight: bold; border: none; }
+    .btn-script { border-color: #fcd34d; color: #fcd34d; background: rgba(252, 211, 77, 0.1); }
+    .btn-script:hover { background: rgba(252, 211, 77, 0.2); }
+
+    .ori-group { display: flex; background: #1e293b; border-radius: 8px; padding: 4px; gap: 4px; width: 100%; }
+    .ori-btn { flex: 1; background: transparent; border: none; color: #94a3b8; padding: 6px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; text-align: center; transition: 0.2s; }
+    .ori-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .ori-btn.active { background: var(--accent); color: #0f172a; font-weight: 600; }
+
+    .chip-group { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .chip-toggle { background: #1e293b; border: 1px solid #334155; color: #94a3b8; padding: 5px 12px; border-radius: 999px; font-size: 0.75rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.15s; }
+    .chip-toggle:hover { border-color: #64748b; color: #cbd5e1; }
+    .chip-toggle.active { background: var(--accent); color: #0f172a; border-color: var(--accent); font-weight: 600; }
+    .calc-btn { font-size: 0.75rem; padding: 5px 12px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); cursor: pointer; transition: 0.2s; }
+    .calc-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-main); }
+    .calc-btn.active { background: var(--accent); color: #0f172a; border-color: var(--accent); font-weight: 600; }
+
+    .preview-wrapper { flex: 1; display: flex; flex-direction: column; gap: 10px; min-height: 550px; }
+    .preview-area { flex: 1; background: #e2e8f0; border-radius: var(--radius-md); border: 1px solid #334155; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    #captureContainer { padding: 40px; display: inline-block; background: transparent; position: relative; z-index: 5; }
+    
+    /* Studio Lighting Background Simulator */
+    .preview-wall-bg { position: absolute; inset: 0; background: radial-gradient(circle at 50% 30%, #f8fafc 0%, #cbd5e1 60%, #94a3b8 100%); z-index: 1; transition: opacity 0.3s; }
+    
+    .frame-outer { position: relative; z-index: 2; box-sizing: border-box; display: flex; align-items: center; justify-content: center; box-shadow: 0 35px 60px -15px rgba(0,0,0,0.5), 0 20px 30px -10px rgba(0,0,0,0.3), inset 0 -2px 6px rgba(0,0,0,0.2); transition: 0.3s all; }
+    .no-shadow .frame-outer { box-shadow: none !important; }
+
+    /* REALISTIC TEXTURE CSS SIMULATIONS */
+    .frame-style-black { background-color: #121212; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23n)" opacity="0.08"/></svg>'), linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(0,0,0,0.2) 100%); box-shadow: inset 1px 1px 2px rgba(255,255,255,0.1), inset -1px -1px 3px rgba(0,0,0,0.5); }
+    .frame-style-white { background-color: #fcfcfc; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23n)" opacity="0.03"/></svg>'), linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%); box-shadow: inset 1px 1px 2px rgba(255,255,255,0.8), inset -1px -1px 3px rgba(0,0,0,0.1); }
+    .frame-style-oak { background-color: #d1bfae; background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(139, 90, 43, 0.05) 2px, transparent 3px), repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(139, 90, 43, 0.03) 22px, transparent 25px), linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.05) 15%, transparent 30%, rgba(0,0,0,0.1) 85%, rgba(255,255,255,0.05) 100%); box-shadow: inset 1px 1px 3px rgba(255,255,255,0.4), inset -1px -1px 4px rgba(0,0,0,0.3); }
+    .frame-style-wood-dark { background-color: #4a3424; background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.15) 3px, transparent 4px), repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(0,0,0,0.08) 32px, transparent 40px), linear-gradient(45deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.3) 100%); box-shadow: inset 1px 1px 2px rgba(255,255,255,0.15), inset -1px -1px 5px rgba(0,0,0,0.6); }
+    .frame-style-alu-silver { background-color: #e2e8f0; background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.3) 2px, transparent 3px), linear-gradient(105deg, #cbd5e1 0%, #f1f5f9 15%, #cbd5e1 40%, #94a3b8 70%, #f8fafc 90%, #64748b 100%); box-shadow: inset 1px 1px 1px rgba(255,255,255,0.8), inset -1px -1px 2px rgba(0,0,0,0.3); }
+    .frame-style-gold { background-color: #d4af37; background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.1) 2px, transparent 3px), linear-gradient(120deg, #b45309 0%, #fcd34d 20%, #d4af37 40%, #78350f 70%, #fde68a 85%, #b45309 100%); box-shadow: inset 1px 1px 2px rgba(255,255,255,0.8), inset -1px -1px 3px rgba(90,40,0,0.6); }
+
+    .frame-inner { background-color: #fdfbf7; position: relative; overflow: hidden; }
+    .image-area { position: absolute; overflow: hidden; background: #e5e7eb; }
+    .image-area img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    
+    /* Leinwand (Canvas) Styles */
+    .frame-outer.is-canvas { padding: 0 !important; background: transparent !important; box-shadow: 25px 35px 50px -10px rgba(0,0,0,0.4), inset -2px -2px 10px rgba(0,0,0,0.4), inset 2px 2px 10px rgba(255,255,255,0.15) !important; border-radius: 2px; }
+    .frame-outer.is-canvas .frame-inner { background: transparent !important; }
+    .frame-outer.is-canvas .image-area { left: 0 !important; top: 0 !important; width: 100% !important; height: 100% !important; background: transparent; }
+    .frame-outer.is-canvas .shadow-overlay { display: block !important; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 30%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.5) 100%); z-index: 10; pointer-events: none; mix-blend-mode: multiply; }
+    
+    .shadow-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 10; background: linear-gradient(to right, rgba(0,0,0,0.25), transparent 6px), linear-gradient(to left, rgba(0,0,0,0.25), transparent 6px), linear-gradient(to bottom, rgba(0,0,0,0.25), transparent 6px), linear-gradient(to top, rgba(0,0,0,0.25), transparent 6px); }
+    .dropzone { border: 2px dashed #334155; border-radius: 8px; padding: 20px; text-align: center; background: rgba(30, 41, 59, 0.5); cursor: pointer; transition: 0.2s; }
+    .dropzone:hover { border-color: var(--accent); background: rgba(56,189,248,0.1); }
+
+    .recap-box { background: linear-gradient(to bottom right, #1e293b, #0f172a); border-left: 4px solid var(--accent); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 8px; }
+    .recap-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+    .recap-label { color: var(--text-muted); font-size: 0.85rem; }
+    .recap-val { color: white; font-weight: 600; }
+    .export-controls { display: flex; align-items: center; justify-content: space-between; background: rgba(15, 23, 42, 0.8); padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid var(--accent); }
+    .custom-checkbox { width: 18px; height: 18px; border: 1px solid #94a3b8; border-radius: 4px; display: inline-grid; place-items: center; }
+    input:checked + .custom-checkbox { background: var(--accent); border-color: var(--accent); }
+    input:checked + .custom-checkbox::after { content: '✓'; font-size: 12px; color: #000; }
+  </style>
+</head>
+<body>
+
+  <div class="app">
+    <div class="app-header">
+      <div><h1>Mockup<span class="accent-text">Creator</span> V13</h1></div>
+      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+        <div style="display:flex; gap:10px;">
+          <button id="btnDownloadScript" class="btn btn-script" title="Erstellt eine .jsx Datei. In Photoshop unter 'Datei > Skripten > Durchsuchen...' auswählen! Dient dazu, das Dokument mit Zuschnitt / Bleed automatisch passend anzulegen.">⚡ PS Script generieren</button>
+          <button id="btnDownload" class="btn btn-primary">⬇ PNG Speichern</button>
+        </div>
+        <div style="font-size:0.75rem; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+          <span style="background:rgba(255,255,255,0.1); width:16px; height:16px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:10px; font-weight:bold;">?</span>
+          <span><b>PS Script:</b> Generiert ein Photoshop-Template mit exaktem Anschnitt / Bleed.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-body">
+      <!-- LEFT -->
+      <div class="panel">
+        <div class="section">
+          <div class="section-header"><h3>1. Produkt-Typ</h3></div>
+          <div class="chip-group" id="productTypeSelector">
+            <button class="chip-toggle active" data-type="frame">🖼️ Gerahmter Print</button>
+            <button class="chip-toggle" data-type="canvas">🎨 Leinwand (Canvas)</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header"><h3>2. Motiv hochladen</h3></div>
+          <div id="dropzone" class="dropzone">
+            <p style="margin:0; font-size:0.9rem;">Bild hierher ziehen</p>
+            <input type="file" id="fileInput" accept="image/*" style="display:none;">
+          </div>
+        </div>
+
+        <div class="section" id="sectionAusrichtung">
+          <div class="section-header"><h3>3. Format & Ausrichtung</h3></div>
+          <div class="field-label">Ausrichtung (Hängen):</div>
+          <div class="ori-group" id="oriBtns">
+            <button class="ori-btn active" data-ori="portrait">Hoch</button>
+            <button class="ori-btn" data-ori="landscape">Quer</button>
+            <button class="ori-btn" data-ori="square">Quadrat</button>
+          </div>
+
+          <div class="field-label" style="margin-top:10px; display:flex; justify-content:space-between;">
+            <span>Modell (Produktmass):</span>
+            <span id="dpiInfo" style="color:#fcd34d;">(Warte auf Upload...)</span>
+          </div>
+          <div class="field-row">
+             <select id="framePreset" class="select" style="width:100%">
+              <option value="18x24">18 × 24 cm</option>
+              <option value="20x20">20 × 20 cm</option>
+              <option value="21x30">21 × 30 cm (A4)</option>
+              <option value="30x30">30 × 30 cm</option>
+              <option value="30x40" selected>30 × 40 cm</option>
+              <option value="40x50">40 × 50 cm</option>
+              <option value="40x60">40 × 60 cm</option>
+              <option value="50x70">50 × 70 cm</option>
+              <option value="60x80">60 × 80 cm</option>
+              <option value="custom">Benutzerdefiniert</option>
+            </select>
+          </div>
+          <div id="customDimensions" class="field-row" style="display:none;">
+            <input type="number" id="inWidth" class="input" placeholder="B" value="30" min="5" max="300" style="width:70px">
+            <span>×</span>
+            <input type="number" id="inHeight" class="input" placeholder="H" value="40" min="5" max="300" style="width:70px">
+            <span style="font-size:0.8rem; align-self:center;">cm</span>
+          </div>
+        </div>
+
+        <div class="section" id="sectionRahmen">
+          <div class="section-header"><h3>4. Rahmenstil & Breite</h3></div>
+          <div class="chip-group" id="materialSelector">
+            <button class="chip-toggle active" data-style="frame-style-black">Schwarz</button>
+            <button class="chip-toggle" data-style="frame-style-white">Weiss</button>
+            <button class="chip-toggle" data-style="frame-style-oak">Eiche</button>
+            <button class="chip-toggle" data-style="frame-style-wood-dark">Nussbaum</button>
+            <button class="chip-toggle" data-style="frame-style-alu-silver">Alu</button>
+            <button class="chip-toggle" data-style="frame-style-gold">Gold</button>
+          </div>
+          <div class="field-row" style="align-items:center; margin-top:12px;">
+            <input type="range" id="frameThickness" min="5" max="50" value="15" style="flex:1; cursor:pointer;">
+            <input type="number" id="frameThicknessInput" value="15" class="input" min="0" max="100" style="width:60px; text-align:right;">
+            <span style="font-size:0.8rem; color:var(--text-muted);">mm</span>
+          </div>
+        </div>
+
+        <div class="section" id="sectionPassepartout">
+          <div class="section-header"><h3>5. Rand & Passepartout</h3></div>
+          <select id="borderMode" class="select" style="width:100%; margin-bottom:8px;">
+            <option value="none">Kein Rand (Vollbild)</option>
+            <option value="equal">Gleichmässiger Rand</option>
+            <option value="passepartout" selected>Passepartout (unten breiter)</option>
+          </select>
+          
+          <div id="equalControls" style="display:none; margin-bottom:10px;">
+            <div class="chip-group">
+              <button class="calc-btn" onclick="applyPreset('equal', 0.03, this)">Minimal</button>
+              <button class="calc-btn active" onclick="applyPreset('equal', 0.05, this)">Mittel</button>
+              <button class="calc-btn" onclick="applyPreset('equal', 0.08, this)">Breit</button>
+            </div>
+          </div>
+          <div id="ppControls" style="margin-bottom:10px;">
+            <div class="chip-group" id="ppBtns">
+              <button class="calc-btn active" onclick="applyPreset('pp', 'galerie', this)">Galerie</button>
+              <button class="calc-btn" onclick="applyPreset('pp', 'elegant', this)">Elegant</button>
+              <button class="calc-btn" onclick="applyPreset('pp', 'museum', this)">Museum</button>
+            </div>
+          </div>
+
+          <div id="borderInputs">
+             <div class="field-row">
+               <div style="flex:1">
+                 <label class="field-label" for="borderSizeTop">Oben / Seite (mm)</label>
+                 <input type="number" id="borderSizeTop" class="input" value="30" min="0" max="500" style="width:100%">
+               </div>
+               <div style="flex:1" id="borderBottomWrapper">
+                 <label class="field-label" for="borderSizeBottom">Unten (mm)</label>
+                 <input type="number" id="borderSizeBottom" class="input" value="50" min="0" max="500" style="width:100%">
+               </div>
+             </div>
+             <div class="field-row" style="margin-top:10px; align-items:center;">
+                <span class="field-label" style="margin-right:10px;">Farbe:</span>
+                <div class="color-pick" style="width:24px; height:24px; background:#fdfbf7; border:1px solid #fff; border-radius:50%; cursor:pointer; margin-right:4px;" onclick="setMatColor('#fdfbf7')"></div>
+                <div class="color-pick" style="width:24px; height:24px; background:#ffffff; border:1px solid #999; border-radius:50%; cursor:pointer; margin-right:4px;" onclick="setMatColor('#ffffff')"></div>
+                <div class="color-pick" style="width:24px; height:24px; background:#1a1a1a; border:1px solid #555; border-radius:50%; cursor:pointer;" onclick="setMatColor('#1a1a1a')"></div>
+             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="panel">
+        <div class="section-header"><h3>Live Vorschau</h3></div>
+        <div class="preview-wrapper">
+          <div class="preview-area">
+            <div id="wallBg" class="preview-wall-bg"></div>
+            <div id="captureContainer">
+              <div id="frameOuter" class="frame-outer frame-style-black">
+                <div id="frameInner" class="frame-inner">
+                  <div id="imageArea" class="image-area">
+                    <img id="previewImg" src="" style="display:none;">
+                    <div id="placeholderText" style="color:#9ca3af; font-size:0.8rem; text-transform:uppercase; height:100%; display:flex; align-items:center; justify-content:center;">Motiv</div>
+                    <div class="shadow-overlay" style="display:none;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="export-controls" style="margin-top: 15px;">
+          <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+            <input type="checkbox" id="chkLightBg" style="display:none;" checked>
+            <div class="custom-checkbox"></div>
+            <span>Helles Studio-Licht an</span>
+          </label>
+        </div>
+
+        <div class="recap-box" style="margin-top:10px;">
+           <div class="recap-row"><span class="recap-label">Rahmengrösse (Außen)</span><span class="recap-val" id="recapFrame">-</span></div>
+           <div class="recap-row"><span class="recap-label">Sichtbares Bildmass</span><span class="recap-val" id="recapImage" style="color:var(--accent)">-</span></div>
+           <div class="recap-row"><span class="recap-label">Benötigtes Papier</span><span class="recap-val" id="recapPaper">-</span></div>
+        </div>
+
+        <div class="export-controls" style="display:none;">
+          <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+            <input type="checkbox" id="chkTransparent" checked>
+            <div class="custom-checkbox"></div>
+            <span>Transparent (für Nano-Banana)</span>
+          </label>
+        </div>
+
+        <div class="section" style="margin-top: 10px; background: rgba(15, 23, 42, 0.4); border-color: rgba(56, 189, 248, 0.3);">
+          <div class="section-header"><h3 style="color: var(--accent);">🤖 Mockup Prompt</h3></div>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 10px 0;">Das Tool liest lokal aus, wie gross dein Bild inkl. Rahmen in Zentimetern ist und generiert daraus diesen fertigen Prompt für Image-To-Image KIs.</p>
+          
+          <div class="field-label">Interior Stil:</div>
+          <select id="aiRoomStyle" class="select" style="width:100%; margin-bottom:12px;">
+            <option value="swiss">Modern Swiss (Zürich Ästhetik, Weisser Putz, Fischgrätparkett, USM Haller)</option>
+            <option value="gallery">Minimalistische Galerie (Betonboden, weiße weite Wände, subtiles Spotlight)</option>
+            <option value="midcentury">Mid-Century Modern (Nussbaumholz-Möbel, Vintage Teppich, warme Töne)</option>
+            <option value="industrial">Industrial Loft (Backsteinwand, dunkler Holzboden, große Metallfenster)</option>
+            <option value="scandi">Scandi Minimal (Helles Holzböden, weiße Textilien, viel Tageslicht)</option>
+          </select>
+
+          <div class="field-label">Generierter Prompt:</div>
+          <textarea id="aiPromptOutput" class="input" style="width:100%; height:80px; resize:none; font-family:var(--tech-font); font-size:0.8rem; margin-bottom:12px; line-height:1.4;" readonly></textarea>
+
+          <button id="btnCopyPrompt" class="btn btn-primary" style="width:100%; background: linear-gradient(90deg, #38bdf8, #818cf8); color: white; display:flex; justify-content:center; align-items:center; gap:8px;">
+            <span>📋 Prompt Kopieren</span>
+          </button>
+          
+          <div id="aiLoading" style="display:none; text-align:center; margin-top:15px; font-size:0.85rem; color: #818cf8;">
+            Prompt in Zwischenablage kopiert!
+          </div>
+          <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align:center; padding: 10px 0; color: #64748b; font-size: 0.75rem; letter-spacing: 0.05em; margin-top: 10px;">
+      &copy; 2026 by MrM
+    </div>
+  </div>
+
+  <script>
+    // DOM Elements
+    const els = {
+      dropzone: document.getElementById('dropzone'),
+      fileInput: document.getElementById('fileInput'),
+      previewImg: document.getElementById('previewImg'),
+      placeholderText: document.getElementById('placeholderText'),
+      frameOuter: document.getElementById('frameOuter'),
+      frameInner: document.getElementById('frameInner'),
+      imageArea: document.getElementById('imageArea'),
+      framePreset: document.getElementById('framePreset'),
+      customDims: document.getElementById('customDimensions'),
+      inWidth: document.getElementById('inWidth'),
+      inHeight: document.getElementById('inHeight'),
+      productTypeBtns: document.querySelectorAll('#productTypeSelector .chip-toggle'),
+      sectionRahmen: document.getElementById('sectionRahmen'),
+      sectionPassepartout: document.getElementById('sectionPassepartout'),
+      materialBtns: document.querySelectorAll('#materialSelector .chip-toggle'),
+      thicknessRange: document.getElementById('frameThickness'),
+      thicknessInput: document.getElementById('frameThicknessInput'),
+      borderMode: document.getElementById('borderMode'),
+      equalControls: document.getElementById('equalControls'),
+      ppControls: document.getElementById('ppControls'),
+      borderInputs: document.getElementById('borderInputs'),
+      bTop: document.getElementById('borderSizeTop'),
+      bBottom: document.getElementById('borderSizeBottom'),
+      bBottomWrapper: document.getElementById('borderBottomWrapper'),
+      captureContainer: document.getElementById('captureContainer'),
+      wallBg: document.getElementById('wallBg'),
+      chkLightBg: document.getElementById('chkLightBg'),
+      chkTransparent: document.getElementById('chkTransparent'),
+      btnDownload: document.getElementById('btnDownload'),
+      btnScript: document.getElementById('btnDownloadScript'),
+      oriBtns: document.querySelectorAll('#oriBtns .ori-btn'),
+      recapFrame: document.getElementById('recapFrame'),
+      recapImage: document.getElementById('recapImage'),
+      recapPaper: document.getElementById('recapPaper'),
+      
+      // AI Elements
+      aiRoomStyle: document.getElementById('aiRoomStyle'),
+      aiPromptOutput: document.getElementById('aiPromptOutput'),
+      btnCopyPrompt: document.getElementById('btnCopyPrompt'),
+      aiLoading: document.getElementById('aiLoading'),
+      aiLoading: document.getElementById('aiLoading'),
+      dpiInfo: document.getElementById('dpiInfo')
+    };
+
+    let state = {
+      productType: 'frame', // 'frame' or 'canvas'
+      imgSrc: null, 
+      fileName: 'Mockup',
+      imgW_PX: 0,
+      imgH_PX: 0,
+      thicknessMM: 15, 
+      matColor: '#fdfbf7', 
+      orientation: 'portrait'
+    };
+
+    function init() {
+      addEventListeners();
+      els.inWidth.value = 30; els.inHeight.value = 40; 
+      applyPreset('pp', 'galerie', document.querySelector('#ppBtns button'));
+      calcAndRender();
+    }
+
+    function addEventListeners() {
+      els.dropzone.addEventListener('click', () => els.fileInput.click());
+      els.fileInput.addEventListener('change', (e) => loadFile(e.target.files[0]));
+      els.dropzone.addEventListener('dragover', (e) => { e.preventDefault(); els.dropzone.style.borderColor = '#38bdf8'; });
+      els.dropzone.addEventListener('dragleave', () => els.dropzone.style.borderColor = '');
+      els.dropzone.addEventListener('drop', (e) => { e.preventDefault(); els.dropzone.style.borderColor = ''; loadFile(e.dataTransfer.files[0]); });
+
+      els.framePreset.addEventListener('change', (e) => {
+        if(e.target.value === 'custom') {
+          els.customDims.style.display = 'flex';
+        } else {
+          els.customDims.style.display = 'none';
+          const [w, h] = e.target.value.split('x').map(Number);
+          els.inWidth.value = Math.min(w, h);
+          els.inHeight.value = Math.max(w, h);
+          if(w === h) setOrientation('square');
+          else if(state.orientation === 'square') setOrientation('portrait');
+        }
+        calcAndRender();
+      });
+
+      els.inWidth.addEventListener('input', () => { els.inWidth.value = Math.max(1, els.inWidth.value); calcAndRender(); });
+      els.inHeight.addEventListener('input', () => { els.inHeight.value = Math.max(1, els.inHeight.value); calcAndRender(); });
+
+      els.productTypeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          els.productTypeBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active');
+          state.productType = btn.dataset.type;
+          
+          if(state.productType === 'canvas') {
+            els.sectionRahmen.style.display = 'none';
+            els.sectionPassepartout.style.display = 'none';
+            els.frameOuter.classList.add('is-canvas');
+          } else {
+            els.sectionRahmen.style.display = 'flex';
+            els.sectionPassepartout.style.display = 'flex';
+            els.frameOuter.classList.remove('is-canvas');
+          }
+          calcAndRender();
+        });
+      });
+
+      els.oriBtns.forEach(btn => {
+        btn.addEventListener('click', () => { setOrientation(btn.dataset.ori); calcAndRender(); });
+      });
+
+      els.materialBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          els.materialBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active');
+          els.frameOuter.className = `frame-outer ${btn.dataset.style}`;
+        });
+      });
+
+      els.thicknessRange.addEventListener('input', (e) => { els.thicknessInput.value = e.target.value; state.thicknessMM = parseInt(e.target.value); calcAndRender(); });
+      els.thicknessInput.addEventListener('input', (e) => { els.thicknessRange.value = e.target.value; state.thicknessMM = parseInt(e.target.value); calcAndRender(); });
+
+      els.borderMode.addEventListener('change', handleBorderModeChange);
+      els.bTop.addEventListener('input', () => { clearActiveButtons(); calcAndRender(); });
+      els.bBottom.addEventListener('input', () => { clearActiveButtons(); calcAndRender(); });
+      els.chkTransparent.addEventListener('change', calcAndRender);
+      els.chkLightBg.addEventListener('change', calcAndRender);
+      
+      els.btnDownload.addEventListener('click', downloadImage);
+      els.btnScript.addEventListener('click', downloadPhotoshopScript);
+      
+      // AI Listeners
+      els.aiRoomStyle.addEventListener('change', generatePrompt);
+      els.btnCopyPrompt.addEventListener('click', copyPromptToClipboard);
+    }
+
+    function setOrientation(ori) {
+      state.orientation = ori;
+      els.oriBtns.forEach(b => {
+        if(b.dataset.ori === ori) b.classList.add('active'); else b.classList.remove('active');
+      });
+    }
+
+    function handleBorderModeChange() {
+      const mode = els.borderMode.value;
+      if(mode === 'none') {
+        els.borderInputs.style.display = 'none'; els.equalControls.style.display = 'none'; els.ppControls.style.display = 'none';
+      } else if (mode === 'equal') {
+        els.borderInputs.style.display = 'block'; els.equalControls.style.display = 'block'; els.ppControls.style.display = 'none'; els.bBottomWrapper.style.display = 'none';
+        applyPreset('equal', 0.05, els.equalControls.querySelectorAll('button')[1]);
+      } else {
+        els.borderInputs.style.display = 'block'; els.equalControls.style.display = 'none'; els.ppControls.style.display = 'block'; els.bBottomWrapper.style.display = 'block';
+        applyPreset('pp', 'galerie', els.ppControls.querySelectorAll('button')[0]);
+      }
+      calcAndRender();
+    }
+
+    function clearActiveButtons() { document.querySelectorAll('.calc-btn').forEach(b => b.classList.remove('active')); }
+
+    window.applyPreset = function(type, value, btnEl) {
+      clearActiveButtons(); if(btnEl) btnEl.classList.add('active');
+      const { w, h } = getVisualDimensions();
+      const shortSideMM = Math.min(w, h) * 10; 
+      let top = 0, bottom = 0;
+      if (type === 'equal') { const border = Math.round(shortSideMM * value); top = bottom = border; } 
+      else if (type === 'pp') {
+        const base = Math.round(shortSideMM * 0.12);
+        if (value === 'galerie') { top = base; bottom = Math.round(base * 1.25); }
+        else if (value === 'elegant') { top = Math.round(base * 0.75); bottom = Math.round(top * 1.35); }
+        else if (value === 'museum') { top = base; bottom = Math.round(base * 1.5); }
+      }
+      els.bTop.value = top; els.bBottom.value = bottom;
+      calcAndRender();
+    }
+
+    window.setMatColor = function(col) { state.matColor = col; calcAndRender(); }
+
+    function getVisualDimensions() {
+      const rawW = parseFloat(els.inWidth.value) || 20;
+      const rawH = parseFloat(els.inHeight.value) || 20;
+      const min = Math.min(rawW, rawH);
+      const max = Math.max(rawW, rawH);
+      if(state.orientation === 'landscape') return { w: max, h: min };
+      if(state.orientation === 'square') return { w: max, h: max }; 
+      return { w: min, h: max }; 
+    }
+
+    function calcAndRender() {
+      const { w, h } = getVisualDimensions(); 
+      const isLightOn = els.chkLightBg.checked;
+      
+      // Removed the chkTransparent link here so the preview wall never turns fully transparent
+      els.wallBg.style.opacity = '1'; 
+      els.captureContainer.classList.remove('no-shadow');
+      els.wallBg.style.background = isLightOn 
+        ? 'radial-gradient(circle at 50% 30%, #f8fafc 0%, #cbd5e1 60%, #94a3b8 100%)' 
+        : 'radial-gradient(circle at center, #334155 0%, #0f172a 100%)';
+
+      els.recapFrame.innerText = `${w} × ${h} cm`;
+      
+      const mode = els.borderMode.value;
+      let topMM = 0, botMM = 0;
+      if (mode === 'equal') { topMM = parseFloat(els.bTop.value)||0; botMM = topMM; }
+      else if (mode === 'passepartout') { topMM = parseFloat(els.bTop.value)||0; botMM = parseFloat(els.bBottom.value)||0; }
+
+      const wMM = w * 10; const hMM = h * 10;
+      const imgW = wMM - (state.thicknessMM*2) - (topMM*2); 
+      const imgH = hMM - (state.thicknessMM*2) - (topMM + botMM);
+      
+      if(imgW > 0 && imgH > 0) els.recapImage.innerText = `${(imgW/10).toFixed(1)} × ${(imgH/10).toFixed(1)} cm`;
+      else els.recapImage.innerText = "Fehler: Rand zu gross";
+
+      els.recapPaper.innerText = state.productType === 'canvas' ? 'Leinwandgewebe (umgeschlagen)' : getBestPaper(wMM, hMM);
+
+      const MAX_H = 500; const maxSide = Math.max(w, h); const scale = MAX_H / maxSide; 
+      
+      // Calculate OUTSIDE dimensions in pixels
+      const outerCssW = w * scale; 
+      const outerCssH = h * scale;
+      
+      const thickPx = state.productType === 'canvas' ? 0 : (state.thicknessMM/10) * scale;
+
+      // Outer wrapper gets the full dimensions
+      els.frameOuter.style.width = `${outerCssW}px`;
+      els.frameOuter.style.height = `${outerCssH}px`;
+
+      if(state.productType === 'canvas') {
+        els.frameOuter.style.padding = '0';
+        els.frameInner.style.width = '100%'; els.frameInner.style.height = '100%';
+        els.frameInner.style.backgroundColor = 'transparent';
+        els.imageArea.style.left = '0';
+        els.imageArea.style.top = '0';
+        els.imageArea.style.width = '100%';
+        els.imageArea.style.height = '100%';
+        const shadowOverlay = els.imageArea.querySelector('.shadow-overlay');
+        shadowOverlay.style.display = 'block';
+      } else {
+        els.frameOuter.style.padding = `${thickPx}px`;
+        // Inner frame takes the remaining space after padding
+        els.frameInner.style.width = '100%'; 
+        els.frameInner.style.height = '100%';
+        els.frameInner.style.backgroundColor = state.matColor;
+  
+        let topPx = (topMM/10)*scale; let botPx = (botMM/10)*scale; let sidePx = topPx;
+        const shadowOverlay = els.imageArea.querySelector('.shadow-overlay');
+        shadowOverlay.style.display = mode !== 'none' ? 'block' : 'none';
+  
+        // Calculate image area size based on the INNER frame size (outer - 2x thickness)
+        const innerCssW = outerCssW - (thickPx * 2);
+        const innerCssH = outerCssH - (thickPx * 2);
+
+        els.imageArea.style.left = `${sidePx}px`;
+        els.imageArea.style.width = `${Math.max(0, innerCssW - sidePx*2)}px`;
+        els.imageArea.style.top = `${topPx}px`;
+        els.imageArea.style.height = `${Math.max(0, innerCssH - topPx - botPx)}px`;
+      }
+    }
+
+    function checkDpiAndRatio() {
+      if(state.imgW_PX === 0) return;
+      const minDpi = 150; const pxPerCm = minDpi / 2.54; 
+      const maxW = state.imgW_PX / pxPerCm; const maxH = state.imgH_PX / pxPerCm;
+      
+      const imgRatio = Math.max(state.imgW_PX, state.imgH_PX) / Math.min(state.imgW_PX, state.imgH_PX);
+      els.dpiInfo.innerText = `Max: ~${Math.floor(Math.max(maxW,maxH))}cm (bei ${minDpi} dpi)`;
+      
+      const options = els.framePreset.options;
+      let firstValid = null;
+      let matchCount = 0;
+      
+      for(let i=0; i<options.length; i++) {
+        if(options[i].value === 'custom') continue;
+        const pts = options[i].value.split('x').map(Number);
+        const optW = Math.min(...pts); const optH = Math.max(...pts);
+        
+        // Quality Check
+        const isTooBig = (optW > Math.min(maxW, maxH) || optH > Math.max(maxW, maxH));
+        
+        // Ratio Check (+/- 10% toleranz)
+        const optRatio = optH / optW;
+        const diffRatio = Math.abs(imgRatio - optRatio);
+        const wrongRatio = diffRatio > 0.15;
+        
+        if (isTooBig || wrongRatio) {
+           options[i].disabled = true; options[i].style.color = '#475569';
+           if(options[i].selected) options[i].selected = false;
+        } else {
+           options[i].disabled = false; options[i].style.color = '';
+           if(!firstValid) firstValid = options[i];
+           matchCount++;
+        }
+      }
+      
+      if(matchCount === 0) {
+         els.framePreset.value = 'custom';
+         els.customDims.style.display = 'flex';
+      } else if (!els.framePreset.value || els.framePreset.selectedOptions[0].disabled) {
+         els.framePreset.value = firstValid.value;
+         els.customDims.style.display = 'none';
+      }
+      
+      if(els.framePreset.value !== 'custom') {
+         const [w, h] = els.framePreset.value.split('x').map(Number);
+         els.inWidth.value = Math.min(w, h); els.inHeight.value = Math.max(w, h);
+      }
+    }
+
+    function loadFile(file) {
+      if(!file) return;
+      
+      state.fileName = file.name.replace(/\.[^/.]+$/, ""); // strip extension
+      
+      if (state.imgSrc && state.imgSrc.startsWith('blob:')) URL.revokeObjectURL(state.imgSrc);
+      state.imgSrc = URL.createObjectURL(file);
+      els.previewImg.src = state.imgSrc;
+      els.previewImg.style.display = 'block'; els.placeholderText.style.display = 'none';
+      
+      const img = new Image();
+      img.onload = function() {
+         state.imgW_PX = this.width; state.imgH_PX = this.height;
+         const ratio = this.width / this.height;
+         if(ratio > 0.95 && ratio < 1.05) setOrientation('square');
+         else if(this.width > this.height) setOrientation('landscape'); 
+         else setOrientation('portrait');
+         
+         checkDpiAndRatio();
+         calcAndRender();
+      }
+      img.src = state.imgSrc;
+    }
+
+    const paperPresets = [ { name: "A5", w: 148, h: 210 }, { name: "A4", w: 210, h: 297 }, { name: "A3", w: 297, h: 420 }, { name: "A2", w: 420, h: 594 } ];
+    function getBestPaper(w, h) {
+        for(let p of paperPresets) { if ( (w <= p.w && h <= p.h) || (w <= p.h && h <= p.w) ) return p.name + " (" + p.w + "x" + p.h + " mm)"; }
+        return "Benutzerdefiniert (> A2)";
+    }
+
+    async function downloadImage() {
+      const btn = els.btnDownload; const txt = btn.innerText; btn.innerText = "⏳ ...";
+      const isTrans = els.chkTransparent.checked; 
+      // Force hide wall for export to ensure true transparency if requested
+      const oldBgDisp = els.wallBg.style.display;
+      if(isTrans) { els.wallBg.style.display = 'none'; }
+      els.captureContainer.classList.add('no-shadow');
+      
+      const canvas = await html2canvas(els.captureContainer, { backgroundColor: null, scale: 3, logging: false, useCORS: true });
+      
+      els.wallBg.style.display = oldBgDisp; 
+      calcAndRender();
+      
+      const link = document.createElement('a');
+      const {w, h} = getVisualDimensions();
+      link.download = `Mockup_${state.fileName}_${w}x${h}.png`;
+      link.href = canvas.toDataURL('image/png'); link.click();
+      btn.innerText = txt;
+    }
+
+    // --- GENERATE PS SCRIPT ---
+    function downloadPhotoshopScript() {
+      const { w, h } = getVisualDimensions();
+      const targetW_MM = w * 10;
+      const targetH_MM = h * 10;
+      
+      let isCanvas = state.productType === 'canvas';
+      let bleedMM = isCanvas ? 40 : 0; // 4cm umgeschlagen pro Seite bei Leinwand
+      
+      const mode = els.borderMode.value;
+      let topMM = 0, botMM = 0, leftMM = 0, rightMM = 0;
+      if (!isCanvas) {
+        if (mode === 'equal') { const val = parseFloat(els.bTop.value) || 0; topMM = botMM = leftMM = rightMM = val; }
+        else if (mode === 'passepartout') { topMM = parseFloat(els.bTop.value) || 0; leftMM = rightMM = topMM; botMM = parseFloat(els.bBottom.value) || 0; }
+      }
+
+      const scriptContent = `
+#target photoshop
+app.bringToFront();
+
+// --- GENERATED BY MOCKUP CREATOR ---
+var isCanvas = ${isCanvas};
+var targetWidthMM = ${targetW_MM};
+var targetHeightMM = ${targetH_MM};
+var bleedMM = ${bleedMM};
+var borderTopMM = ${topMM};
+var borderBottomMM = ${botMM};
+var borderLeftMM = ${leftMM};
+var borderRightMM = ${rightMM};
+
+var dpi = 300;
+function mmToPx(mm) { return Math.round(mm / 25.4 * dpi); }
+
+try {
+    var papers = [ {name:"A5", w:148, h:210}, {name:"A4", w:210, h:297}, {name:"A3", w:297, h:420}, {name:"A2", w:420, h:594} ];
+    var paperW = 0, paperH = 0, paperName = "Custom";
+    
+    // Auto-detect Paper (if paper is big enough for target + bleed)
+    var reqW = targetWidthMM + (bleedMM*2); 
+    var reqH = targetHeightMM + (bleedMM*2);
+    for(var i=0; i<papers.length; i++) {
+        var p = papers[i];
+        if( (reqW <= p.w && reqH <= p.h) || (reqW <= p.h && reqH <= p.w) ) {
+            paperName = p.name;
+            if(reqW > reqH) { paperW = Math.max(p.w, p.h); paperH = Math.min(p.w, p.h); }
+            else { paperW = Math.min(p.w, p.h); paperH = Math.max(p.w, p.h); }
+            break;
+        }
+    }
+    if(paperW === 0) { paperW = reqW + 30; paperH = reqH + 30; paperName = "Custom Size"; }
+
+    var cutLeftMM = (paperW - targetWidthMM) / 2;
+    var cutTopMM = (paperH - targetHeightMM) / 2;
+    // Wenn Canvas, ist das Motiv der gesamte Target-Bereich
+    var imgLeftMM = isCanvas ? cutLeftMM : cutLeftMM + borderLeftMM;
+    var imgTopMM = isCanvas ? cutTopMM : cutTopMM + borderTopMM;
+    var imgWidthMM = isCanvas ? targetWidthMM : targetWidthMM - (borderLeftMM + borderRightMM);
+    var imgHeightMM = isCanvas ? targetHeightMM : targetHeightMM - (borderTopMM + borderBottomMM);
+
+    var originalRulerUnits = app.preferences.rulerUnits;
+    app.preferences.rulerUnits = Units.PIXELS;
+    
+    var docName = "PrintTemplate_" + targetWidthMM + "x" + targetHeightMM + (isCanvas ? "_Canvas" : "_auf_" + paperName);
+    var doc = app.documents.add(mmToPx(paperW), mmToPx(paperH), dpi, docName, NewDocumentMode.RGB, DocumentFill.WHITE);
+
+    // Front Face Guides
+    doc.guides.add(Direction.VERTICAL, new UnitValue(mmToPx(cutLeftMM), "px"));
+    doc.guides.add(Direction.VERTICAL, new UnitValue(mmToPx(cutLeftMM + targetWidthMM), "px"));
+    doc.guides.add(Direction.HORIZONTAL, new UnitValue(mmToPx(cutTopMM), "px"));
+    doc.guides.add(Direction.HORIZONTAL, new UnitValue(mmToPx(cutTopMM + targetHeightMM), "px"));
+
+    if (isCanvas) {
+      // Bleed Guides (Umschlag)
+      doc.guides.add(Direction.VERTICAL, new UnitValue(mmToPx(cutLeftMM - bleedMM), "px"));
+      doc.guides.add(Direction.VERTICAL, new UnitValue(mmToPx(cutLeftMM + targetWidthMM + bleedMM), "px"));
+      doc.guides.add(Direction.HORIZONTAL, new UnitValue(mmToPx(cutTopMM - bleedMM), "px"));
+      doc.guides.add(Direction.HORIZONTAL, new UnitValue(mmToPx(cutTopMM + targetHeightMM + bleedMM), "px"));
+    }
+
+    // Image Placeholder
+    var layer = doc.artLayers.add();
+    layer.name = "Bildbereich (Fokus)";
+    layer.opacity = 40;
+    var selRegion = [[mmToPx(imgLeftMM), mmToPx(imgTopMM)], [mmToPx(imgLeftMM + imgWidthMM), mmToPx(imgTopMM)], [mmToPx(imgLeftMM + imgWidthMM), mmToPx(imgTopMM + imgHeightMM)], [mmToPx(imgLeftMM), mmToPx(imgTopMM + imgHeightMM)]];
+    doc.selection.select(selRegion);
+    var col = new SolidColor(); col.rgb.hexValue = "00A0FF";
+    doc.selection.fill(col);
+    doc.selection.deselect();
+    
+    if(isCanvas) {
+      // Bleed Background
+      var bLayer = doc.artLayers.add();
+      bLayer.name = "Umschlagkante (Bleed)";
+      bLayer.opacity = 20;
+      var bRegion = [[mmToPx(cutLeftMM-bleedMM), mmToPx(cutTopMM-bleedMM)], [mmToPx(cutLeftMM+targetWidthMM+bleedMM), mmToPx(cutTopMM-bleedMM)], [mmToPx(cutLeftMM+targetWidthMM+bleedMM), mmToPx(cutTopMM+targetHeightMM+bleedMM)], [mmToPx(cutLeftMM-bleedMM), mmToPx(cutTopMM+targetHeightMM+bleedMM)]];
+      doc.selection.select(bRegion);
+      var bCol = new SolidColor(); bCol.rgb.hexValue = "A00000";
+      doc.selection.fill(bCol);
+      doc.selection.deselect();
+    } else {
+      // Cut Frame (Gerahmt)
+      var frameLayer = doc.artLayers.add();
+      frameLayer.name = "Schnittkante (Papier)";
+      var cutRegion = [[mmToPx(cutLeftMM), mmToPx(cutTopMM)], [mmToPx(cutLeftMM + targetWidthMM), mmToPx(cutTopMM)], [mmToPx(cutLeftMM + targetWidthMM), mmToPx(cutTopMM + targetHeightMM)], [mmToPx(cutLeftMM), mmToPx(cutTopMM + targetHeightMM)]];
+      doc.selection.select(cutRegion);
+      var strokeCol = new SolidColor(); strokeCol.rgb.hexValue = "000000";
+      doc.selection.stroke(strokeCol, 1, StrokeLocation.INSIDE);
+      doc.selection.deselect();
+    }
+
+    app.preferences.rulerUnits = originalRulerUnits;
+
+} catch(e) { alert("Fehler: " + e); }
+`;
+      const blob = new Blob([scriptContent], { type: 'text/javascript' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `PS_${state.fileName}_${targetW_MM/10}x${targetH_MM/10}.jsx`;
+      link.click();
+    }
+
+    // --- AI / NANO-BANANA INTEGRATION ---
+    function generatePrompt() {
+      const style = els.aiRoomStyle.value;
+      const { w, h } = getVisualDimensions();
+      const sqCm = w * h;
+      
+      const frameDesc = state.productType === 'canvas' 
+        ? "eine randlose Holz-Leinwand / ein Canvas-Print" 
+        : "ein gerahmtes Bild mit Passepartout";
+        
+      let scaleWord = "Ein mittelgrosses, hängendes";
+      if (sqCm <= 600) scaleWord = "Ein recht kleines, auf einem Regal lehnendes oder hängendes"; // bis 20x30
+      else if (sqCm >= 3000) scaleWord = "Ein riesiges, grossformatiges Galerie-"; // ab 50x60
+        
+      let roomDesc = "";
+      if(style === 'swiss') roomDesc = "modernes Raumdesign im Schweizer Stil, helle Räume, weisser feiner Putz, matt geöltes Fischgrätparkett aus Eiche. Unter dem Bild steht ein weisses USM Haller Sideboard mit chrom. Eine grüne Monstera-Pflanze steht dezent angeschnitten im Raum.";
+      else if(style === 'gallery') roomDesc = "ein minimalistischer, weiter Galerieraum mit glattem, geschliffenem Sichtbetonboden und strahlend weissen Wänden. Das Bild wird von einem subtilen, warmen Halogen-Spotlight von oben beleuchtet.";
+      else if(style === 'midcentury') roomDesc = "ein gemütliches Wohnzimmer im Mid-Century Modern Stil. Ein Sideboard aus dunklem Nussbaumholz steht unter dem Bild, auf dem Boden liegt ein abstrakter Vintage-Teppich. Warme, erdige Farbtöne dominieren den Raum.";
+      else if(style === 'industrial') roomDesc = "ein helles Industrial Loft mit hohen Decken, unverputzter roter Backsteinwand und dunklem Massivholzboden. Grosse Metallgitterfenster lassen seitlich weiches Tageslicht hereinfallen.";
+      else if(style === 'scandi') roomDesc = "ein extrem helles, minimalistisches skandinavisches Wohnzimmer mit weiss geseifter Holzdielung. Viel natürliches, weiches Tageslicht flutet den Raum. Dekoriert mit hellen Leinenstoffen und trockenen Gräsern in einer dezenten Keramikvase.";
+      
+      const prompt = `Erstelle ein fotorealistisches Interior-Mockup. 
+${scaleWord} Bild (${frameDesc}, ${w}x${h}cm) hängt/steht exakt mittig. 
+WICHTIG (Image-to-Image / ControlNet): Verändere NIEMALS den Inhalt, den Rahmen oder das Passepartout des als Input übergebenen Bildes. 
+Umgebung: Es ist ein ${roomDesc} 
+Licht: Realistischer, weicher Schattenwurf des Objekts auf die Wand. 8k, photorealistic, Archviz.`;
+
+      if (els.aiPromptOutput) els.aiPromptOutput.value = prompt;
+    }
+    
+    // Call generate prompt whenever dimensions change to keep it updated
+    const originalCalcRender = calcAndRender;
+    calcAndRender = function() {
+      originalCalcRender();
+      generatePrompt();
+    };
+
+    function copyPromptToClipboard() {
+      if(!state.imgSrc) {
+        alert("Bitte zuerst ein Bild hochladen!");
+        return;
+      }
+      navigator.clipboard.writeText(els.aiPromptOutput.value).then(() => {
+        els.aiLoading.style.display = 'block';
+        setTimeout(() => { els.aiLoading.style.display = 'none'; }, 2500);
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>

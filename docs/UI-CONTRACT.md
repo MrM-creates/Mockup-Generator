@@ -1,0 +1,23 @@
+# Print Studio: UI-Vertrag
+
+## Zweck und Zielgruppe
+Ein lokales Werkzeug für Fotografen und Bildgestalter: vollständige Motive auf dem automatisch empfohlenen Papier mit freiem Rand simulieren und identisch für Photoshop vorbereiten. Kernaufgabe: Bild laden, Gestaltung am Bild beurteilen, Script herunterladen.
+
+## Struktur und Layout
+Eine Arbeitsfläche ohne Navigation: Vorschau mit Upload und direkter Bildskalierung; Inspektor mit Format, Rand, optionalem Rahmen; Export. Der stabile Kopf enthält Marke und genau eine primäre Aktion „Photoshop-Script laden“. PNG, Anleitung und Mockup-Prompt sind sekundär. Der Fuss enthält Herkunft und keinen weiteren Aufruf.
+
+Desktop: grosse Vorschau links, 336 px breiter Inspektor rechts. Tablet: schmalerer Inspektor, weiterhin Sichtkontakt zur Vorschau. Unter 800 px: Vorschau zuerst, danach Einstellungen, kompakter stabiler Kopf. Keine verschachtelten Karten. Vorschau bleibt auf grossen Bildschirmen beim Einstellen sichtbar.
+
+## Copy und Bedienung
+Kurze deutsche Begriffe: „Format“, „Rand“, „Rahmen“, „Bild wechseln“. Papierwahl und tatsächliches Ergebnis unterscheiden: Format bestimmt die Papierempfehlung, tatsächliche Bildfläche und Ränder stehen am Bild. Rahmen verändert nur die Simulation. „Ohne Rand“ bedeutet kein erzwungener Mindestrand; das ganze Bild bleibt erhalten. Fehler nennen Ursache und Lösung, z. B. „Der Rand lässt keinen Platz für das Bild. Bitte verkleinern.“
+
+Ein Bild wird direkt auf die Vorschau gezogen oder dort per Klick ausgewählt. Ein geladener Print hat Eckgriffe zum proportionalen Skalieren um die Bildmitte; weder Bildinhalt noch Seitenverhältnis werden geändert. Ein Regler ist die zugängliche Alternative. 100 % entspricht der maximalen unbeschnittenen Einpassung innerhalb der Mindestränder; 10–100 % ist die zulässige Skala. „Papier optimal nutzen“ setzt auf 100 % zurück. Änderungen an Papierformat oder Rand setzen die manuelle Skala zurück; Rahmendarstellung verändert sie nicht.
+
+## Design
+Basis: Flider `modern/D-04` (Hintergrund #F5F5F7, Text #1D1D1F) mit dem Blau aus `modern/D-01` (#007AFF), Radius 8/12/16 px und Flider-Abständen 8/12/16/24/40 px. Systemschrift `-apple-system, BlinkMacSystemFont, ...` entspricht dem gewünschten Apple-Stil. Weiss für Arbeitsflächen, neutrales Grau für die Bühne, feine Trennlinien, geringe Schatten nur zur räumlichen Orientierung. Bestehende Rahmenmaterialien bleiben erhalten. Keine dekorativen Hero-Bereiche oder Illustrationen; das eigene Motiv ist der visuelle Schwerpunkt.
+
+## Interaktion und Zugänglichkeit
+Zwei funktionale Bewegungen: direkte proportionale Skalierung mit Live-Massen; kurze Zustandswechsel bei Schaltern und Fokus/Hover. Kein zeitverzögertes Nachlaufen während des Ziehens. Reduced-motion wird respektiert. Native Inputs, beschriftete Felder, Tastatur-Upload, sichtbarer Fokus, `aria-pressed` für Auswahlbuttons, Live-Status für Datei- und Eingabefehler. Eckgriffe sind per Pfeiltasten bedienbar; Prozentregler bietet dieselbe Funktion. Mindesttrefferfläche 40–44 px für Hauptbedienelemente. Zahlen nutzen tabellarische Ziffern und deutsche Dezimalkommas.
+
+## Prüfung
+Die bestehende geometrische Prüfung bleibt verbindlich. Ergänzungen prüfen Skalierung, zentrierte Bildplatzierung, Randrücksetzung und Exportgleichheit. Sichtprüfung am bereits vom Nutzer geöffneten lokalen Chrome-Tab, inklusive Upload, Rand, Rahmen und manueller Bildgrösse. V14 wird auf ausdrücklichen Nutzerauftrag über den bestehenden GitHub-Hauptzweig und das bestehende Vercel-Projekt veröffentlicht. Originalbilder bleiben ausschliesslich lokal und im persönlichen JSX-Download.
