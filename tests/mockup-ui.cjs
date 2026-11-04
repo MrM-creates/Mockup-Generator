@@ -39,24 +39,21 @@ test('local room upload and calibrated physical placement never change or transm
  near((framed[1].x-framed[0].x)*2000,430);near((framed[3].y-framed[0].y)*1500,530);
  assert.equal(JSON.stringify(run('getPrintLayout()')),before);
 });
-test('consent and code gate AI; only a re-encoded room background can leave the browser',async()=>{
- const s=setup(),{run,make,network,canvases}=s;run("loadRoomFile({type:'image/png',size:200});room.ready=true;renderRoom()");
- await run('generateRoom()');assert.equal(network.length,0,'upload cleared consent');
+test('virtual generation requires code and consent and sends no artwork or room photo',async()=>{
+ const {run,make,network,setFetch}=setup();setFetch(async()=>new Response(JSON.stringify({image:jpeg,remaining:8,limit:10})));
+ run("roomEl('roomConsent').checked=false;renderRoom()");await run('generateRoom()');assert.equal(network.length,0);
  run("roomEl('roomConsent').checked=true;roomEl('roomAccessCode').value='short';renderRoom()");await run('generateRoom()');assert.equal(network.length,0);
  run("roomEl('roomAccessCode').value='local-test-access-code';renderRoom()");await run('generateRoom()');assert.equal(network.length,1);
- const payload=JSON.parse(network[0].options.body);assert.equal(payload.room,jpeg);assert.equal(payload.mode,'own');assert.equal(payload.consent,true);
- assert.ok(!JSON.stringify(payload).includes('original-artwork'));assert.ok(!JSON.stringify(payload).includes('private-original'));
- const copy=canvases.find(c=>c.encoded);assert.equal(copy.draws.length,1);assert.equal(copy.draws[0][0],run('room.own.image'));assert.notEqual(copy.draws[0][0],make('previewImg'));
- assert.equal(run('room.own.calibrated'),false);assert.ok(make('roomServiceNote').innerText.includes('8 von 10'));
+ const payload=JSON.parse(network[0].options.body);assert.equal(payload.mode,'virtual');assert.equal(payload.room,undefined);assert.equal(payload.consent,true);
+ assert.ok(!JSON.stringify(payload).includes('original-artwork'));assert.ok(!JSON.stringify(payload).includes('private-original'));assert.ok(run('room.virtual'));assert.ok(make('roomServiceNote').innerText.includes('8 von 10'));
 });
-test('a cancelled/stale AI reply never overwrites a newly selected room or mode',async()=>{
- const {run,setFetch,network}=setup();run("loadRoomFile({type:'image/jpeg',size:100});room.ready=true;roomEl('roomConsent').checked=true;renderRoom()");
+test('switching to an own photo cancels virtual generation and ignores the stale reply',async()=>{
+ const {run,setFetch,network}=setup();run("room.virtual=roomNewScene(new Image(),'virtual-before');renderRoom()");
  let resolve;setFetch(()=>new Promise(r=>{resolve=r;}));const pending=run('generateRoom()');assert.equal(network.length,1);
- const center=run('room.own.center.x'),stage=run("roomEl('roomStage')");
- stage.events.keydown({key:'ArrowRight',target:{dataset:{}},preventDefault(){}});near(run('room.own.center.x'),center);assert.equal(run("roomEl('btnRoomMeasure').disabled"),true);
- run("setRoomMode('virtual')");assert.equal(network[0].options.signal.aborted,true);
- resolve(new Response(JSON.stringify({quad:[{x:.1,y:.1},{x:.9,y:.1},{x:.9,y:.9},{x:.1,y:.9}],remaining:7,limit:10})));await pending;
- assert.equal(run('room.mode'),'virtual');assert.equal(run('room.virtual'),null);assert.equal(run('room.own.quad[0].x'),0);
+ const center=run('room.virtual.center.x'),stage=run("roomEl('roomStage')");stage.events.keydown({key:'ArrowRight',target:{dataset:{}},preventDefault(){}});near(run('room.virtual.center.x'),center);
+ run("setRoomMode('own')");assert.equal(network[0].options.signal.aborted,true);
+ resolve(new Response(JSON.stringify({image:jpeg,remaining:7,limit:10})));await pending;
+ assert.equal(run('room.mode'),'own');assert.equal(run('room.virtual.url'),'virtual-before');assert.equal(run('room.own'),null);
 });
 test('keyboard/scale/calibration updates are local; PNG excludes interface guides',()=>{
  const {run,make,network}=setup();run("loadRoomFile({type:'image/jpeg',size:100})");const before=JSON.stringify(run('getPrintLayout()')),x=run('room.own.center.x');
@@ -102,7 +99,7 @@ test('HEIC failures retain the previous room and stale conversion cannot reopen 
  run("roomConvertHeic=async()=>{throw Error('decode');};loadRoomFile({type:'image/heic',size:100})");await new Promise(resolve=>setImmediate(resolve));
  assert.equal(run('room.own'),previous);assert.match(make('roomStatus').innerText,/konnte nicht vorbereitet/);
  run("var finishHeic;roomConvertHeic=()=>new Promise(resolve=>finishHeic=resolve);loadRoomFile({type:'image/heic',size:100});setRoomMode('virtual');finishHeic(new Blob(['jpeg'],{type:'image/jpeg'}))");await new Promise(resolve=>setImmediate(resolve));
- assert.equal(run('room.mode'),'virtual');assert.equal(run('room.own'),previous);assert.equal(network.length,0);
+ assert.equal(run('room.mode'),'virtual');assert.equal(run('room.own'),previous);assert.ok(network.every(call=>!call.options?.body),'a switch to virtual may fetch metadata, never a room photo');
  run("setRoomMode('own');loadRoomFile({type:'image/heic',size:100});roomEl('btnDoneRoom').events.click();finishHeic(new Blob(['jpeg'],{type:'image/jpeg'}))");await new Promise(resolve=>setImmediate(resolve));assert.equal(run('room.own'),previous);assert.equal(make('roomDialog').open,false);
 });
 test('wall measurements show field guidance and enable apply only for two valid physical values',()=>{
@@ -113,31 +110,16 @@ test('wall measurements show field guidance and enable apply only for two valid 
  make('roomWallHeight').value='150.5';make('roomWallHeight').events.input();assert.equal(make('btnApplyRoomMeasure').disabled,false);assert.equal(make('roomWallHeight').attributes['aria-invalid'],'false');
  run('applyRoomMeasure()');assert.equal(run('room.own.planeH'),1505);assert.equal(run('room.own.calibrated'),true);
 });
-test('object marking has keyboard and pointer paths, separate consent and no automatic network',()=>{
- const {run,make,network}=setup();run("loadRoomFile({type:'image/png',size:10});room.ready=true;roomToggleRemoval();roomAddRegion()");
- assert.equal(make('roomStage').focused,true);assert.equal(run('room.removing'),true);assert.equal(make('btnRemoveRoomObjects').disabled,true);
- const stage=make('roomStage'),x=run('room.regions[0].x'),width=run('room.regions[0].width');
- const key=(key,shiftKey=false)=>stage.events.keydown({key,shiftKey,target:{dataset:{}},preventDefault(){},stopPropagation(){}});
- key('ArrowRight');near(run('room.regions[0].x'),x+.01);key('ArrowRight',true);near(run('room.regions[0].width'),width+.05);
- run("roomEl('roomRemoveConsent').checked=true;renderRoom()");assert.equal(make('btnRemoveRoomObjects').disabled,false);key('ArrowDown');assert.equal(make('roomRemoveConsent').checked,false);
- const pointer=(x,y)=>({button:0,clientX:x,clientY:y,pointerId:1,target:{dataset:{}},preventDefault(){}});
- stage.events.pointerdown(pointer(300,200));stage.events.pointermove(pointer(420,300));stage.events.pointerup();assert.equal(run('room.regions.length'),2);near(run('room.regions[1].width'),.2);near(run('room.regions[1].height'),.25);
- key('Delete');assert.equal(run('room.regions.length'),1);key('Escape');assert.equal(run('room.removing'),false);assert.equal(network.length,0);
+test('own-photo placement and reopen work without network, code or AI controls',async()=>{
+ const {run,make,network}=setup();run("loadRoomFile({type:'image/png',size:10});roomEl('roomAccessCode').value='';roomEl('roomConsent').checked=false;roomEl('roomDialog').open=false");
+ await run('openRoom()');assert.equal(network.length,0);assert.equal(make('roomGeneration').hidden,true);assert.equal(make('btnSaveRoom').disabled,false);assert.equal(make('btnGenerateRoom').disabled,true);
+ run("roomEl('btnGenerateRoom').disabled=false");await run('generateRoom()');assert.equal(network.length,0,'own mode cannot invoke the provider even through a stale control');
+ for(const name of ['roomCleanup','roomCompare','roomRemoveConsent','btnRemoveRoomObjects'])assert.ok(!html.includes('id="'+name+'"'));
+ assert.ok(!source.includes('roomPhotoForAI'));assert.ok(!source.includes('removeRoomObjects'));
 });
-test('only background/marked regions are sent for removal; compare/reset keep calibration, position and print',async()=>{
- const {run,make,network,canvases,setFetch}=setup();run("loadRoomFile({type:'image/png',size:10});beginRoomMeasure();roomEl('roomWallWidth').value=200;roomEl('roomWallHeight').value=150;applyRoomMeasure();roomAddRegion();room.ready=true;roomEl('roomRemoveConsent').checked=true;renderRoom();roomImage=async()=>({width:1536,height:960})");
- const before=JSON.stringify(run('getPrintLayout()')),position=JSON.stringify(run('room.own.center')),quad=JSON.stringify(run('room.own.quad'));
- setFetch(async()=>new Response(JSON.stringify({image:'data:image/jpeg;base64,test',remaining:6,limit:10})));
- await run('removeRoomObjects()');
- assert.ok(run('room.own.edited'));const payload=JSON.parse(network[0].options.body);assert.equal(payload.mode,'remove');assert.equal(payload.editConsent,true);assert.equal(payload.room,jpeg);assert.ok(!JSON.stringify(payload).includes('original-artwork'));
- const prepared=canvases.find(c=>c.encoded);assert.equal(prepared.draws.length,1);assert.equal(prepared.draws[0][0],run('room.own.image'));
- const composite=run('room.own.edited');assert.ok(composite.commands.some(c=>c[0]==='clip'));assert.ok(composite.commands.some(c=>c[0]==='rect'));
- run('roomCompareOriginal(true)');assert.equal(run('roomBackground(room.own)'),run('room.own.image'));
- run('roomCompareOriginal(false)');assert.equal(run('roomBackground(room.own)'),composite);
- run('roomResetEdit()');assert.equal(run('room.own.edited'),null);assert.equal(JSON.stringify(run('room.own.center')),position);assert.equal(JSON.stringify(run('room.own.quad')),quad);assert.equal(run('room.own.calibrated'),true);assert.equal(JSON.stringify(run('getPrintLayout()')),before);
-});
-test('failed or stale object removal leaves the photo and original intact',async()=>{
- const {run,setFetch}=setup();run("loadRoomFile({type:'image/png',size:10});roomAddRegion();room.ready=true;roomEl('roomRemoveConsent').checked=true;renderRoom()");const original=run('room.own.image');
- setFetch(async()=>new Response(JSON.stringify({error:'no result'}),{status:502}));await run('removeRoomObjects()');assert.equal(run('room.own.edited'),undefined);assert.equal(run('room.own.image'),original);
- let resolve;setFetch(()=>new Promise(r=>resolve=r));const pending=run('removeRoomObjects()');run("setRoomMode('virtual')");resolve(new Response(JSON.stringify({image:'data:image/jpeg;base64,test'})));await pending;assert.equal(run('room.mode'),'virtual');assert.equal(run('room.own.edited'),undefined);
+test('centering changes only position and retains known wall dimensions and print geometry',()=>{
+ const {run,make,network}=setup();run("loadRoomFile({type:'image/png',size:10});beginRoomMeasure();roomEl('roomWallWidth').value=200;roomEl('roomWallHeight').value=150;applyRoomMeasure();room.own.center={x:.7,y:.3}");
+ const before=JSON.stringify(run('getPrintLayout()')),quad=JSON.stringify(run('room.own.quad'));
+ make('btnCenterRoom').events.click();near(run('room.own.center.x'),.5);near(run('room.own.center.y'),.5);
+ assert.equal(run('room.own.planeW'),2000);assert.equal(run('room.own.planeH'),1500);assert.equal(run('room.own.calibrated'),true);assert.equal(JSON.stringify(run('room.own.quad')),quad);assert.equal(JSON.stringify(run('getPrintLayout()')),before);assert.equal(network.length,0);
 });

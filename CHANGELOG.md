@@ -1,5 +1,12 @@
 # Änderungen
 
+## V14.8.0 · 04.11.2026
+
+- Objektentfernung vorerst vollständig aus Oberfläche und API entfernt. Auch die KI-Platzierungssuche für eigene Fotos entfällt. Bestehende Foto-KI-Aufrufe aus alten Clients werden vor Quotenreservierung oder Anbieteraufruf zurückgewiesen.
+- Klare Aufteilung: virtuelle Zimmer weiterhin mit KI erzeugen; eigene Fotos ausschliesslich lokal zum Platzieren des Prints verwenden. Im eigenen Modus sind Zugangscode, KI-Zustimmung und Serverstatus ausgeblendet.
+- Einfache Bedienung: Zimmerfoto laden/ziehen/einfügen, Print verschieben, Ansichtsgrösse einstellen, optional Wandmassstab festlegen und PNG sichern. Der PNG-Export ist im eigenen Foto die Hauptaktion. «Print zentrieren» verändert nur die Position.
+- HEIC-Vorbereitung, lokale Dateidaten, Originalmotiv, Druckgeometrie und Photoshop-Export bleiben erhalten. Desktop/Mobil, lokale Bedienung ohne Netzwerk, virtuelle Erzeugung und serverseitige Ablehnung der früheren Foto-Modi werden geprüft.
+
 ## V14.7.0 · 04.11.2026
 
 - Optionale Objektentfernung im eigenen Raum: gezielt bis zu acht Bereiche markieren, per Maus/Touch oder mit Tastaturhilfe. Bestehende Bilder bleiben standardmässig erhalten. Eigene Einwilligung und Zugangscode vor jedem bewusst gestarteten KI-Aufruf.

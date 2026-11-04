@@ -1,4 +1,4 @@
-# Print Studio V14.7.0
+# Print Studio V14.8.0
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 
@@ -12,11 +12,11 @@ Die helle Oberfläche folgt den lokalen Vorgaben aus `app-ui-foundation`, `flide
 - **Bildgrösse:** An einer Bildecke ziehen oder den Prozentregler verwenden. 100 % ist die maximale unbeschnittene Einpassung innerhalb der eingestellten Mindestränder; 10–100 % sind möglich. Proportionen und Bildmitte bleiben erhalten. Die tatsächlichen Ränder und die Druckauflösung aktualisieren sich live. Pfeiltasten am Eckgriff ändern die Grösse; Home/End wählen Minimum/Maximum.
 - **Zurück zur maximalen Grösse:** „Bild maximal einpassen“ beim Endmass bzw. „Papier optimal nutzen“ beim ganzen Papier. Beide behalten den Modus. Neue Format-, Ausrichtungs- und Randeinstellungen setzen die manuelle Verkleinerung auf 100 % zurück. Rahmen und Randfarbe ändern die Druckgrösse nicht.
 - **Export:** „Photoshop-Script laden“ ist die Hauptaktion. PNG-Export und Photoshop-Hilfe stehen im Menü mit den drei Punkten. Das PNG zeigt die gewählte Ansicht; Eckgriffe und Papierrest-Schraffur werden nicht exportiert. Die manuelle Bildgrösse geht direkt in die gemeinsame Berechnung für das Script ein.
-- **Mockup im Raum:** Im Inspektor „Mockup öffnen“. Ein virtuelles Zimmer erzeugen oder ein eigenes Zimmerfoto direkt in die Raumvorschau ziehen. Eigene Fotos lassen sich sofort ohne KI verwenden. Der Zugangscode schützt nur kostenpflichtige KI-Aktionen; die Druck-App bleibt frei zugänglich.
+- **Mockup im Raum:** Im Inspektor „Mockup öffnen“. Ein virtuelles Zimmer erzeugen oder ein eigenes Zimmerfoto direkt in die Raumvorschau ziehen. Eigene Fotos werden ausschliesslich lokal platziert. Der Zugangscode schützt nur die virtuelle Zimmererzeugung; die Druck-App bleibt frei zugänglich.
 
 ## Mockup im Raum
 
-Das vollständige Motiv, der eingestellte Rand und der optionale Rahmen werden lokal aus derselben Druckberechnung in den Raum eingesetzt. Die KI erhält das Originalmotiv nie. Sol 6.1 und GPT Image 2.5 Sunburst erzeugen virtuelle Zimmer; beim eigenen Zimmerfoto analysiert Sol 6.1 nach ausdrücklicher Zustimmung eine verkleinerte, neu codierte Kopie und schlägt eine freie Wandfläche vor. Das eigene Zimmerfoto wird dabei nicht neu gezeichnet. Manuelle Bedienung und Gestaltungsänderungen starten keine KI-Aufrufe.
+Das vollständige Motiv, der eingestellte Rand und der optionale Rahmen werden lokal aus derselben Druckberechnung in den Raum eingesetzt. Die KI erhält das Originalmotiv nie. Sol 6.1 und GPT Image 2.5 Sunburst erzeugen virtuelle Zimmer. Eigene Zimmerfotos werden ausschliesslich lokal für die Printplatzierung verwendet; es gibt weder Objektentfernung noch KI-Platzierungssuche. Für eigene Fotos sind kein Zugangscode und keine KI-Zustimmung nötig. Manuelle Bedienung und Gestaltungsänderungen starten keine KI-Aufrufe.
 
 Print mit der Maus ziehen oder mit Pfeiltasten verschieben. „Grösse in der Ansicht“ verändert die geschätzte Raumdarstellung, nicht die Druckmasse. Für eine Grössenreferenz unter „Massstab festlegen“ die vier Ecken einer bekannten rechteckigen Wandfläche markieren und deren tatsächliche Breite/Höhe eingeben. Die Genauigkeit hängt von diesen Angaben und der ebenen Wandfläche ab. Ohne bekannte Masse ist die Darstellung ausdrücklich eine Schätzung.
 
@@ -97,7 +97,7 @@ Prüft 3.960 Kombinationen in beiden Print-Modi und für Leinwand aus allen neun
 
 ## Originalbild im Script
 
-Ein geladenes Original wird unverändert in das heruntergeladene JSX eingebettet. Es wird weder komprimiert noch neu als Bildschirmvorschau gerastert. Die Datei ist dadurch ungefähr ein Drittel grösser als das Original. Die Druckfunktion lädt keine Bilder zu einem Server hoch. Nur ausdrücklich gestartete KI-Raumfunktionen dürfen nach eigener Zustimmung eine verkleinerte Zimmerkopie verarbeiten. Photoshop rekonstruiert das Bild kurz im lokalen temporären Ordner, platziert es als eingebettetes Smartobjekt und entfernt die temporäre Datei danach. Ein Export ohne geladenes Bild bleibt als leere Vorlage mit optionaler Dateiauswahl möglich.
+Ein geladenes Original wird unverändert in das heruntergeladene JSX eingebettet. Es wird weder komprimiert noch neu als Bildschirmvorschau gerastert. Die Datei ist dadurch ungefähr ein Drittel grösser als das Original. Die Druckfunktion lädt keine Bilder zu einem Server hoch. Die virtuelle Zimmererzeugung erhält ausschliesslich Stil und Printmasse. Eigene Zimmerfotos bleiben lokal. Photoshop rekonstruiert das Bild kurz im lokalen temporären Ordner, platziert es als eingebettetes Smartobjekt und entfernt die temporäre Datei danach. Ein Export ohne geladenes Bild bleibt als leere Vorlage mit optionaler Dateiauswahl möglich.
 
 ## Druck-Info
 
@@ -121,8 +121,8 @@ V14.1: Die Auflösungsberechnung wird für alle 2.640 Layoutkombinationen mitgep
 
 V14.4 wurde in Chrome auf Desktop und bei 390 × 844 px visuell geprüft: sichtbare Endmass-Auswahl, 40 × 50 cm, ohne Rand, A2 sowie getrennte Angaben für Papier/Endmass/Bildfläche/Ränder. Der echte Browserdownload enthält das synthetische 800 × 1.000 px 4:5-Original bytegenau. Native Photoshop-Prüfung: Dokument `PrintTemplate_400x500_auf_A2`, eingebettetes vollständiges Smartobjekt, 10 mm seitlicher und 47 mm oberer/unterer Papierüberschuss; acht sichtbare schwarze Schnittmarken ausserhalb des Endmasses. Nicht druckende Hilfslinien wurden für die Sichtprüfung ausgeblendet und danach wiederhergestellt; das eigene Testdokument wurde ohne Speichern geschlossen. Das Download-Dateiformat nennt jetzt das Endmass und bei ausgeschaltetem Rand korrekt 0 mm.
 
-## Eigenes Zimmer: Objekte und Wandmasse
+## Eigenes Zimmer: Print platzieren und Massstab festlegen
 
-Bestehende Bilder und Einrichtung bleiben zunächst vollständig erhalten. Unter «Objekte entfernen · optional» können ein bis acht einzelne Bereiche inklusive Rahmen und Schatten markiert werden. Ziehen funktioniert mit Maus und Touch; «Bereich hinzufügen», Bereichsauswahl und Pfeiltasten bieten eine Tastaturalternative. Umschalt+Pfeiltasten ändern die Grösse. Erst eine eigene ausdrückliche Einwilligung, Zugangscode und Klick starten die kostenpflichtige KI-Bearbeitung. Nur eine neu codierte Kopie des Raumhintergrunds und die Markierungen werden übertragen. Der Print wird nie mitgesendet. Aus der KI-Ausgabe übernimmt die App nur die markierten Flächen. «Original» / «Bearbeitet» vergleichen den Hintergrund; «Bearbeitung zurücksetzen» stellt das ursprüngliche Zimmerfoto wieder her. Printposition und Referenzmasse bleiben dabei erhalten.
+Foto in die Raumvorschau ziehen, auswählen oder mit ⌘V einfügen. JPEG, PNG, WebP, AVIF und HEIC/HEIF werden lokal verarbeitet. Danach den Print mit Maus oder Pfeiltasten verschieben, seine «Grösse in der Ansicht» einstellen und das Mockup als PNG sichern. «Print zentrieren» setzt nur die Position zurück. Die vorhandene Einrichtung bleibt im Foto. Vorbereitende Retuschen erfolgen bei Bedarf im eigenen Bildwerkzeug; Print Studio bietet keine Objektentfernung an.
 
-«Massstab festlegen» benötigt eine markierte rechteckige Wandfläche sowie deren tatsächlich gemessene Breite und Höhe. Die grauen Beispielwerte sind keine Eingaben. Fehlende, zu kleine oder ungültige Angaben werden direkt an den Feldern erklärt. «Massstab anwenden» ist erst mit einer gültigen Fläche und zwei geeigneten Massen aktiv.
+«Massstab festlegen» benötigt eine markierte rechteckige Wandfläche sowie deren tatsächlich gemessene Breite und Höhe. Die grauen Beispielwerte sind keine Eingaben. Fehlende, zu kleine oder ungültige Angaben werden direkt an den Feldern erklärt. «Massstab anwenden» ist erst mit einer gültigen Fläche und zwei geeigneten Massen aktiv. Ohne Referenzmasse ist die Grössenwirkung geschätzt. Die Bedienung ändert weder Printformat noch Photoshop-Geometrie.
