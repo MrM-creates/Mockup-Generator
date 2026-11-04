@@ -1,4 +1,4 @@
-# Print Studio V14.4.2
+# Print Studio V14.5.0
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 
@@ -7,10 +7,11 @@
 Die helle Oberfläche folgt den lokalen Vorgaben aus `app-ui-foundation`, `flider-ui-system` und `frontend-skill`; Struktur und Designentscheidungen stehen in `docs/UI-CONTRACT.md`.
 
 - **Bildfläche:** Bild direkt auf die Vorschau ziehen oder dort auswählen. „Bild wechseln“ ersetzt es. Ungültige Dateien lassen das bisherige Motiv stehen und zeigen eine verständliche Meldung.
+- **Vorschau:** „Fertiger Print“ zeigt das Ergebnis nach dem Schneiden, auf Wunsch mit Rahmen. „Druckbogen“ zeigt das gesamte Papier mit denselben Schnittmarken wie Photoshop. Die Schraffur kennzeichnet den Papierrest und dient nur der Vorschau. Die Ansicht ändert keine Druckmasse.
 - **Inspektor:** „Fertiges Endmass“ oder „Papier ausnutzen“, Format, Rand und Rahmen stehen zusammen rechts; auf schmalen Bildschirmen unter der Vorschau. Rahmenmaterial und Breite erscheinen erst beim Einschalten des Rahmens. Weitere Randvorlagen und der Mockup-Prompt sind eingeklappt.
 - **Bildgrösse:** An einer Bildecke ziehen oder den Prozentregler verwenden. 100 % ist die maximale unbeschnittene Einpassung innerhalb der eingestellten Mindestränder; 10–100 % sind möglich. Proportionen und Bildmitte bleiben erhalten. Die tatsächlichen Ränder und die Druckauflösung aktualisieren sich live. Pfeiltasten am Eckgriff ändern die Grösse; Home/End wählen Minimum/Maximum.
 - **Zurück zur maximalen Grösse:** „Bild maximal einpassen“ beim Endmass bzw. „Papier optimal nutzen“ beim ganzen Papier. Beide behalten den Modus. Neue Format-, Ausrichtungs- und Randeinstellungen setzen die manuelle Verkleinerung auf 100 % zurück. Rahmen und Randfarbe ändern die Druckgrösse nicht.
-- **Export:** „Photoshop-Script laden“ ist die Hauptaktion. PNG-Export und Photoshop-Hilfe stehen im Menü mit den drei Punkten. Eckgriffe werden nicht in die PNG-Vorschau exportiert. Die manuelle Bildgrösse geht direkt in die gemeinsame Berechnung für das Script ein.
+- **Export:** „Photoshop-Script laden“ ist die Hauptaktion. PNG-Export und Photoshop-Hilfe stehen im Menü mit den drei Punkten. Das PNG zeigt die gewählte Ansicht; Eckgriffe und Papierrest-Schraffur werden nicht exportiert. Die manuelle Bildgrösse geht direkt in die gemeinsame Berechnung für das Script ein.
 
 ## Ganzes Motiv und frei wählbare Ränder
 

@@ -138,6 +138,54 @@ run("state.orientation='portrait';els.inWidth.value=42;els.inHeight.value=59.4;e
 exact=execute();assert.equal(exact.ps.cropMarkRects,undefined);
 assert.ok(element('printInfo').innerText.includes('kein Zuschnitt nötig'));
 console.log('PASS finished end size: 40 × 50 cm on A2 with exact eight marks, internal borders, original ratios, visible dimensions, frame invariance, explicit modes, scale reset and product transitions.');
+// Preview modes show the same job, with the complete sheet and exact exported marks.
+assert.equal(run('state.previewMode'),'print');
+function previewMarks() {
+  return [...element('sheetMarks').innerHTML.matchAll(/<rect x="([^"]+)" y="([^"]+)" width="([^"]+)" height="([^"]+)"/g)]
+    .map(([,x,y,w,h])=>[+x,+y,+x+(+w),+y+(+h)]);
+}
+run("state.imgSrc='blob:preview';state.imgW_PX=4000;state.imgH_PX=3000;state.orientation='landscape';state.fitToFormat=true;els.inWidth.value=40;els.inHeight.value=30;els.borderMode.value='equal';els.bTop.value=10;state.userScale=.8;state.showFrame=true");
+const finished=execute(true,4000,3000), job=JSON.stringify(finished.layout), qualityBefore=run('getPrintQuality(getPrintLayout()).effectivePpi');
+assert.equal(element('sheetMarks').hidden,true);
+element('btnPreviewSheet').events.click();
+const sheet=execute(true,4000,3000);
+assert.equal(JSON.stringify(sheet.layout),job);
+assert.equal(sheet.script,finished.script,'the display choice must never change the Photoshop job');
+assert.equal(run('state.showFrame'),true);
+assert.equal(element('btnPreviewSheet').attributes['aria-pressed'],'true');
+assert.equal(element('btnPreviewPrint').attributes['aria-pressed'],'false');
+assert.ok(element('frameOuter').className.includes('is-sheet'));
+near(parseFloat(element('frameOuter').style.padding),0);
+let previewScale=parseFloat(element('frameInner').style.width)/400;
+near(parseFloat(element('frameOuter').style.width)/previewScale,594);
+near(parseFloat(element('frameOuter').style.height)/previewScale,420);
+assert.equal(element('sheetMarks').hidden,false);
+assert.ok(element('sheetOffcut').innerHTML.includes('offcutHatch'));
+assert.ok(element('previewHelp').innerText.includes('nur Vorschau'));
+assert.ok(html.includes('id="sheetOffcut" class="sheet-overlay" data-html2canvas-ignore="true"'),'offcut hatching must never enter the PNG');
+assert.equal(previewMarks().length,8);
+previewMarks().forEach((rect,i)=>rect.forEach((v,j)=>near(v,sheet.ps.cropMarkRects[i][j])));
+near(run('getPrintQuality(getPrintLayout()).effectivePpi'),qualityBefore);
+// Scaling and keyboard interaction still work on the sheet without changing its size.
+handles[3].events.keydown({key:'ArrowLeft',preventDefault(){},stopPropagation(){}});
+near(run('state.userScale'),.79);
+near(run('getPrintLayout().width'),400);
+near(parseFloat(element('frameOuter').style.width)/ (parseFloat(element('frameInner').style.width)/400),594);
+element('btnPreviewPrint').events.click();
+assert.equal(element('sheetMarks').hidden,true);assert.equal(element('sheetMarks').innerHTML,'');
+assert.equal(element('sheetOffcut').hidden,true);
+assert.ok(!element('frameOuter').className.includes('is-print'),'the selected frame reappears');
+near(run('state.userScale'),.79);
+element('btnPreviewSheet').events.click();
+products[1].events.click();assert.equal(element('previewControls').hidden,true);assert.equal(element('sheetMarks').hidden,true);
+products[0].events.click();assert.equal(run('state.previewMode'),'sheet');assert.equal(element('previewControls').hidden,false);
+run("state.fitToFormat=false;calcAndRender()");
+assert.equal(previewMarks().length,0);assert.equal(element('sheetOffcut').innerHTML,'');
+assert.ok(element('previewHelp').innerText.includes('Kein Papierrest'));
+run("state.fitToFormat=true;els.bTop.value=500;calcAndRender()");
+assert.equal(element('sheetMarks').hidden,true);assert.equal(element('sheetOffcut').hidden,true);assert.ok(element('previewHelp').innerText.includes('verkleinern'));
+run("state.previewMode='print';state.showFrame=false;els.showFrame.checked=false");
+console.log('PASS preview switch: 40 × 30 cm on full A2, unchanged job/quality, matching crop marks, preview-only offcut, frame restoration, live scaling, canvas, whole sheet and invalid borders.');
 // Existing paper-utilisation behaviour remains available explicitly.
 run("state.fitToFormat=false;state.orientation='portrait';state.imgSrc=null;state.imgW_PX=0;state.imgH_PX=0;els.inWidth.value=30;els.inHeight.value=40;els.borderMode.value='equal';els.bTop.value=10;state.userScale=1");
 let result=execute(true);
@@ -216,7 +264,16 @@ const borderChoices=[['none','mm',0],['equal','mm',3],['equal','mm',10],['equal'
 let combinations=0;
 for(const [product,fitToFormat] of [['print',false],['print',true],['canvas',false]]) for(const [w,h] of formats) for(const orientation of ['portrait','landscape','square']) for(const [srcW,srcH] of [[600,800],[800,600],[800,800],[200,800]]) for(const [mode,preset,value] of borderChoices) {
   run(`state.productType='${product}';state.fitToFormat=${fitToFormat};state.orientation='${orientation}';state.imgW_PX=${srcW};state.imgH_PX=${srcH};els.inWidth.value=${w};els.inHeight.value=${h};els.borderMode.value='${mode}';window.applyPreset('${preset}',${JSON.stringify(value)})`);
+  run(`state.previewMode='${combinations%2 ? 'sheet' : 'print'}'`);
   const {layout,ps}=execute(true,srcW,srcH);
+  if(product==='print'&&combinations%2) {
+    const scale=parseFloat(element('frameInner').style.width)/layout.width;
+    near(parseFloat(element('frameOuter').style.width)/scale,layout.paper.w);
+    near(parseFloat(element('frameOuter').style.height)/scale,layout.paper.h);
+    const displayed=previewMarks(), exported=ps.cropMarkRects||[];
+    assert.equal(displayed.length,exported.length);
+    displayed.forEach((rect,i)=>rect.forEach((v,j)=>near(v,exported[i][j])));
+  }
   assert.equal(layout.valid,true);
   const dims=run('getVisualDimensions()');
   near(layout.width,product==='canvas'||fitToFormat?dims.w*10:layout.paper.w);

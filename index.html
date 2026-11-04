@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.4.2"><title>Print Studio V14.4.2</title>
+<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.5.0"><title>Print Studio V14.5.0</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root {
@@ -24,6 +24,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 .more-content {position:absolute;right:0;top:48px;width:290px;padding:16px;background:white;border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 36px #00000014;z-index:30}.more-content .btn{width:100%;margin-bottom:12px}.more-content p{font-size:12px;color:var(--text-muted)}
 .app-body {display:grid;grid-template-columns:minmax(0,1fr) 336px;align-items:start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 4px 24px #00000004}
 .workspace {min-width:0;padding:24px;position:sticky;top:104px}.workspace-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;min-height:36px}.workspace-toolbar h2{font-size:14px;font-weight:600;letter-spacing:-.15px}.image-caption{display:flex;flex-direction:column;min-width:0}.image-caption h2{max-width:440px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}.image-caption p{font-size:12px;color:var(--text-muted)}
+.preview-switch{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}.preview-switch>span{font-size:12px;color:var(--text-muted)}.preview-switch .segmented{width:auto;min-width:260px}.preview-help{font-size:12px;color:var(--text-muted);margin-bottom:12px;min-height:18px}.sheet-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.frame-outer.is-print.is-sheet{background:#fff;background-image:none;box-shadow:0 2px 8px #00000014}.is-sheet .resize-handle{opacity:0}.is-sheet .image-area:hover .resize-handle,.is-sheet .resize-handle:focus-visible{opacity:1}.sheet-marks rect{fill:#000;stroke:#000;stroke-width:.4px;vector-effect:non-scaling-stroke}
 .preview-area {height:clamp(360px,calc(100svh - 380px),640px);min-height:360px;position:relative;background:#edeef0;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;isolation:isolate;transition:box-shadow var(--fs-transition-fast)}
 .preview-area.is-dragging{box-shadow:inset 0 0 0 3px var(--accent);background:#e9f2ff}.preview-wall-bg{position:absolute;inset:0;z-index:-1}.preview-area.is-empty{cursor:pointer}.preview-area.is-empty:hover{box-shadow:inset 0 0 0 1px #007aff50}
 .empty-state {text-align:center;padding:32px;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text-muted)}.empty-state>svg{width:54px;height:54px;margin-bottom:12px;stroke:#8b8e96}.empty-state h3{font-size:19px;font-weight:550;letter-spacing:-.4px;color:var(--text-main)}.empty-state p{font-size:13px}.picker-link{color:var(--accent);font-weight:550}.empty-state small{font-size:11px;color:#767980;margin-top:10px}
@@ -56,7 +57,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 .frame-style-gold { background-color: #d4af37; background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.1) 2px, transparent 3px), linear-gradient(120deg, #b45309 0%, #fcd34d 20%, #d4af37 40%, #78350f 70%, #fde68a 85%, #b45309 100%); box-shadow: inset 1px 1px 2px rgba(255,255,255,0.8), inset -1px -1px 3px rgba(90,40,0,0.6); }</style></head>
 <body><div class="app">
 <header class="app-header">
- <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.4.2</small></div></div>
+ <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.5.0</small></div></div>
  <div class="header-actions">
   <details class="more-menu"><summary aria-label="Weitere Aktionen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></summary><div class="more-content">
    <button id="btnDownload" class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Vorschau als PNG sichern</button>
@@ -68,11 +69,12 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 <main class="app-body">
  <section class="workspace" aria-label="Bildvorschau">
   <div class="workspace-toolbar"><div class="image-caption"><h2 id="imageName">Dein Motiv</h2><p id="imageMeta">Vollständig. Proportional. Ohne Beschnitt.</p></div><button id="btnChangeImage" class="btn btn-quiet" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Bild wechseln</button></div>
+  <div id="previewControls"><div class="preview-switch"><span id="previewModeLabel">Vorschau</span><div class="segmented" role="group" aria-labelledby="previewModeLabel"><button id="btnPreviewPrint" type="button" class="active" aria-pressed="true" aria-describedby="previewHelp">Fertiger Print</button><button id="btnPreviewSheet" type="button" aria-pressed="false" aria-describedby="previewHelp">Druckbogen</button></div></div><p id="previewHelp" class="preview-help" role="status">So sieht dein Print nach dem Schneiden aus.</p></div>
   <input type="file" id="fileInput" accept="image/*" hidden aria-label="Bilddatei auswählen">
   <div id="dropzone" class="preview-area is-empty" role="button" tabindex="0" aria-label="Bild hinzufügen. Klicken oder eine Bilddatei hierher ziehen.">
    <div id="wallBg" class="preview-wall-bg"></div>
    <div id="emptyState" class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><h3>Bild hinzufügen</h3><p>Hierher ziehen oder <span class="picker-link">Bild auswählen</span></p><small>Dein Original bleibt vollständig erhalten.</small></div>
-   <div id="captureContainer" hidden><div id="frameOuter" class="frame-outer is-print"><div id="frameInner" class="frame-inner"><div id="imageArea" class="image-area"><img id="previewImg" src="" alt="Dein Motiv in der Druckvorschau" draggable="false" style="display:none"><div id="placeholderText" class="sr-only">Motiv</div><div class="shadow-overlay" style="display:none"></div><button type="button" class="resize-handle" data-corner="nw" data-html2canvas-ignore="true" aria-label="Bild proportional skalieren, oben links. Pfeiltasten ändern die Grösse." hidden></button><button type="button" class="resize-handle" data-corner="ne" data-html2canvas-ignore="true" aria-label="Bild proportional skalieren, oben rechts. Pfeiltasten ändern die Grösse." hidden></button><button type="button" class="resize-handle" data-corner="sw" data-html2canvas-ignore="true" aria-label="Bild proportional skalieren, unten links. Pfeiltasten ändern die Grösse." hidden></button><button type="button" class="resize-handle" data-corner="se" data-html2canvas-ignore="true" aria-label="Bild proportional skalieren, unten rechts. Pfeiltasten ändern die Grösse." hidden></button></div></div></div></div>
+   <div id="captureContainer" hidden><div id="frameOuter" class="frame-outer is-print"><div id="sheetOffcut" class="sheet-overlay" data-html2canvas-ignore="true" aria-hidden="true" hidden></div><div id="sheetMarks" class="sheet-overlay sheet-marks" aria-hidden="true" hidden></div><div id="frameInner" class="frame-inner"><div id="imageArea" class="image-area"><img id="previewImg" src="" alt="Dein Motiv in der Druckvorschau" draggable="false" style="display:none"><div id="placeholderText" class="sr-only">Motiv</div><div class="shadow-overlay" style="display:none"></div><button type="button" class="resize-handle" data-corner="nw" data-html2canvas-ignore="true" aria-label="Bild proportional skalieren, oben links. Pfeiltasten ändern die Grösse." hidden></button><button type="button" class="resize-handle" data-corner="ne" data-html2canvas-ignore="true" aria-label="Bild proportional skalieren, oben rechts. Pfeiltasten ändern die Grösse." hidden></button><button type="button" class="resize-handle" data-corner="sw" data-html2canvas-ignore="true" aria-label="Bild proportional skalieren, unten links. Pfeiltasten ändern die Grösse." hidden></button><button type="button" class="resize-handle" data-corner="se" data-html2canvas-ignore="true" aria-label="Bild proportional skalieren, unten rechts. Pfeiltasten ändern die Grösse." hidden></button></div></div></div></div>
    <span id="stageTip" class="stage-tip" hidden>Ziehe an einer Bildecke, um die Druckgrösse zu ändern.</span>
   </div>
   <p id="imageStatus" class="notice" role="status" aria-live="polite" hidden></p>
@@ -138,7 +140,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
   <section class="inspector-section"><details class="extras"><summary>Mockup-Prompt</summary><div class="extras-body"><p class="help">Eine passende Raumbeschreibung für dein Motiv und seine Masse.</p><label class="field-label" for="aiRoomStyle">Raumstil</label><select id="aiRoomStyle" class="select"><option value="swiss">Modern Swiss</option><option value="gallery">Galerie</option><option value="midcentury">Mid-Century</option><option value="industrial">Industrial Loft</option><option value="scandi">Skandinavisch</option></select><textarea id="aiPromptOutput" class="input" aria-label="Mockup-Prompt" readonly></textarea><button id="btnCopyPrompt" class="btn">Prompt kopieren</button><p id="aiLoading" class="help" role="status" style="display:none">Prompt kopiert.</p></div></details></section>
  </aside>
 </main>
-<footer class="footer"><span>© 2026 by MrM · V14.4.2</span><span>Das Original bleibt vollständig erhalten.</span></footer>
+<footer class="footer"><span>© 2026 by MrM · V14.5.0</span><span>Das Original bleibt vollständig erhalten.</span></footer>
 <input type="checkbox" id="chkTransparent" checked hidden aria-hidden="true">
 </div>
 <dialog id="printGuide" class="print-guide" aria-labelledby="printGuideTitle" aria-describedby="printGuideIntro">
@@ -205,6 +207,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       productType: 'print', // 'print' or 'canvas'
       userScale: 1,
       fitToFormat: true,
+      previewMode: 'print',
       showFrame: false,
       sourceFile: null,
       exporting: false,
@@ -388,6 +391,8 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       document.getElementById('btnCopyPrintGuide').addEventListener('click', copyPrintGuide);
       document.getElementById('btnChangeImage').addEventListener('click', () => els.fileInput.click());
       document.getElementById('imageScale').addEventListener('input', e => setImageScale(Number(e.target.value) / 100));
+      document.getElementById('btnPreviewPrint').addEventListener('click', () => { state.previewMode = 'print'; calcAndRender(); });
+      document.getElementById('btnPreviewSheet').addEventListener('click', () => { state.previewMode = 'sheet'; calcAndRender(); });
       document.getElementById('btnFitFormat').addEventListener('click', () => setPrintSizing(true));
       document.getElementById('btnFillPaper').addEventListener('click', () => setPrintSizing(false));
       document.getElementById('btnResetScale').addEventListener('click', () => setImageScale(1));
@@ -467,6 +472,17 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
         document.getElementById(id).classList.toggle('active',active);
         document.getElementById(id).setAttribute('aria-pressed',String(active));
       }
+      document.getElementById('previewControls').hidden = state.productType === 'canvas';
+      for (const [id, active] of [['btnPreviewPrint',state.previewMode === 'print'],['btnPreviewSheet',state.previewMode === 'sheet']]) {
+        document.getElementById(id).classList.toggle('active',active);
+        document.getElementById(id).setAttribute('aria-pressed',String(active));
+      }
+      document.getElementById('previewHelp').innerText = state.previewMode !== 'sheet'
+        ? 'So sieht dein Print nach dem Schneiden aus.'
+        : !layout.valid ? 'Bitte zuerst den Rand verkleinern.'
+        : layout.paper.w > layout.width || layout.paper.h > layout.height
+        ? `${layout.paper.name} · Schwarz: Schnittmarken. Schraffiert: wird abgeschnitten (nur Vorschau).`
+        : `${layout.paper.name} · Das Endmass entspricht dem Papier. Kein Papierrest, keine Schnittmarken.`;
       const slider = document.getElementById('borderSlider');
       slider.max = Math.max(50, Number(els.bTop.value) || 0);
       slider.value = els.bTop.value;
@@ -520,37 +536,69 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       const top = minimum + (availableHeight - imageHeight) / 2;
       const bottom = minimumBottom + (availableHeight - imageHeight) / 2;
       const valid = [width, height, minimum, minimumBottom, imageWidth, imageHeight].every(Number.isFinite) && width > 0 && height > 0 && minimum >= 0 && minimumBottom >= 0 && imageWidth > 0 && imageHeight > 0;
-      return { width, height, left, right, top, bottom, imageWidth, imageHeight, paper, valid };
+      const layout = { width, height, left, right, top, bottom, imageWidth, imageHeight, paper, valid };
+      layout.cropMarks = !isCanvas && valid ? getCropMarks(layout) : [];
+      return layout;
+    }
+
+    function getCropMarks(layout) {
+      const {width, height, paper} = layout, marks = [];
+      if (paper.w <= width && paper.h <= height) return marks;
+      const left = (paper.w - width) / 2, top = (paper.h - height) / 2;
+      function add(x1, y1, x2, y2) {
+        const l = Math.max(0, Math.min(x1, x2)), r = Math.min(paper.w, Math.max(x1, x2));
+        const t = Math.max(0, Math.min(y1, y2)), b = Math.min(paper.h, Math.max(y1, y2));
+        if (r > l && b > t) marks.push([l,t,r,b]);
+      }
+      for (const [x,y,sx,sy] of [[left,top,-1,-1],[left+width,top,1,-1],[left,top+height,-1,1],[left+width,top+height,1,1]]) {
+        add(x+sx*2,y-0.1,x+sx*6,y+0.1);
+        add(x-0.1,y+sy*2,x+0.1,y+sy*6);
+      }
+      return marks;
+    }
+
+    function renderSheet(layout, visible) {
+      const marks = document.getElementById('sheetMarks'), offcut = document.getElementById('sheetOffcut');
+      marks.hidden = offcut.hidden = !visible || !layout.valid;
+      if (!visible || !layout.valid) { marks.innerHTML = offcut.innerHTML = ''; return; }
+      const {width,height,paper,cropMarks} = layout;
+      const x = (paper.w-width)/2, y = (paper.h-height)/2;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${paper.w} ${paper.h}" width="100%" height="100%" aria-hidden="true">`;
+      marks.innerHTML = svg + cropMarks.map(([l,t,r,b]) => `<rect x="${l}" y="${t}" width="${r-l}" height="${b-t}"/>`).join('') + '</svg>';
+      offcut.innerHTML = paper.w > width || paper.h > height
+        ? svg + `<defs><pattern id="offcutHatch" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M-2 2L2 -2M0 8L8 0M6 10L10 6" fill="none" stroke="#b5bbc4" stroke-width="0.6"/></pattern></defs><path fill="url(#offcutHatch)" fill-rule="evenodd" d="M0 0H${paper.w}V${paper.h}H0Z M${x} ${y}H${x+width}V${y+height}H${x}Z"/><rect x="${x}" y="${y}" width="${width}" height="${height}" fill="none" stroke="#929aa6" stroke-width="0.6" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/></svg>`
+        : '';
     }
 
     function calcAndRender() {
       const layout = getPrintLayout();
       const { width, height, left, right, top, bottom, imageWidth, imageHeight, paper, valid } = layout;
       const isPrint = state.productType === 'print';
-      const isFrame = state.productType !== 'canvas' && state.showFrame;
+      const isSheet = isPrint && state.previewMode === 'sheet';
+      const isFrame = isPrint && state.showFrame && !isSheet;
       const isCanvas = state.productType === 'canvas';
       const frameMM = isFrame ? state.thicknessMM : 0;
-      const outerW = width + frameMM * 2;
-      const outerH = height + frameMM * 2;
+      const outerW = isSheet ? paper.w : width + frameMM * 2;
+      const outerH = isSheet ? paper.h : height + frameMM * 2;
       // The resolution panel changes the stage height; measure only after updating it.
       renderPrintQuality(layout);
       const stage = document.querySelector('.preview-area');
       const available = stage.clientWidth - 96;
       const availableHeight = (stage.clientHeight || 600) - 96;
       const scale = Math.min(580 / Math.max(outerW, outerH), Math.max(100, available) / outerW, Math.max(100, availableHeight) / outerH);
-      els.frameOuter.className = `frame-outer ${state.frameStyle || 'frame-style-black'}${isCanvas ? ' is-canvas' : !isFrame ? ' is-print' : ''}`;
-      els.captureContainer.classList.toggle('no-shadow', !isFrame && !isCanvas);
+      els.frameOuter.className = `frame-outer ${state.frameStyle || 'frame-style-black'}${isCanvas ? ' is-canvas' : isSheet ? ' is-print is-sheet' : !isFrame ? ' is-print' : ''}`;
+      els.captureContainer.classList.toggle('no-shadow', !isFrame && !isCanvas && !isSheet);
       els.wallBg.style.background = !isFrame && !isCanvas ? '#edeef0' : els.chkLightBg.checked
         ? 'radial-gradient(ellipse at 50% 30%, #f8f8fa, #e1e2e7)'
         : 'radial-gradient(ellipse at center, #5e6068, #34353d)';
-      document.getElementById('previewTitle').innerText = isCanvas ? 'Leinwand-Vorschau' : isFrame ? 'Print mit Rahmensimulation' : 'Print ohne Rahmen';
+      document.getElementById('previewTitle').innerText = isSheet ? 'Ganzer Druckbogen mit Schnittmarken' : isCanvas ? 'Leinwand-Vorschau' : isFrame ? 'Print mit Rahmensimulation' : 'Print ohne Rahmen';
       document.getElementById('formatLabel').innerText = isCanvas ? 'Leinwandformat:' : state.fitToFormat ? 'Fertiges Endmass:' : 'Format für die Papierwahl:';
       document.getElementById('formatHelp').innerText = state.fitToFormat && !isCanvas
         ? 'Rand und Motiv liegen innerhalb des Endmasses. Papier und Schnittmarken werden passend berechnet.'
         : 'Wir wählen das kleinste passende Papier. Dein Bild nutzt es proportional aus.';
       els.chkLightBg.closest('.export-controls').style.display = isFrame || isCanvas ? 'flex' : 'none';
       document.getElementById('frameToggleSection').style.display = isCanvas ? 'none' : 'flex';
-      els.sectionRahmen.style.display = isFrame ? 'flex' : 'none';
+      els.sectionRahmen.style.display = isPrint && state.showFrame ? 'flex' : 'none';
       els.sectionPassepartout.style.display = isCanvas ? 'none' : 'flex';
       els.recapFrame.innerText = `${formatCM(width)} × ${formatCM(height)} cm`;
       els.recapImage.innerText = valid ? `${formatCM(imageWidth)} × ${formatCM(imageHeight)} cm` : 'Rand ungültig – bitte verkleinern';
@@ -576,6 +624,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       els.imageArea.style.width = `${Math.max(0, imageWidth) * scale}px`;
       els.imageArea.style.height = `${Math.max(0, imageHeight) * scale}px`;
       els.imageArea.querySelector('.shadow-overlay').style.display = isCanvas ? 'block' : 'none';
+      renderSheet(layout, isSheet);
       syncWorkspace(layout);
       if (document.getElementById('printGuide').open) renderPrintGuide(layout);
     }
@@ -865,7 +914,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
         if (typeof html2canvas !== 'function') throw new Error('renderer-unavailable');
         const canvas = await html2canvas(els.frameOuter, { backgroundColor: null, scale: 3, logging: false, useCORS: true });
         const link = document.createElement('a');
-        link.download = `Mockup_${state.fileName}_${getPrintLayout().paper.name}.png`;
+        link.download = `Mockup_${state.fileName}_${getPrintLayout().paper.name}_${state.productType === 'print' && state.previewMode === 'sheet' ? 'Druckbogen' : 'Print'}.png`;
         link.href = canvas.toDataURL('image/png'); link.click();
         setNotice('');
       } catch (error) {
@@ -915,7 +964,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 #target photoshop
 app.bringToFront();
 
-// --- GENERATED BY PRINT STUDIO V14.4.2 ---
+// --- GENERATED BY PRINT STUDIO V14.5.0 ---
 // Embedded image bytes stay local. No external image download is performed.
 // Print at 100% / actual size. Printer "fit to page" changes the calculated dimensions.
 // Source pixels: ${settings.quality ? settings.quality.sourceWidth + ' x ' + settings.quality.sourceHeight : 'unknown (template without original)'}.
@@ -1011,21 +1060,11 @@ try {
       var marksLayer = doc.artLayers.add();
       marksLayer.name = "Schnittmarken (ausserhalb des Prints)";
       var markColor = new SolidColor(); markColor.rgb.hexValue = "000000";
-      var cropMarkRects = [];
-      function markRect(x1, y1, x2, y2) {
-        var l = Math.max(0, Math.min(x1, x2)), r = Math.min(paperW, Math.max(x1, x2));
-        var t = Math.max(0, Math.min(y1, y2)), b = Math.min(paperH, Math.max(y1, y2));
-        if (r <= l || b <= t) return;
-        cropMarkRects.push([l, t, r, b]);
+      var cropMarkRects = ${JSON.stringify(layout.cropMarks)};
+      for (var c = 0; c < cropMarkRects.length; c++) {
+        var rect = cropMarkRects[c], l = rect[0], t = rect[1], r = rect[2], b = rect[3];
         doc.selection.select([[mmToPx(l), mmToPx(t)], [mmToPx(r), mmToPx(t)], [mmToPx(r), mmToPx(b)], [mmToPx(l), mmToPx(b)]]);
         doc.selection.fill(markColor); doc.selection.deselect();
-      }
-      var cutRightMM = cutLeftMM + targetWidthMM, cutBottomMM = cutTopMM + targetHeightMM;
-      var corners = [[cutLeftMM, cutTopMM, -1, -1], [cutRightMM, cutTopMM, 1, -1], [cutLeftMM, cutBottomMM, -1, 1], [cutRightMM, cutBottomMM, 1, 1]];
-      for (var c = 0; c < corners.length; c++) {
-        var corner = corners[c], x = corner[0], y = corner[1], sx = corner[2], sy = corner[3];
-        markRect(x + sx * 2, y - 0.1, x + sx * 6, y + 0.1);
-        markRect(x - 0.1, y + sy * 2, x + 0.1, y + sy * 6);
       }
     }
 
@@ -1080,7 +1119,7 @@ finally {
       const link = document.createElement('a');
       const downloadUrl = URL.createObjectURL(blob);
       link.href = downloadUrl;
-      link.download = `PS_V14.4.2_${settings.fileName}_${formatCM(layout.width)}x${formatCM(layout.height)}cm_auf_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
+      link.download = `PS_V14.5.0_${settings.fileName}_${formatCM(layout.width)}x${formatCM(layout.height)}cm_auf_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 60000);
     }

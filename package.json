@@ -1,6 +1,6 @@
 {
   "name": "print-studio",
-  "version": "14.4.2",
+  "version": "14.5.0",
   "private": true,
   "description": "Local-first print and frame simulation with self-contained Photoshop export",
   "scripts": {

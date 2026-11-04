@@ -1,5 +1,13 @@
 # Änderungen
 
+## V14.5.0 · 04.11.2026
+
+- Neue Vorschauauswahl direkt über dem Motiv: „Fertiger Print“ oder „Druckbogen“ mit ganzem Papier und schwarzen Schnittmarken.
+- Dezente Schraffur zeigt den Papierrest; sie dient nur der Vorschau und wird weder gedruckt noch als PNG exportiert. Das PNG enthält die gewählte Ansicht.
+- Rahmen wird nur am fertigen Print simuliert. Rahmenwahl, Formatmodus, Ränder, Bildskalierung, Qualität und Photoshop-Geometrie bleiben beim Umschalten erhalten.
+- Vorschau und Photoshop-Script verwenden dieselben berechneten Schnittmarken; Leinwand behält ihre bisherige Darstellung.
+- Zusätzliche Prüfungen für den vollständigen A2-Bogen bei 40 × 30 cm, Ansichtwechsel, Live-Skalierung, Papier ohne Rest und ungültige Ränder; beide Ansichten in der bestehenden Formatmatrix.
+
 ## V14.4.2 · 04.11.2026
 
 - Kurze Entscheidungshilfe direkt unter der Druckgrössen-Auswahl: „Fertiges Endmass“ für vorhandene Rahmen/feste Grössen, „Papier ausnutzen“ für möglichst grosse Prints ohne feste Zielgrösse.
