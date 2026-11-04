@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.6.0"><title>Print Studio V14.6.0</title>
+<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.6.1"><title>Print Studio V14.6.1</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root {
@@ -59,7 +59,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 </style></head>
 <body><div class="app">
 <header class="app-header">
- <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.6.0</small></div></div>
+ <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.6.1</small></div></div>
  <div class="header-actions">
   <details class="more-menu"><summary aria-label="Weitere Aktionen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></summary><div class="more-content">
    <button id="btnDownload" class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Vorschau als PNG sichern</button>
@@ -142,7 +142,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
   <section class="inspector-section"><h2>Mockup im Raum</h2><p class="room-launch-copy">Deinen fertigen Print im virtuellen oder eigenen Zimmer ansehen.</p><button id="btnOpenRoom" class="btn room-launch" disabled>Mockup öffnen</button><details class="extras"><summary>Raum-Prompt als Alternative</summary><div class="extras-body"><p class="help">Eine passende Raumbeschreibung für dein Motiv und seine Masse.</p><label class="field-label" for="aiRoomStyle">Raumstil</label><select id="aiRoomStyle" class="select"><option value="swiss">Modern Swiss</option><option value="gallery">Galerie</option><option value="midcentury">Mid-Century</option><option value="industrial">Industrial Loft</option><option value="scandi">Skandinavisch</option></select><textarea id="aiPromptOutput" class="input" aria-label="Mockup-Prompt" readonly></textarea><button id="btnCopyPrompt" class="btn">Prompt kopieren</button><p id="aiLoading" class="help" role="status" style="display:none">Prompt kopiert.</p></div></details></section>
  </aside>
 </main>
-<footer class="footer"><span>© 2026 by MrM · V14.6.0</span><span>Das Original bleibt vollständig erhalten.</span></footer>
+<footer class="footer"><span>© 2026 by MrM · V14.6.1</span><span>Das Original bleibt vollständig erhalten.</span></footer>
 <input type="checkbox" id="chkTransparent" checked hidden aria-hidden="true">
 </div>
 <dialog id="roomDialog" class="room-dialog" aria-labelledby="roomTitle">
@@ -160,7 +160,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
   <aside class="room-settings" aria-label="Mockup gestalten">
    <div><span id="roomModeLabel" class="field-label">Umgebung</span><div class="segmented" role="group" aria-labelledby="roomModeLabel"><button id="btnRoomVirtual" type="button" class="active" aria-pressed="true">Virtuelles Zimmer</button><button id="btnRoomOwn" type="button" aria-pressed="false">Eigenes Foto</button></div></div>
    <div id="roomStyleRow"><label class="field-label" for="roomStyle">Raumstil</label><select id="roomStyle" class="select"><option value="swiss">Modern Swiss</option><option value="gallery">Galerie</option><option value="midcentury">Mid-Century</option><option value="industrial">Industrial Loft</option><option value="scandi">Skandinavisch</option></select></div>
-   <div id="roomPhotoRow" hidden><button id="btnChangeRoom" class="btn">Zimmerfoto laden</button><p class="help">Auch per Drag & Drop in die Raumvorschau. Ohne KI bleibt das Foto ausschliesslich in deinem Browser.</p><input id="roomFile" type="file" accept="image/jpeg,image/png,image/webp,image/avif" hidden aria-label="Eigenes Zimmerfoto auswählen"></div>
+   <div id="roomPhotoRow" hidden><button id="btnChangeRoom" class="btn">Zimmerfoto laden</button><p class="help">Foto ins Mockup-Fenster ziehen oder in Apple Fotos kopieren und hier mit ⌘V einfügen. Ohne KI bleibt es in deinem Browser.</p><input id="roomFile" type="file" accept="image/jpeg,image/png,image/webp,image/avif,image/heic,image/heif,.heic,.heif" hidden aria-label="Eigenes Zimmerfoto auswählen"></div>
    <div id="roomZoomRow" hidden><label class="field-label room-value" for="roomZoom">Grösse in der Ansicht <output id="roomZoomValue">100 %</output></label><input id="roomZoom" type="range" min="50" max="200" value="100" aria-describedby="roomScaleNote"></div>
    <details id="roomMeasure" class="advanced" hidden><summary>Massstab festlegen</summary><div class="room-measure-body"><p class="help">Markiere die vier Ecken einer rechteckigen Wandfläche mit bekannten Massen. Reihenfolge: oben links, oben rechts, unten rechts, unten links.</p><button id="btnRoomMeasure" class="btn">Wandfläche markieren</button><div class="room-measure-dims"><div><label class="field-label" for="roomWallWidth">Bekannte Breite, cm</label><input id="roomWallWidth" class="input" type="number" min="5" max="2000" step="1" placeholder="z. B. 200"></div><div><label class="field-label" for="roomWallHeight">Bekannte Höhe, cm</label><input id="roomWallHeight" class="input" type="number" min="5" max="2000" step="1" placeholder="z. B. 150"></div></div><button id="btnApplyRoomMeasure" class="btn" disabled>Massstab anwenden</button><button id="btnResetRoomMeasure" class="btn btn-quiet">Zur geschätzten Ansicht</button></div></details>
    <section class="room-ai" aria-label="KI-Unterstützung"><h3>KI-Unterstützung</h3><p id="roomPrivacy" class="help">Die KI erzeugt nur das Zimmer. Dein Motiv bleibt lokal und wird unverändert eingesetzt.</p><label class="field-label" for="roomAccessCode">Zugangscode für die KI</label><input id="roomAccessCode" class="input" type="password" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Dein Mockup-Zugangscode"><p class="help">Schützt die kostenpflichtigen Aufrufe. Kein OpenAI-API-Schlüssel.</p><label class="room-consent"><input id="roomConsent" type="checkbox"><span id="roomConsentText">Ich möchte ein kostenpflichtiges Zimmerbild mit OpenAI erzeugen.</span></label><button id="btnGenerateRoom" class="btn btn-primary" disabled>Zimmer erzeugen</button><button id="btnCancelRoom" class="btn btn-quiet" hidden>Anfrage abbrechen</button><p id="roomServiceNote" class="help">Die Verfügbarkeit wird beim Öffnen geprüft.</p></section>
@@ -993,7 +993,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 #target photoshop
 app.bringToFront();
 
-// --- GENERATED BY PRINT STUDIO V14.6.0 ---
+// --- GENERATED BY PRINT STUDIO V14.6.1 ---
 // Embedded image bytes stay local. No external image download is performed.
 // Print at 100% / actual size. Printer "fit to page" changes the calculated dimensions.
 // Source pixels: ${settings.quality ? settings.quality.sourceWidth + ' x ' + settings.quality.sourceHeight : 'unknown (template without original)'}.
@@ -1148,7 +1148,7 @@ finally {
       const link = document.createElement('a');
       const downloadUrl = URL.createObjectURL(blob);
       link.href = downloadUrl;
-      link.download = `PS_V14.6.0_${settings.fileName}_${formatCM(layout.width)}x${formatCM(layout.height)}cm_auf_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
+      link.download = `PS_V14.6.1_${settings.fileName}_${formatCM(layout.width)}x${formatCM(layout.height)}cm_auf_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 60000);
     }
@@ -1281,7 +1281,12 @@ finally {
     function setRoomMode(mode){if(room.mode===mode)return;cancelRoom();room.mode=mode;room.editing=false;room.draft=null;roomEl('roomWallWidth').value=roomScene()?.calibrated?roomScene().planeW/10:'';roomEl('roomWallHeight').value=roomScene()?.calibrated?roomScene().planeH/10:'';roomEl('roomConsent').checked=false;roomNotice('');renderRoom();}
     function loadRoomFile(file) {
       if(!file)return;
-      if(!['image/jpeg','image/png','image/webp','image/avif'].includes(file.type)||file.size>30*1024*1024){roomNotice('Bitte ein JPG-, PNG-, WebP- oder AVIF-Zimmerfoto bis 30 MB auswählen.',true);return;}
+      const type=(file.type||'').toLowerCase(),name=file.name||'';
+      const knownType=['image/jpeg','image/png','image/webp','image/avif','image/heic','image/heif'].includes(type);
+      const untypedImage=(!type||type==='application/octet-stream')&&/\.(jpe?g|png|webp|avif|heic|heif)$/i.test(name);
+      if((!knownType&&!untypedImage)||file.size>30*1024*1024){roomNotice('Bitte ein Zimmerfoto als JPG, PNG, WebP, AVIF oder HEIC bis 30 MB auswählen.',true);return;}
+      if(file.size===0){roomNotice('Apple Fotos hat noch keine Bilddaten übergeben. Bitte das Foto in Fotos öffnen und nochmals ziehen oder kopieren und hier mit ⌘V einfügen.',true);return;}
+      roomNotice('Zimmerfoto wird lokal geladen …');
       const sequence=++room.uploadSequence,url=URL.createObjectURL(file),img=new Image();
       img.onload=()=>{
         if(sequence!==room.uploadSequence){URL.revokeObjectURL(url);return;}
@@ -1290,7 +1295,7 @@ finally {
         room.own=roomNewScene(img,url);room.mode='own';room.editing=false;room.draft=null;roomEl('roomWallWidth').value='';roomEl('roomWallHeight').value='';roomEl('roomConsent').checked=false;
         roomNotice('Zimmerfoto lokal geladen. Ziehe deinen Print an die gewünschte Stelle.');renderRoom();
       };
-      img.onerror=()=>{URL.revokeObjectURL(url);if(sequence===room.uploadSequence)roomNotice('Das Zimmerfoto konnte nicht gelesen werden. Bitte als JPG oder PNG laden.',true);};img.src=url;
+      img.onerror=()=>{URL.revokeObjectURL(url);if(sequence===room.uploadSequence)roomNotice(/heic|heif/i.test(type+name)?'Dieser Browser kann das HEIC-Foto nicht lesen. Bitte in Apple Fotos über «Ablage → Exportieren → Foto exportieren» als JPEG sichern und hier ablegen.':'Das Zimmerfoto konnte nicht gelesen werden. Bitte aus Apple Fotos als JPEG exportieren und erneut laden.',true);};img.src=url;
     }
     function roomImage(data){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(Error('image'));img.src=data;});}
     function roomPhotoForAI(scene) {
@@ -1344,9 +1349,31 @@ finally {
       roomEl('btnSaveRoom').addEventListener('click',saveRoom);roomEl('btnRoomMeasure').addEventListener('click',beginRoomMeasure);roomEl('btnApplyRoomMeasure').addEventListener('click',applyRoomMeasure);
       roomEl('btnResetRoomMeasure').addEventListener('click',()=>{const scene=roomScene();if(!scene)return;room[room.mode]=roomNewScene(scene.image,scene.url);roomEl('roomWallWidth').value='';roomEl('roomWallHeight').value='';room.editing=false;room.draft=null;roomNotice('Zur geschätzten Raumansicht gewechselt.');renderRoom();});
       const stage=roomEl('roomStage');let drag=null;
-      stage.addEventListener('dragover',e=>{if(Array.from(e.dataTransfer?.types||[]).includes('Files')){e.preventDefault();e.stopPropagation();stage.classList.add('is-dragging');}});
-      stage.addEventListener('dragleave',()=>stage.classList.remove('is-dragging'));
-      stage.addEventListener('drop',e=>{e.preventDefault();e.stopPropagation();stage.classList.remove('is-dragging');if(e.dataTransfer.files.length!==1){roomNotice('Bitte jeweils ein Zimmerfoto ablegen.',true);return;}loadRoomFile(e.dataTransfer.files[0]);});
+      // macOS Photos can announce promised files without a Files type during dragover.
+      // Accept the gesture throughout the modal; inspect actual bytes only on drop.
+      const dialog=roomEl('roomDialog');let roomDragDepth=0;
+      const clearRoomDrop=()=>{roomDragDepth=0;stage.classList.remove('is-dragging');};
+      const transferredFiles=data=>{
+        const files=Array.from(data?.files||[]);
+        if(files.length)return files;
+        return Array.from(data?.items||[]).filter(item=>item.kind==='file').map(item=>item.getAsFile()).filter(Boolean);
+      };
+      dialog.addEventListener('dragenter',e=>{e.preventDefault();e.stopPropagation();roomDragDepth++;stage.classList.add('is-dragging');});
+      dialog.addEventListener('dragover',e=>{e.preventDefault();e.stopPropagation();if(e.dataTransfer)e.dataTransfer.dropEffect='copy';stage.classList.add('is-dragging');});
+      dialog.addEventListener('dragleave',e=>{e.stopPropagation();roomDragDepth=Math.max(0,roomDragDepth-1);if(!roomDragDepth)clearRoomDrop();});
+      dialog.addEventListener('drop',e=>{
+        e.preventDefault();e.stopPropagation();clearRoomDrop();const files=transferredFiles(e.dataTransfer);
+        if(files.length!==1){roomNotice(files.length?'Bitte jeweils ein Zimmerfoto ablegen.':'Apple Fotos hat keine Bilddatei übergeben. Bitte das Foto kopieren und hier mit ⌘V einfügen oder als JPEG exportieren und ablegen.',true);return;}
+        loadRoomFile(files[0]);
+      });
+      dialog.addEventListener('paste',e=>{
+        if(room.mode!=='own'||e.target.closest('input,textarea,[contenteditable="true"]'))return;
+        const files=transferredFiles(e.clipboardData);if(!files.length)return;
+        e.preventDefault();e.stopPropagation();
+        if(files.length!==1){roomNotice('Bitte jeweils ein Zimmerfoto einfügen.',true);return;}
+        loadRoomFile(files[0]);
+      });
+      dialog.addEventListener('close',clearRoomDrop);dialog.addEventListener('cancel',clearRoomDrop);
       const point=e=>{const r=roomEl('roomCanvas').getBoundingClientRect();return {x:Math.max(.01,Math.min(.99,(e.clientX-r.left)/r.width)),y:Math.max(.01,Math.min(.99,(e.clientY-r.top)/r.height))};};
       stage.addEventListener('pointerdown',e=>{const scene=roomScene();if(e.button!==0||!scene||room.busy)return;const p=point(e),corner=e.target.dataset.roomCorner;if(room.editing){if(corner===undefined)return;drag={corner:Number(corner)};}else{const inv=roomInverse(roomHomography(scene.quad)),v=roomProject(inv,p.x,p.y);if(!v)return;drag={dx:scene.center.x-v.x,dy:scene.center.y-v.y};}stage.setPointerCapture(e.pointerId);e.preventDefault();});
       stage.addEventListener('pointermove',e=>{if(!drag)return;const scene=roomScene(),p=point(e);if(!scene)return;if(drag.corner!==undefined){const candidate=room.draft.map(v=>({...v}));candidate[drag.corner]=p;if(roomValidQuad(candidate))room.draft=candidate;}else{const v=roomProject(roomInverse(roomHomography(scene.quad)),p.x,p.y);if(v)scene.center={x:v.x+drag.dx,y:v.y+drag.dy};}scheduleRoom();});

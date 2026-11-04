@@ -1,5 +1,12 @@
 # Änderungen
 
+## V14.6.1 · 04.11.2026
+
+- Zimmerfotos können im ganzen Mockup-Dialog abgelegt werden. Auch macOS-Dateiversprechen ohne vorab gemeldeten Dateityp werden angenommen; Dateien werden zusätzlich aus den Transfer-Items gelesen.
+- Eigene Zimmerfotos lassen sich per Kopieren und Einfügen (⌘V) laden. Texteingaben und der virtuelle Modus werden nicht abgefangen.
+- HEIC/HEIF und Bilddateien ohne MIME-Typ werden lokal zur Decodierung angenommen. Nicht unterstützte HEIC-Fotos, leere Übergaben und fehlende Bilddaten erhalten konkrete Hinweise zum JPEG-Export aus Apple Fotos. Kein automatischer Bildversand.
+- Regressionstests für Dateiablage, Apple-Fotos-Übergaben, Zwischenablage und unveränderte Druckgeometrie.
+
 ## V14.6.0 · 04.11.2026
 
 - Neuer Bereich „Mockup im Raum“: virtuelles Zimmer mit Sol 6.1 und GPT Image 2.5 Sunburst erzeugen oder ein eigenes Zimmerfoto lokal verwenden.

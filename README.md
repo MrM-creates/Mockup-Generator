@@ -1,4 +1,4 @@
-# Print Studio V14.6.0
+# Print Studio V14.6.1
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 

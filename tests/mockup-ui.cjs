@@ -67,3 +67,26 @@ test('keyboard/scale/calibration updates are local; PNG excludes interface guide
  run("roomEl('roomWallWidth').value=200;roomEl('roomWallHeight').value=150;applyRoomMeasure();saveRoom()");assert.equal(make('roomHandles').hidden,true);
  assert.equal(JSON.stringify(run('getPrintLayout()')),before);assert.equal(network.length,0);assert.ok(make('roomStatus').innerText.includes('PNG gespeichert'));
 });
+test('Photos promised-file drags and drops anywhere in the dialog load locally',()=>{
+ const {make,run,network}=setup(),dialog=make('roomDialog');let prevented=0,stopped=0;
+ const event=dataTransfer=>({dataTransfer,preventDefault(){prevented++;},stopPropagation(){stopped++;}});
+ const promised={types:['com.apple.pasteboard.promised-file-url'],files:[],items:[]};
+ dialog.events.dragenter(event(promised));dialog.events.dragover(event(promised));
+ assert.equal(promised.dropEffect,'copy');assert.equal(prevented,2);
+ dialog.events.drop(event({files:[],items:[{kind:'file',getAsFile:()=>({name:'IMG_1234.JPG',type:'',size:120})}]}));
+ assert.equal(run('room.mode'),'own');assert.equal(network.length,0);assert.equal(prevented,3);assert.equal(stopped,3);
+ dialog.events.drop(event({files:[],items:[]}));assert.match(make('roomStatus').innerText,/keine Bilddatei.*⌘V/);
+ dialog.events.drop(event({files:[{type:'image/png',size:5},{type:'image/png',size:5}]}));assert.match(make('roomStatus').innerText,/jeweils ein/);
+});
+test('Photos paste is local and never intercepts text fields or virtual-room mode',()=>{
+ const {make,run,network}=setup(),dialog=make('roomDialog');let prevented=0;
+ const event=editable=>({target:{closest:()=>editable?{}:null},clipboardData:{files:[],items:[{kind:'file',getAsFile:()=>({type:'image/png',size:100})}]},preventDefault(){prevented++;},stopPropagation(){}});
+ dialog.events.paste(event(false));assert.equal(prevented,0);
+ run("setRoomMode('own')");dialog.events.paste(event(true));assert.equal(prevented,0);
+ dialog.events.paste(event(false));assert.equal(prevented,1);assert.ok(run('room.own'));assert.equal(network.length,0);
+});
+test('HEIC and untyped photos are decoded locally; empty and unsupported files keep the previous room',()=>{
+ const {run,make,network}=setup();run("loadRoomFile({type:'image/heic',size:100,name:'IMG_1234.HEIC'})");assert.ok(run('room.own'));
+ const original=run('room.own');run("loadRoomFile({type:'',size:0,name:'pending.jpg'})");assert.equal(run('room.own'),original);assert.match(make('roomStatus').innerText,/keine Bilddaten/);
+ run("loadRoomFile({type:'',size:120,name:'bad.txt'})");assert.equal(run('room.own'),original);assert.equal(network.length,0);
+});
