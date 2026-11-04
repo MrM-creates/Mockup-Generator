@@ -23,7 +23,8 @@ element('framePreset').options = [...html.match(/<select id="framePreset"[\s\S]*
 element('aiRoomStyle').value = 'swiss';
 const handles=['nw','ne','sw','se'].map(corner=>{const node=element('handle-'+corner);node.dataset.corner=corner;return node;});
 const modes=['none','equal','passepartout'].map(mode=>{const node=element('mode-'+mode);node.dataset.borderMode=mode;return node;});
-function queryAll(selector) {return selector === '.resize-handle' ? handles : selector === '[data-border-mode]' ? modes : [];}
+const products=['print','canvas'].map(type=>{const node=element('product-'+type);node.dataset.type=type;return node;});
+function queryAll(selector) {return selector === '#productTypeSelector .chip-toggle' ? products : selector === '.resize-handle' ? handles : selector === '[data-border-mode]' ? modes : [];}
 let output;
 let clipboardText, clipboardFails=false;
 class FakeImage {set src(value){this.width=600;this.height=800;if(this.onload)this.onload();}}
@@ -92,6 +93,53 @@ function execute(withPhoto=false, sourceW=600, sourceH=800, scriptOverride=null)
 }
 assert.equal(run('state.showFrame'),false);
 near(run('Number(els.bTop.value)'),10);
+assert.equal(run('state.fitToFormat'),true,'new sessions use the finished end size');
+let initial=execute(true);
+near(initial.layout.width,300);near(initial.layout.height,400);
+assert.equal(element('formatLabel').innerText,'Fertiges Endmaß:');
+assert.equal(element('btnFitFormat').attributes['aria-pressed'],'true');
+// The user's 40 x 50 cm frame: exact print, uncut original, A2 and eight precise marks.
+run("state.imgSrc='blob:end-size';state.imgW_PX=4000;state.imgH_PX=5000");
+element('framePreset').events.change({target:{value:'40x50'}});modes[0].events.click();
+let exact=execute(true,4000,5000);
+near(exact.layout.width,400);near(exact.layout.height,500);
+near(exact.layout.imageWidth,400);near(exact.layout.imageHeight,500);
+near(exact.layout.left,0);near(exact.layout.top,0);
+assert.equal(exact.layout.paper.name,'A2');near(exact.ps.paperW,420);near(exact.ps.paperH,594);
+near(exact.ps.cutLeftMM,10);near(exact.ps.cutTopMM,47);
+assert.equal(exact.ps.cropMarkRects.length,8);
+assert.ok(element('link').download.includes('_40x50cm_auf_A2_0mm_100pct.jsx'));
+const expectedMarks=[[4,46.9,8,47.1],[9.9,41,10.1,45],[412,46.9,416,47.1],[409.9,41,410.1,45],[4,546.9,8,547.1],[9.9,549,10.1,553],[412,546.9,416,547.1],[409.9,549,410.1,553]];
+exact.ps.cropMarkRects.forEach((rect,i)=>rect.forEach((v,j)=>near(v,expectedMarks[i][j])));
+assert.equal(element('recapFrame').innerText,'40 × 50 cm');
+assert.equal(element('recapImage').innerText,'40 × 50 cm');
+run("els.showFrame.checked=true");element('chkShowFrame').events.change();assert.equal(execute().script,exact.script);
+run("els.showFrame.checked=false");element('chkShowFrame').events.change();
+run('setImageScale(0.5)');element('btnResetScale').events.click();
+assert.equal(run('state.fitToFormat'),true);near(run('getPrintLayout().width'),400);
+assert.equal(element('btnResetScale').disabled,true);
+assert.equal(element('btnResetScale').innerText,'Bild maximal einpassen');
+modes[1].events.click();run('els.bTop.value=10');exact=execute(true,4000,5000);
+near(exact.layout.width,400);near(exact.layout.height,500);near(exact.layout.imageWidth,380);near(exact.layout.imageHeight,475);
+near(exact.layout.left,10);near(exact.layout.top,12.5);assert.equal(exact.ps.cropMarkRects.length,8);
+run('state.imgW_PX=6000;state.imgH_PX=4000');exact=execute(true,6000,4000);
+near(exact.layout.imageWidth/exact.layout.imageHeight,1.5);near(exact.layout.width,400);near(exact.layout.height,500);
+// Mode choices are explicit; resetting scale and switching products preserve the choice.
+element('btnFillPaper').events.click();
+assert.equal(run('state.fitToFormat'),false);near(run('getPrintLayout().width'),420);
+assert.equal(element('btnFillPaper').attributes['aria-pressed'],'true');
+products[1].events.click();assert.equal(element('printSizingControls').hidden,true);
+products[0].events.click();assert.equal(run('state.fitToFormat'),false);
+element('btnFitFormat').events.click();products[1].events.click();products[0].events.click();
+assert.equal(run('state.fitToFormat'),true);assert.equal(element('printSizingControls').hidden,false);
+element('framePreset').events.change({target:{value:'20x20'}});near(run('getPrintLayout().width'),200);
+assert.equal(run('state.fitToFormat'),true);
+run("state.orientation='portrait';els.inWidth.value=42;els.inHeight.value=59.4;els.borderMode.value='none'");
+exact=execute();assert.equal(exact.ps.cropMarkRects,undefined);
+assert.ok(element('printInfo').innerText.includes('kein Zuschnitt nötig'));
+console.log('PASS finished end size: 40 × 50 cm on A2 with exact eight marks, internal borders, original ratios, visible dimensions, frame invariance, explicit modes, scale reset and product transitions.');
+// Existing paper-utilisation behaviour remains available explicitly.
+run("state.fitToFormat=false;state.orientation='portrait';state.imgSrc=null;state.imgW_PX=0;state.imgH_PX=0;els.inWidth.value=30;els.inHeight.value=40;els.borderMode.value='equal';els.bTop.value=10;state.userScale=1");
 let result=execute(true);
 assert.equal(result.layout.paper.name,'A2');
 near(result.layout.width,420);near(result.layout.height,594);
@@ -166,10 +214,14 @@ const formats=[...presetMarkup.matchAll(/value="(\d+(?:\.\d+)?x\d+(?:\.\d+)?)"/g
 formats.push([17.3,28.7],[65,82]);
 const borderChoices=[['none','mm',0],['equal','mm',3],['equal','mm',10],['equal','mm',20],['equal','equal',0.03],['equal','equal',0.05],['equal','equal',0.08],['passepartout','pp','galerie'],['passepartout','pp','elegant'],['passepartout','pp','museum']];
 let combinations=0;
-for(const product of ['print','canvas']) for(const [w,h] of formats) for(const orientation of ['portrait','landscape','square']) for(const [srcW,srcH] of [[600,800],[800,600],[800,800],[200,800]]) for(const [mode,preset,value] of borderChoices) {
-  run(`state.productType='${product}';state.orientation='${orientation}';state.imgW_PX=${srcW};state.imgH_PX=${srcH};els.inWidth.value=${w};els.inHeight.value=${h};els.borderMode.value='${mode}';window.applyPreset('${preset}',${JSON.stringify(value)})`);
+for(const [product,fitToFormat] of [['print',false],['print',true],['canvas',false]]) for(const [w,h] of formats) for(const orientation of ['portrait','landscape','square']) for(const [srcW,srcH] of [[600,800],[800,600],[800,800],[200,800]]) for(const [mode,preset,value] of borderChoices) {
+  run(`state.productType='${product}';state.fitToFormat=${fitToFormat};state.orientation='${orientation}';state.imgW_PX=${srcW};state.imgH_PX=${srcH};els.inWidth.value=${w};els.inHeight.value=${h};els.borderMode.value='${mode}';window.applyPreset('${preset}',${JSON.stringify(value)})`);
   const {layout,ps}=execute(true,srcW,srcH);
   assert.equal(layout.valid,true);
+  const dims=run('getVisualDimensions()');
+  near(layout.width,product==='canvas'||fitToFormat?dims.w*10:layout.paper.w);
+  near(layout.height,product==='canvas'||fitToFormat?dims.h*10:layout.paper.h);
+  if(product==='print'&&fitToFormat&&layout.paper.w-layout.width>=12&&layout.paper.h-layout.height>=12)assert.equal(ps.cropMarkRects.length,8);
   near(layout.imageWidth/layout.imageHeight,srcW/srcH);
   assert.ok(layout.left>=-1e-7&&layout.top>=-1e-7&&layout.right>=-1e-7&&layout.bottom>=-1e-7);
   const minimum=product==='canvas'||mode==='none'?0:Number(element('borderSizeTop').value);
@@ -266,8 +318,10 @@ near(adopted.ps.cutLeftMM,43.5);near(adopted.ps.cutTopMM,60);
 assert.ok(adopted.ps.cropMarkRects.length>0,'exact frame on a larger A-sheet needs cut marks');
 assert.equal(element('qualityChoices').hidden,true);assert.equal(element('printQuality').dataset.level,'good');
 assert.ok(element('printInfo').innerText.includes('21 × 30 cm inklusive Rand'));
-assert.equal(element('btnResetScale').disabled,false);
-element('btnResetScale').events.click();
+assert.equal(element('btnResetScale').disabled,true);
+run('setImageScale(0.5)');element('btnResetScale').events.click();
+assert.equal(run('state.fitToFormat'),true);near(run('getPrintLayout().width'),210);
+element('btnFillPaper').events.click();
 assert.equal(run('state.fitToFormat'),false);near(run('getPrintLayout().width'),297);
 // Sometimes the selected frame already suffices once printed at its exact end size.
 setupSuggestion(3400,4800);suggestion=run('getFormatRecommendation()');assert.equal(suggestion.value,'30x40');
@@ -284,7 +338,7 @@ run('applyFormatRecommendation()');adopted=execute(true,600,800);
 near(adopted.layout.width,70);near(adopted.layout.height,87);
 assert.ok(run('getPrintQuality(getPrintLayout()).effectivePpi')>=300);
 assert.equal(element('customDimensions').style.display,'flex');
-element('btnResetScale').events.click();
+element('btnFillPaper').events.click();
 suggestion=run('getFormatRecommendation()');near(suggestion.reference.w,7);near(suggestion.reference.h,8.7);
 // Click uses the NEW image/border state, never the last rendered proposal.
 setupSuggestion();run('state.imgW_PX=600;state.imgH_PX=800;applyFormatRecommendation()');

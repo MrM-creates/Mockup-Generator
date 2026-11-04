@@ -1,5 +1,15 @@
 # Änderungen
 
+## V14.4 · 04.11.2026
+
+- Sichtbare Auswahl „Fertiges Endmaß“ (Voreinstellung) oder „Papier ausnutzen“ direkt bei der Formatwahl, für alle Vorlagen und eigene Maße.
+- Das fertige Endmaß enthält den gewünschten Rand; Papier, Endmaß, Bildfläche und tatsächliche Ränder werden getrennt angezeigt. Die Vorschau zeigt den fertigen Print.
+- 40 × 50 cm mit einem 4:5-Motiv, ohne Rand und bei 100 % ergibt genau 40 × 50 cm Bildfläche auf A2, zentriert mit acht druckbaren Schnittmarken ausserhalb des Prints.
+- Bildskalierung zurücksetzen behält den gewählten Modus. Auch Format-/Randänderungen und der Wechsel zur Leinwand ändern die gespeicherte Print-Auswahl nicht.
+- Der Download-Dateiname nennt das Endmaß, das Druckpapier und bei „Ohne“ korrekt 0 mm Rand.
+- Sichtprüfung in Chrome (Desktop/Mobil) und Photoshop mit vollständigem 4:5-Testmotiv und acht Schnittmarken.
+- Zusätzliche Endmaß- und Modusprüfungen; insgesamt 3.960 Layoutkombinationen mit vollständigem Original, Papierwahl und Vorschau-/Photoshop-Abgleich.
+
 ## V14.3 · 03.11.2026
 
 - Sichtbarer „Druck-Info“-Button direkt an den berechneten Druckmaßen. Native Dialogansicht mit aktuellen Papier-/End-/Bildmaßen, tatsächlichen Rändern und Originalpixeln samt effektiven ppi.
