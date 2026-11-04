@@ -1,5 +1,7 @@
 # Print Studio
 
+- Use Swiss German spelling in all current UI text, documentation and replies: write ss instead of the German sharp-s (U+00DF), e.g. Endmass, Masse, Massstab and Grösse.
+
 - Keep `index.html` and `HTML Script/print-mockup generator V14.html` identical. V13 is the original archive and must not be overwritten with V14.
 - Preserve the full original image and its aspect ratio. Preview and Photoshop output must use `getPrintLayout()` as the single source for dimensions.
 - Manual scaling must stay within the uncut maximum. Frame style is preview-only and must not change print geometry.

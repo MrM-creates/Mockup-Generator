@@ -1,5 +1,10 @@
 # Änderungen
 
+## V14.4.1 · 04.11.2026
+
+- Schweizer Schreibweise mit ss in der aktuellen App, Druck-Info und Dokumentation: Endmass, Masse und Massstab. Als dauerhafte Projektvorgabe festgehalten.
+- Berechnung, Schnittmarken und Bildplatzierung entsprechen V14.4.
+
 ## V14.4 · 04.11.2026
 
 - Sichtbare Auswahl „Fertiges Endmaß“ (Voreinstellung) oder „Papier ausnutzen“ direkt bei der Formatwahl, für alle Vorlagen und eigene Maße.

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.4.0"><title>Print Studio V14.4</title>
+<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.4.1"><title>Print Studio V14.4.1</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root {
@@ -55,11 +55,11 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 .frame-style-gold { background-color: #d4af37; background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.1) 2px, transparent 3px), linear-gradient(120deg, #b45309 0%, #fcd34d 20%, #d4af37 40%, #78350f 70%, #fde68a 85%, #b45309 100%); box-shadow: inset 1px 1px 2px rgba(255,255,255,0.8), inset -1px -1px 3px rgba(90,40,0,0.6); }</style></head>
 <body><div class="app">
 <header class="app-header">
- <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.4</small></div></div>
+ <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.4.1</small></div></div>
  <div class="header-actions">
   <details class="more-menu"><summary aria-label="Weitere Aktionen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></summary><div class="more-content">
    <button id="btnDownload" class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Vorschau als PNG sichern</button>
-   <p><strong>In Photoshop öffnen</strong><br>Das Script enthält dein Originalbild und deine Maße. In Photoshop ausführen – das Bild wird automatisch eingesetzt.</p>
+   <p><strong>In Photoshop öffnen</strong><br>Das Script enthält dein Originalbild und deine Masse. In Photoshop ausführen – das Bild wird automatisch eingesetzt.</p>
   </div></details>
   <button id="btnDownloadScript" class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4"/></svg><span>Photoshop-Script laden</span></button>
  </div>
@@ -76,10 +76,10 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
   </div>
   <p id="imageStatus" class="notice" role="status" aria-live="polite" hidden></p>
   <div class="scale-controls" id="scaleControls"><label class="scale-label" for="imageScale">Bildgrösse <output id="scaleValue" for="imageScale">100 %</output></label><input type="range" id="imageScale" min="10" max="100" step="0.1" value="100" aria-label="Bildgrösse in Prozent der maximalen Einpassung" disabled><button id="btnResetScale" class="btn btn-quiet" disabled>Papier optimal nutzen</button></div>
-  <div class="print-stats" aria-label="Berechnete Druckmaße">
+  <div class="print-stats" aria-label="Berechnete Druckmasse">
    <div class="stat"><span class="stat-label">Papier · automatisch</span><strong class="stat-value" id="paperName">A2</strong><span class="stat-detail" id="recapPaper">42 × 59,4 cm</span></div>
-   <div class="stat"><span class="stat-label">Fertiges Endmaß</span><strong class="stat-value" id="recapFrame">30 × 40 cm</strong><span class="stat-detail">inklusive Rand</span></div>
-  <div class="stat"><span class="stat-label">Bildfläche</span><strong class="stat-value" id="recapImage">—</strong><span class="stat-detail" id="dpiInfo">Maße nach dem Hochladen</span></div>
+   <div class="stat"><span class="stat-label">Fertiges Endmass</span><strong class="stat-value" id="recapFrame">30 × 40 cm</strong><span class="stat-detail">inklusive Rand</span></div>
+  <div class="stat"><span class="stat-label">Bildfläche</span><strong class="stat-value" id="recapImage">—</strong><span class="stat-detail" id="dpiInfo">Masse nach dem Hochladen</span></div>
    <div class="stat"><span class="stat-label">Tatsächlicher Rand</span><strong class="stat-value" id="actualSides">—</strong><span class="stat-detail" id="actualVertical">—</span></div>
   </div>
   <div class="print-info-row"><p id="printInfo" class="print-info" role="status">Das ganze Bild wird innerhalb deines Randes auf dem Papier eingepasst.</p><button id="btnPrintGuide" class="btn" aria-haspopup="dialog" aria-controls="printGuide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-11v2"/></svg>Druck-Info</button></div>
@@ -104,8 +104,8 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
   <section class="inspector-section" id="sectionAusrichtung">
    <div class="section-heading"><h2>Format</h2></div>
    <div id="productTypeSelector" class="segmented" aria-label="Produkt"><button class="chip-toggle active" data-type="print" aria-pressed="true">Print</button><button class="chip-toggle" data-type="canvas" aria-pressed="false">Leinwand</button></div>
-   <div id="printSizingControls"><span class="field-label" id="printSizingLabel">Druckgrösse</span><div class="segmented" role="group" aria-labelledby="printSizingLabel"><button id="btnFitFormat" class="active" aria-pressed="true" aria-describedby="formatHelp">Fertiges Endmaß</button><button id="btnFillPaper" aria-pressed="false" aria-describedby="formatHelp">Papier ausnutzen</button></div></div>
-   <div><label class="field-label" id="formatLabel" for="framePreset">Fertiges Endmaß</label><select id="framePreset" class="select" aria-describedby="formatHelp">
+   <div id="printSizingControls"><span class="field-label" id="printSizingLabel">Druckgrösse</span><div class="segmented" role="group" aria-labelledby="printSizingLabel"><button id="btnFitFormat" class="active" aria-pressed="true" aria-describedby="formatHelp">Fertiges Endmass</button><button id="btnFillPaper" aria-pressed="false" aria-describedby="formatHelp">Papier ausnutzen</button></div></div>
+   <div><label class="field-label" id="formatLabel" for="framePreset">Fertiges Endmass</label><select id="framePreset" class="select" aria-describedby="formatHelp">
               <option value="18x24">18 × 24 cm</option>
               <option value="20x20">20 × 20 cm</option>
               <option value="21x30">21 × 30 cm</option>
@@ -118,7 +118,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
               <option value="custom">Benutzerdefiniert</option>
             </select></div>
    <div id="customDimensions" class="field-row" style="display:none"><label class="field-grow"><span class="sr-only">Breite in Zentimetern</span><input type="number" id="inWidth" class="input" value="30" min="1" max="300" step="0.1" aria-label="Breite in Zentimetern"></label><span>×</span><label class="field-grow"><span class="sr-only">Höhe in Zentimetern</span><input type="number" id="inHeight" class="input" value="40" min="1" max="300" step="0.1" aria-label="Höhe in Zentimetern"></label><span class="help">cm</span></div>
-   <p class="help" id="formatHelp">Das Endmaß enthält deinen Rand. Dein Motiv bleibt vollständig darin erhalten. Wir berechnen das passende Papier und die Schnittmarken.</p>
+   <p class="help" id="formatHelp">Das Endmass enthält deinen Rand. Dein Motiv bleibt vollständig darin erhalten. Wir berechnen das passende Papier und die Schnittmarken.</p>
    <div><span class="field-label">Ausrichtung</span><div class="segmented" id="oriBtns" aria-label="Ausrichtung"><button class="ori-btn active" data-ori="portrait" aria-pressed="true">Hoch</button><button class="ori-btn" data-ori="landscape" aria-pressed="false">Quer</button><button class="ori-btn" data-ori="square" aria-pressed="false">Quadrat</button></div></div>
   </section>
   <section class="inspector-section" id="sectionPassepartout">
@@ -134,10 +134,10 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
   <section class="inspector-section" id="frameToggleSection"><div class="section-heading"><div><h2>Rahmen</h2><p class="help">Nur in der Vorschau</p></div><label class="switch"><span class="sr-only">Rahmen anzeigen</span><input type="checkbox" id="chkShowFrame"><span class="switch-track" aria-hidden="true"></span></label></div>
    <div id="sectionRahmen" class="frame-options" style="display:none"><div id="materialSelector" class="material-grid" aria-label="Rahmenmaterial"><button class="chip-toggle active" data-style="frame-style-black" aria-pressed="true"><span class="material-dot" style="background:#252525"></span>Schwarz</button><button class="chip-toggle " data-style="frame-style-white" aria-pressed="false"><span class="material-dot" style="background:#fff"></span>Weiss</button><button class="chip-toggle " data-style="frame-style-oak" aria-pressed="false"><span class="material-dot" style="background:#c9ae8b"></span>Eiche</button><button class="chip-toggle " data-style="frame-style-wood-dark" aria-pressed="false"><span class="material-dot" style="background:#62452f"></span>Nussbaum</button><button class="chip-toggle " data-style="frame-style-alu-silver" aria-pressed="false"><span class="material-dot" style="background:#c5c9cd"></span>Aluminium</button><button class="chip-toggle " data-style="frame-style-gold" aria-pressed="false"><span class="material-dot" style="background:#d4b762"></span>Gold</button></div><div><label class="field-label" for="frameThicknessInput">Rahmenbreite</label><div class="field-row"><input type="range" id="frameThickness" min="0" max="50" value="15" class="field-grow" aria-label="Rahmenbreite in Millimetern"><div class="number-field" style="width:92px"><input type="number" id="frameThicknessInput" value="15" class="input" min="0" max="100" step="0.1"><span>mm</span></div></div></div><div class="export-controls"><label class="switch"><span class="help">Helles Studio-Licht</span><input type="checkbox" id="chkLightBg" checked><span class="switch-track" aria-hidden="true"></span></label></div></div>
   </section>
-  <section class="inspector-section"><details class="extras"><summary>Mockup-Prompt</summary><div class="extras-body"><p class="help">Eine passende Raumbeschreibung für dein Motiv und seine Maße.</p><label class="field-label" for="aiRoomStyle">Raumstil</label><select id="aiRoomStyle" class="select"><option value="swiss">Modern Swiss</option><option value="gallery">Galerie</option><option value="midcentury">Mid-Century</option><option value="industrial">Industrial Loft</option><option value="scandi">Skandinavisch</option></select><textarea id="aiPromptOutput" class="input" aria-label="Mockup-Prompt" readonly></textarea><button id="btnCopyPrompt" class="btn">Prompt kopieren</button><p id="aiLoading" class="help" role="status" style="display:none">Prompt kopiert.</p></div></details></section>
+  <section class="inspector-section"><details class="extras"><summary>Mockup-Prompt</summary><div class="extras-body"><p class="help">Eine passende Raumbeschreibung für dein Motiv und seine Masse.</p><label class="field-label" for="aiRoomStyle">Raumstil</label><select id="aiRoomStyle" class="select"><option value="swiss">Modern Swiss</option><option value="gallery">Galerie</option><option value="midcentury">Mid-Century</option><option value="industrial">Industrial Loft</option><option value="scandi">Skandinavisch</option></select><textarea id="aiPromptOutput" class="input" aria-label="Mockup-Prompt" readonly></textarea><button id="btnCopyPrompt" class="btn">Prompt kopieren</button><p id="aiLoading" class="help" role="status" style="display:none">Prompt kopiert.</p></div></details></section>
  </aside>
 </main>
-<footer class="footer"><span>© 2026 by MrM · V14.4</span><span>Das Original bleibt vollständig erhalten.</span></footer>
+<footer class="footer"><span>© 2026 by MrM · V14.4.1</span><span>Das Original bleibt vollständig erhalten.</span></footer>
 <input type="checkbox" id="chkTransparent" checked hidden aria-hidden="true">
 </div>
 <dialog id="printGuide" class="print-guide" aria-labelledby="printGuideTitle" aria-describedby="printGuideIntro">
@@ -145,11 +145,11 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
  <div class="guide-body">
   <p id="printGuideIntro" class="guide-intro">Übernimm diese Angaben in Photoshop und im Druckertreiber. Die Übersicht ist eine Anleitung; Drucker und Papierprofil werden hier nicht automatisch erkannt.</p>
   <h3 id="guideJobTitle">Dein Druckbogen</h3>
-  <dl class="guide-summary"><dt>Papier im Druckdialog</dt><dd id="guideSheet">—</dd><dt>Ausrichtung</dt><dd id="guideOrientation">—</dd><dt id="guideEndLabel">Endmaß inkl. Rand</dt><dd id="guideEnd">—</dd><dt>Bildfläche</dt><dd id="guideImage">—</dd><dt>Tatsächlicher Rand</dt><dd id="guideBorder">—</dd><dt>Original / Auflösung</dt><dd id="guideResolution">—</dd></dl>
+  <dl class="guide-summary"><dt>Papier im Druckdialog</dt><dd id="guideSheet">—</dd><dt>Ausrichtung</dt><dd id="guideOrientation">—</dd><dt id="guideEndLabel">Endmass inkl. Rand</dt><dd id="guideEnd">—</dd><dt>Bildfläche</dt><dd id="guideImage">—</dd><dt>Tatsächlicher Rand</dt><dd id="guideBorder">—</dd><dt>Original / Auflösung</dt><dd id="guideResolution">—</dd></dl>
   <label class="field-label" for="guidePrinter">Anleitung für</label><select id="guidePrinter" class="select"><option value="canon">Canon imagePROGRAF PRO-1000</option><option value="other">Anderer Drucker · allgemeine Hinweise</option></select>
-  <ol class="guide-steps"><li><h3>Papierformat abgleichen</h3><p id="guidePaperStep"></p></li><li><h3>Maßstab 100 %</h3><p id="guideScaleStep"></p></li><li><h3>Papierart und Druckqualität</h3><p id="guideMediaStep"></p></li><li><h3>Farbmanagement</h3><p id="guideColorStep"></p></li><li><h3>Vor dem Drucken prüfen</h3><p id="guideCheckStep"></p></li></ol>
+  <ol class="guide-steps"><li><h3>Papierformat abgleichen</h3><p id="guidePaperStep"></p></li><li><h3>Massstab 100 %</h3><p id="guideScaleStep"></p></li><li><h3>Papierart und Druckqualität</h3><p id="guideMediaStep"></p></li><li><h3>Farbmanagement</h3><p id="guideColorStep"></p></li><li><h3>Vor dem Drucken prüfen</h3><p id="guideCheckStep"></p></li></ol>
   <section id="guideCanon" class="guide-canon" aria-label="Hinweise zum Canon PRO-1000"><h3>Canon PRO-1000 · Papierzufuhr und Druckfläche</h3><p id="guideCanonFeed"></p><p id="guideCanonArea"></p><p id="guideCanonA5">Bei Papieren, die den manuellen Einzug erfordern, ist A5 nicht kombinierbar. Verwende dann ein grösseres zugelassenes Papier und passe die Gestaltung daran an.</p><p>Medientyp und Format am Drucker müssen zu den Einstellungen im Treiber passen.</p></section>
-  <details class="guide-sources"><summary>Herstelleranleitungen</summary><a href="https://helpx.adobe.com/photoshop/desktop/print/position-and-scale-images-for-printing.html" target="_blank" rel="noopener noreferrer">Adobe: Maßstab</a><a href="https://helpx.adobe.com/photoshop/desktop/print/print-with-color-management.html" target="_blank" rel="noopener noreferrer">Adobe: Farbmanagement</a><span id="guideCanonSources"><a href="https://ij.manual.canon/ij/webmanual/PrinterDriver/M/PRO-1000%20series/1.0/DE/PPG/dg-c_paper.html" target="_blank" rel="noopener noreferrer">Canon: Papierzufuhr</a><a href="https://ij.manual.canon/ij/webmanual/Manual/All/PRO-1000%20series/EN/BG/bg-079.html" target="_blank" rel="noopener noreferrer">Canon: Druckfläche</a></span></details>
+  <details class="guide-sources"><summary>Herstelleranleitungen</summary><a href="https://helpx.adobe.com/photoshop/desktop/print/position-and-scale-images-for-printing.html" target="_blank" rel="noopener noreferrer">Adobe: Massstab</a><a href="https://helpx.adobe.com/photoshop/desktop/print/print-with-color-management.html" target="_blank" rel="noopener noreferrer">Adobe: Farbmanagement</a><span id="guideCanonSources"><a href="https://ij.manual.canon/ij/webmanual/PrinterDriver/M/PRO-1000%20series/1.0/DE/PPG/dg-c_paper.html" target="_blank" rel="noopener noreferrer">Canon: Papierzufuhr</a><a href="https://ij.manual.canon/ij/webmanual/Manual/All/PRO-1000%20series/EN/BG/bg-079.html" target="_blank" rel="noopener noreferrer">Canon: Druckfläche</a></span></details>
  </div>
  <footer class="guide-footer"><p id="guideCopyStatus" role="status" aria-live="polite"></p><button id="btnCopyPrintGuide" class="btn">Info kopieren</button><button id="btnDonePrintGuide" class="btn">Schliessen</button></footer>
 </dialog>
@@ -543,9 +543,9 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
         ? 'radial-gradient(ellipse at 50% 30%, #f8f8fa, #e1e2e7)'
         : 'radial-gradient(ellipse at center, #5e6068, #34353d)';
       document.getElementById('previewTitle').innerText = isCanvas ? 'Leinwand-Vorschau' : isFrame ? 'Print mit Rahmensimulation' : 'Print ohne Rahmen';
-      document.getElementById('formatLabel').innerText = isCanvas ? 'Leinwandformat:' : state.fitToFormat ? 'Fertiges Endmaß:' : 'Format für die Papierwahl:';
+      document.getElementById('formatLabel').innerText = isCanvas ? 'Leinwandformat:' : state.fitToFormat ? 'Fertiges Endmass:' : 'Format für die Papierwahl:';
       document.getElementById('formatHelp').innerText = state.fitToFormat && !isCanvas
-        ? 'Das Endmaß enthält deinen Rand. Dein Motiv bleibt vollständig darin erhalten. Wir berechnen das passende Papier und die Schnittmarken.'
+        ? 'Das Endmass enthält deinen Rand. Dein Motiv bleibt vollständig darin erhalten. Wir berechnen das passende Papier und die Schnittmarken.'
         : 'Wir wählen das kleinste passende Papier. Dein Bild nutzt es proportional aus.';
       els.chkLightBg.closest('.export-controls').style.display = isFrame || isCanvas ? 'flex' : 'none';
       document.getElementById('frameToggleSection').style.display = isCanvas ? 'none' : 'flex';
@@ -560,7 +560,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       els.btnScript.disabled = !valid || state.exporting;
       els.btnDownload.disabled = !valid;
       document.getElementById('printInfo').innerText = !valid ? 'Der Rand lässt keinen Platz für das Bild. Bitte verkleinern.' : state.fitToFormat && !isCanvas
-        ? `Fertiges Endmaß: ${formatCM(width)} × ${formatCM(height)} cm inklusive Rand. Auf ${paper.name} zentriert. ${getTrimInfo(layout)}`
+        ? `Fertiges Endmass: ${formatCM(width)} × ${formatCM(height)} cm inklusive Rand. Auf ${paper.name} zentriert. ${getTrimInfo(layout)}`
         : state.userScale < 0.999
         ? 'Deine Bildgrösse und die angezeigten Ränder werden genau so an Photoshop übergeben.'
         : 'Das ganze Motiv wird innerhalb deines Randes so gross wie möglich eingepasst.';
@@ -583,10 +583,10 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       const sameWidth = Math.abs(layout.paper.w - layout.width) < 1e-7;
       const sameHeight = Math.abs(layout.paper.h - layout.height) < 1e-7;
       return sameWidth && sameHeight
-        ? 'Das Endmaß entspricht dem Papier; kein Zuschnitt nötig.'
+        ? 'Das Endmass entspricht dem Papier; kein Zuschnitt nötig.'
         : sameWidth || sameHeight
           ? 'An den Schnittmarken schneiden; die übrigen Kanten sind bereits Papierkanten.'
-          : 'An den Schnittmarken im Photoshop-Script auf das Endmaß zuschneiden.';
+          : 'An den Schnittmarken im Photoshop-Script auf das Endmass zuschneiden.';
     }
 
     function getPrintGuideData(layout = getPrintLayout()) {
@@ -598,13 +598,13 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       const sheet = `${paper.name} · ${size(paper.w,paper.h)}`;
       const orientation = paper.w > paper.h ? 'Querformat' : paper.w < paper.h ? 'Hochformat' : 'Quadratisch';
       const isCanvas = state.productType === 'canvas';
-      const resolution = quality ? `${quality.sourceWidth.toLocaleString('de-DE')} × ${quality.sourceHeight.toLocaleString('de-DE')} px · ${formatPpi(quality.effectivePpi)} ppi auf der Bildfläche` : hasImage ? 'Nicht berechenbar – bitte den Rand korrigieren.' : 'Noch kein Motiv geladen · Vorlagenmaße';
+      const resolution = quality ? `${quality.sourceWidth.toLocaleString('de-DE')} × ${quality.sourceHeight.toLocaleString('de-DE')} px · ${formatPpi(quality.effectivePpi)} ppi auf der Bildfläche` : hasImage ? 'Nicht berechenbar – bitte den Rand korrigieren.' : 'Noch kein Motiv geladen · Vorlagenmasse';
       const end = layout.valid ? size(layout.width,layout.height) : 'Nicht druckbereit – bitte den Rand korrigieren.';
       const image = layout.valid ? size(layout.imageWidth,layout.imageHeight) : '—';
       const border = layout.valid ? `${formatCM(layout.left)} cm seitlich · ${formatCM(layout.top)} cm oben · ${formatCM(layout.bottom)} cm unten` : '—';
       const steps = [
         `In Photoshop „Datei → Drucken → Druckeinstellungen“ den gewünschten Drucker und ${sheet} in ${orientation} wählen. Das Papierformat im Treiber und das eingelegte Papier müssen übereinstimmen. Ein ${paper.name}-Dokument stellt den Druckdialog nicht automatisch auf ${paper.name} um.`,
-        'In „Position und Grösse“ den Maßstab auf 100 % setzen und „An Mediengrösse anpassen“ ausschalten. Auch im Treiber keine zusätzliche Skalierung aktivieren. Für diese maßhaltige Vorlage normalen Druck mit Rand verwenden; Randlosdruck kann das Motiv vergrössern. Position und Ausrichtung in der Druckvorschau kontrollieren.',
+        'In „Position und Grösse“ den Massstab auf 100 % setzen und „An Mediengrösse anpassen“ ausschalten. Auch im Treiber keine zusätzliche Skalierung aktivieren. Für diese masshaltige Vorlage normalen Druck mit Rand verwenden; Randlosdruck kann das Motiv vergrössern. Position und Ausrichtung in der Druckvorschau kontrollieren.',
         'Im Treiber den Medientyp passend zum tatsächlich verwendeten Papier bzw. nach Empfehlung des Papierherstellers wählen. Für Fotodruck „Hoch“ oder die passende höchste Qualitätsstufe verwenden; verfügbare Stufen hängen von Drucker und Medium ab. 300 ppi im Photoshop-Dokument sind nicht die Drucker-dpi oder die Qualitätsstufe des Treibers.',
         'Bei passendem installiertem ICC-Profil: „Photoshop verwaltet Farben“ wählen und das Profil für genau deinen Drucker und dein Papier einstellen. Im Treiber keine zweite Farbkorrektur anwenden; unter macOS kann ColorSync automatisch ausgewählt bzw. gesperrt sein. Rendering Intent und Tiefenkompensierung nach Empfehlung des Profil-/Papierherstellers setzen. Ohne passendes Profil die Alternative „Drucker verwaltet Farben“ mit korrektem Medientyp verwenden. Einen Farbmanagement-Weg wählen.',
         'Bild und Schnittmarken müssen im bedruckbaren Bereich liegen. Bei einer Warnung über den Druckbereich nicht automatisch verkleinern: prüfen, ob nur weisser Bogenrand oder tatsächlich Bild bzw. Schnittmarken betroffen sind. Bei Bedarf die Gestaltung in der App mit mehr Rand oder grösserem Papier neu vorbereiten. Den ersten Ausdruck nachmessen und eine bewährte Druckvorgabe speichern.'
@@ -617,7 +617,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       const printableH = paper.w > paper.h ? paper.h - 6.8 : paper.h - 8;
       const area = standard
         ? `Bei ${paper.name} nennt Canon für normalen Druck eine bedruckbare Fläche von ${size(printableW,printableH)}. Im Hochformat bleiben 3,4 mm links/rechts, 3 mm oben und 5 mm unten unbedruckbar. Bei Querformat drehen sich diese Ränder mit. Prüfe die konkrete Vorschau; Medien- und Treibereinstellungen können weitere Einschränkungen vorgeben.`
-        : 'Für ein benutzerdefiniertes Papierformat die zulässigen Maße, den Einzug und die bedruckbare Fläche im Canon-Treiber prüfen. Die App bestätigt keine Druckerfreigabe für dieses Format.';
+        : 'Für ein benutzerdefiniertes Papierformat die zulässigen Masse, den Einzug und die bedruckbare Fläche im Canon-Treiber prüfen. Die App bestätigt keine Druckerfreigabe für dieses Format.';
       return { canon, sheet, orientation, end, image, border, resolution, steps, feed, area, isCanvas, hasImage, a5:paper.name === 'A5', valid:layout.valid };
     }
 
@@ -625,7 +625,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       const data = getPrintGuideData(layout);
       document.getElementById('guideJobTitle').innerText = data.valid ? data.hasImage ? 'Dein aktueller Druckbogen' : 'Deine aktuelle Vorlage' : 'Bitte die Gestaltung korrigieren';
       for (const [id,value] of Object.entries({guideSheet:data.sheet,guideOrientation:data.orientation,guideEnd:data.end,guideImage:data.image,guideBorder:data.border,guideResolution:data.resolution,guideCanonFeed:data.feed,guideCanonArea:data.area})) document.getElementById(id).innerText = value;
-      document.getElementById('guideEndLabel').innerText = data.isCanvas ? 'Sichtbares Leinwandformat' : 'Endmaß inkl. Rand';
+      document.getElementById('guideEndLabel').innerText = data.isCanvas ? 'Sichtbares Leinwandformat' : 'Endmass inkl. Rand';
       ['guidePaperStep','guideScaleStep','guideMediaStep','guideColorStep','guideCheckStep'].forEach((id,i) => { document.getElementById(id).innerText = data.steps[i]; });
       document.getElementById('guideCanon').hidden = !data.canon;
       document.getElementById('guideCanonSources').hidden = !data.canon;
@@ -634,7 +634,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 
     function getPrintGuideText() {
       const data = getPrintGuideData();
-      return ['Print Studio · Druck-Info', data.valid ? data.hasImage ? 'Aktueller Druckbogen' : 'Vorlage ohne geladenes Motiv' : 'Nicht druckbereit: Rand korrigieren.', `Drucker: ${data.canon ? 'Canon imagePROGRAF PRO-1000 (gewählte Anleitung)' : 'Allgemeine Hinweise'}`, `Papier im Druckdialog: ${data.sheet}`, `Ausrichtung: ${data.orientation}`, `${data.isCanvas ? 'Sichtbare Leinwand' : 'Endmaß inkl. Rand'}: ${data.end}`, `Bildfläche: ${data.image}`, `Rand: ${data.border}`, `Original / Auflösung: ${data.resolution}`, '', ...data.steps.map((step,i) => `${i+1}. ${step}`), ...(data.canon ? ['', 'Canon PRO-1000:', data.feed, data.area, ...(data.a5 ? ['A5 ist nicht mit Medien kombinierbar, die den manuellen Einzug erfordern.'] : []), 'Format und Medium müssen auch am Drucker stimmen.'] : []), '', 'Diese Anleitung setzt keine Druckeinstellungen. Angaben im Druckdialog bestätigen.'].join('\n');
+      return ['Print Studio · Druck-Info', data.valid ? data.hasImage ? 'Aktueller Druckbogen' : 'Vorlage ohne geladenes Motiv' : 'Nicht druckbereit: Rand korrigieren.', `Drucker: ${data.canon ? 'Canon imagePROGRAF PRO-1000 (gewählte Anleitung)' : 'Allgemeine Hinweise'}`, `Papier im Druckdialog: ${data.sheet}`, `Ausrichtung: ${data.orientation}`, `${data.isCanvas ? 'Sichtbare Leinwand' : 'Endmass inkl. Rand'}: ${data.end}`, `Bildfläche: ${data.image}`, `Rand: ${data.border}`, `Original / Auflösung: ${data.resolution}`, '', ...data.steps.map((step,i) => `${i+1}. ${step}`), ...(data.canon ? ['', 'Canon PRO-1000:', data.feed, data.area, ...(data.a5 ? ['A5 ist nicht mit Medien kombinierbar, die den manuellen Einzug erfordern.'] : []), 'Format und Medium müssen auch am Drucker stimmen.'] : []), '', 'Diese Anleitung setzt keine Druckeinstellungen. Angaben im Druckdialog bestätigen.'].join('\n');
     }
 
     function resetPrintGuideCopy() {
@@ -756,15 +756,15 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       document.getElementById('suggestionHeading').innerText = isCanvas ? 'Passendes Leinwandformat verwenden' : 'Passendes Rahmenformat verwenden';
       document.getElementById('btnApplySuggestion').hidden = !suggestion;
       if (!suggestion) {
-        document.getElementById('suggestionSummary').innerText = 'Mit diesen Pixelmaßen und Rändern ist kein passendes Format ab 1 cm möglich.';
+        document.getElementById('suggestionSummary').innerText = 'Mit diesen Pixelmassen und Rändern ist kein passendes Format ab 1 cm möglich.';
         document.getElementById('suggestionDetail').innerText = 'Bitte den Rand verkleinern oder ein höher aufgelöstes Original laden. Deine aktuelle Gestaltung bleibt erhalten.';
         return;
       }
       const { reference, layout: proposed, quality: proposedQuality } = suggestion;
-      const name = suggestion.custom ? 'Eigenes Endmaß' : isCanvas ? 'Leinwand' : 'Rahmen';
+      const name = suggestion.custom ? 'Eigenes Endmass' : isCanvas ? 'Leinwand' : 'Rahmen';
       document.getElementById('suggestionSummary').innerText = `${name}: ${formatCM(reference.w * 10)} × ${formatCM(reference.h * 10)} cm · Papier ${proposed.paper.name} (${formatCM(proposed.paper.w)} × ${formatCM(proposed.paper.h)} cm).`;
       const ppi = formatPpi(proposedQuality.effectivePpi);
-      document.getElementById('suggestionDetail').innerText = `${suggestion.custom ? isCanvas ? 'Kein Standardformat. ' : 'Kein Standardrahmen. ' : ''}Bildfläche ${formatCM(proposed.imageWidth)} × ${formatCM(proposed.imageHeight)} cm · ${ppi} ppi. Dein Rand bleibt erhalten. Das Endmaß wird auf dem Papier zentriert.`;
+      document.getElementById('suggestionDetail').innerText = `${suggestion.custom ? isCanvas ? 'Kein Standardformat. ' : 'Kein Standardrahmen. ' : ''}Bildfläche ${formatCM(proposed.imageWidth)} × ${formatCM(proposed.imageHeight)} cm · ${ppi} ppi. Dein Rand bleibt erhalten. Das Endmass wird auf dem Papier zentriert.`;
     }
 
     function renderPrintQuality(layout) {
@@ -776,7 +776,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       document.getElementById('qualityDetails').hidden = !quality;
       panel.dataset.level = quality ? quality.level : 'neutral';
       if (!quality) {
-        els.dpiInfo.innerText = hasImage ? 'Auflösung nicht berechenbar' : 'Maße nach dem Hochladen';
+        els.dpiInfo.innerText = hasImage ? 'Auflösung nicht berechenbar' : 'Masse nach dem Hochladen';
         document.getElementById('qualityStatus').innerText = 'Nicht berechenbar';
         document.getElementById('qualityMessage').innerText = 'Bitte zuerst einen gültigen Rand und eine gültige Bildfläche einstellen.';
         document.getElementById('qualityAdvice').innerText = '';
@@ -802,7 +802,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
       document.getElementById('qualityPaperHelp').innerText = state.productType === 'canvas'
         ? 'Bei Leinwand ergibt sich das Papier aus dem gewählten Format plus 4 cm Umschlag pro Seite. Die Auflösungsanzeige bezieht sich auf die sichtbare Bildfläche.'
         : state.fitToFormat
-          ? 'Dein gewähltes Format ist das fertige Endmaß inklusive Rand. Das ganze Bild wird darin eingepasst und auf dem kleinsten passenden A-Papier zentriert. Die Schnittmarken im Script begrenzen das Endmaß.'
+          ? 'Dein gewähltes Format ist das fertige Endmass inklusive Rand. Das ganze Bild wird darin eingepasst und auf dem kleinsten passenden A-Papier zentriert. Die Schnittmarken im Script begrenzen das Endmass.'
         : 'Das gewählte Format bestimmt das kleinste passende Papier aus A5, A4, A3 und A2; darüber ist es benutzerdefiniert. Das ganze Bild wird innerhalb deines Randes möglichst gross eingepasst. Die Auflösung ändert die Papierwahl nicht automatisch.';
     }
 
@@ -914,7 +914,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 #target photoshop
 app.bringToFront();
 
-// --- GENERATED BY PRINT STUDIO V14.4 ---
+// --- GENERATED BY PRINT STUDIO V14.4.1 ---
 // Embedded image bytes stay local. No external image download is performed.
 // Print at 100% / actual size. Printer "fit to page" changes the calculated dimensions.
 // Source pixels: ${settings.quality ? settings.quality.sourceWidth + ' x ' + settings.quality.sourceHeight : 'unknown (template without original)'}.
@@ -1079,7 +1079,7 @@ finally {
       const link = document.createElement('a');
       const downloadUrl = URL.createObjectURL(blob);
       link.href = downloadUrl;
-      link.download = `PS_V14.4_${settings.fileName}_${formatCM(layout.width)}x${formatCM(layout.height)}cm_auf_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
+      link.download = `PS_V14.4.1_${settings.fileName}_${formatCM(layout.width)}x${formatCM(layout.height)}cm_auf_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 60000);
     }

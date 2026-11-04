@@ -96,7 +96,7 @@ near(run('Number(els.bTop.value)'),10);
 assert.equal(run('state.fitToFormat'),true,'new sessions use the finished end size');
 let initial=execute(true);
 near(initial.layout.width,300);near(initial.layout.height,400);
-assert.equal(element('formatLabel').innerText,'Fertiges Endmaß:');
+assert.equal(element('formatLabel').innerText,'Fertiges Endmass:');
 assert.equal(element('btnFitFormat').attributes['aria-pressed'],'true');
 // The user's 40 x 50 cm frame: exact print, uncut original, A2 and eight precise marks.
 run("state.imgSrc='blob:end-size';state.imgW_PX=4000;state.imgH_PX=5000");
@@ -293,7 +293,7 @@ run('els.bTop.value=210;calcAndRender()');
 assert.equal(element('qualityDetails').hidden,true);assert.equal(element('printQuality').dataset.level,'neutral');
 assert.equal(element('dpiInfo').innerText,'Auflösung nicht berechenbar');
 run('state.imgSrc=null;calcAndRender()');assert.equal(element('printQuality').hidden,true);
-assert.equal(element('dpiInfo').innerText,'Maße nach dem Hochladen');
+assert.equal(element('dpiInfo').innerText,'Masse nach dem Hochladen');
 console.log('PASS resolution: known ppi and thresholds, rounded pixel requirements, all layouts, live scaling/borders/frame invariance, stable paper choice, missing/invalid data and non-blocking warnings.');
 
 // Suggestions are frame END sizes, with borders, rather than an A-sheet enlarged to fill.
@@ -413,7 +413,7 @@ async function verifyPrintGuide() {
   assert.ok(element('guideCanonArea').innerText.includes('14,12 × 20,2 cm'));
   await run('copyPrintGuide()');
   assert.ok(clipboardText.includes('Papier im Druckdialog: A5 · 14,8 × 21 cm'));
-  assert.ok(clipboardText.includes('Endmaß inkl. Rand: 7 × 8,7 cm'));
+  assert.ok(clipboardText.includes('Endmass inkl. Rand: 7 × 8,7 cm'));
   assert.ok(clipboardText.includes('304,8 ppi'));
   assert.equal(element('guideCopyStatus').innerText,'Druck-Info kopiert.');
   element('guidePrinter').value='other';element('guidePrinter').events.change();
