@@ -1,4 +1,4 @@
-# Print Studio V14.10.1
+# Print Studio V14.10.2
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 
@@ -13,6 +13,10 @@ Die helle Oberfläche folgt den lokalen Vorgaben aus `app-ui-foundation`, `flide
 - **Zurück zur maximalen Grösse:** „Bild maximal einpassen“ beim Endmass bzw. „Papier optimal nutzen“ beim ganzen Papier. Beide behalten den Modus. Neue Format-, Ausrichtungs- und Randeinstellungen setzen die manuelle Verkleinerung auf 100 % zurück. Rahmen und Randfarbe ändern die Druckgrösse nicht.
 - **Export:** „Photoshop-Script laden“ ist die Hauptaktion. PNG-Export und Photoshop-Hilfe stehen im Menü mit den drei Punkten. Das PNG zeigt die gewählte Ansicht; Eckgriffe und Papierrest-Schraffur werden nicht exportiert. Die manuelle Bildgrösse geht direkt in die gemeinsame Berechnung für das Script ein.
 - **Mockup im Raum:** Im Inspektor „Mockup öffnen“. Ein virtuelles Zimmer erzeugen oder ein eigenes Zimmerfoto direkt in die Raumvorschau ziehen. Eigene Fotos werden ausschliesslich lokal platziert. Der Zugangscode schützt nur die virtuelle Zimmererzeugung; die Druck-App bleibt frei zugänglich.
+
+## Durchgehende Schnittlinien
+
+Die Druckbogen-Vorschau, ihr PNG-Export und das Photoshop-Script verwenden dieselben durchgehenden Schnittlinien bis an die Papierränder. Dadurch bleiben nach dem Abschneiden einzelner Seiten die Linien für die übrigen Schnitte sichtbar. Die 0,2 mm breiten Linien liegen vollständig auf der Papierrest-Seite des fertigen Endmasses; kein Strich liegt innerhalb des fertigen Prints. Für das genaue Endmass an der zum Print zeigenden Innenkante schneiden. Bereits passende Papierkanten erhalten keine Linie. Bildfläche, Ränder und Papierwahl bleiben unverändert. Bestehende Dateien verwenden beim erneuten Export automatisch die neuen Linien. Bereits heruntergeladene Scripts bleiben unverändert und müssen erneut erstellt werden.
 
 ## Dateien öffnen und speichern
 

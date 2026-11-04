@@ -1,5 +1,11 @@
 # Änderungen
 
+## V14.10.2 · 04.11.2026
+
+- Durchgehende Schnittlinien bis an die Papierränder statt kurzer, versetzter Schnittmarken. Nach dem Abschneiden einer oder zweier Seiten bleiben die Linien für die übrigen Schnitte erhalten.
+- Gleiche Geometrie in Druckbogen-Vorschau, PNG und Photoshop-Script. Strichbreite 0,2 mm vollständig auf dem Papierrest; die Innenkante entspricht dem fertigen Endmass. Bereits passende Kanten bleiben unmarkiert. Bildfläche, Ränder, Papierwahl und Originalbytes bleiben unverändert.
+- Geprüft mit 149 Schnittreihenfolgen für A5–A2, Ausrichtungen, nur zwei zu schneidende Kanten, volle Papierfläche und sehr schmale Papierstreifen sowie dem bestehenden Vorschau-/JSX-Vergleich.
+
 ## V14.10.1 · 04.11.2026
 
 - Ein gemeinsames, beschriftetes Datei-Menü in Print und Mockup: Öffnen, Speichern, Speichern unter sowie Als PNG exportieren. Icons unterstützen die Begriffe; die Dateifunktionen und gespeicherten Dateien bleiben unverändert.

@@ -98,7 +98,7 @@ let initial=execute(true);
 near(initial.layout.width,300);near(initial.layout.height,400);
 assert.equal(element('formatLabel').innerText,'Fertiges Endmass:');
 assert.equal(element('btnFitFormat').attributes['aria-pressed'],'true');
-// The user's 40 x 50 cm frame: exact print, uncut original, A2 and eight precise marks.
+// The user's 40 x 50 cm frame: exact print, uncut original, A2 and four continuous cut guides.
 run("state.imgSrc='blob:end-size';state.imgW_PX=4000;state.imgH_PX=5000");
 element('framePreset').events.change({target:{value:'40x50'}});modes[0].events.click();
 let exact=execute(true,4000,5000);
@@ -107,9 +107,9 @@ near(exact.layout.imageWidth,400);near(exact.layout.imageHeight,500);
 near(exact.layout.left,0);near(exact.layout.top,0);
 assert.equal(exact.layout.paper.name,'A2');near(exact.ps.paperW,420);near(exact.ps.paperH,594);
 near(exact.ps.cutLeftMM,10);near(exact.ps.cutTopMM,47);
-assert.equal(exact.ps.cropMarkRects.length,8);
+assert.equal(exact.ps.cropMarkRects.length,4);
 assert.ok(element('link').download.includes('_40x50cm_auf_A2_0mm_100pct.jsx'));
-const expectedMarks=[[4,46.9,8,47.1],[9.9,41,10.1,45],[412,46.9,416,47.1],[409.9,41,410.1,45],[4,546.9,8,547.1],[9.9,549,10.1,553],[412,546.9,416,547.1],[409.9,549,410.1,553]];
+const expectedMarks=[[9.8,0,10,594],[410,0,410.2,594],[0,46.8,420,47],[0,547,420,547.2]];
 exact.ps.cropMarkRects.forEach((rect,i)=>rect.forEach((v,j)=>near(v,expectedMarks[i][j])));
 assert.equal(element('recapFrame').innerText,'40 × 50 cm');
 assert.equal(element('recapImage').innerText,'40 × 50 cm');
@@ -121,7 +121,7 @@ assert.equal(element('btnResetScale').disabled,true);
 assert.equal(element('btnResetScale').innerText,'Bild maximal einpassen');
 modes[1].events.click();run('els.bTop.value=10');exact=execute(true,4000,5000);
 near(exact.layout.width,400);near(exact.layout.height,500);near(exact.layout.imageWidth,380);near(exact.layout.imageHeight,475);
-near(exact.layout.left,10);near(exact.layout.top,12.5);assert.equal(exact.ps.cropMarkRects.length,8);
+near(exact.layout.left,10);near(exact.layout.top,12.5);assert.equal(exact.ps.cropMarkRects.length,4);
 run('state.imgW_PX=6000;state.imgH_PX=4000');exact=execute(true,6000,4000);
 near(exact.layout.imageWidth/exact.layout.imageHeight,1.5);near(exact.layout.width,400);near(exact.layout.height,500);
 // Mode choices are explicit; resetting scale and switching products preserve the choice.
@@ -137,7 +137,28 @@ assert.equal(run('state.fitToFormat'),true);
 run("state.orientation='portrait';els.inWidth.value=42;els.inHeight.value=59.4;els.borderMode.value='none'");
 exact=execute();assert.equal(exact.ps.cropMarkRects,undefined);
 assert.ok(element('printInfo').innerText.includes('kein Zuschnitt nötig'));
-console.log('PASS finished end size: 40 × 50 cm on A2 with exact eight marks, internal borders, original ratios, visible dimensions, frame invariance, explicit modes, scale reset and product transitions.');
+console.log('PASS finished end size: 40 × 50 cm on A2 with four edge-to-edge cut guides, internal borders, original ratios, visible dimensions, frame invariance, explicit modes, scale reset and product transitions.');
+// Model all cut orders, clipping the ink to the sheet left after every cut.
+function cutOrders(sides){return sides.length?sides.flatMap((side,i)=>cutOrders(sides.filter((_,j)=>i!==j)).map(rest=>[side,...rest])):[[]];}
+let trimmingCases=0;
+for(const [width,height,pw,ph] of [[400,500,420,594],[500,400,594,420],[100,150,148,210],[180,240,210,297],[210,300,297,420],[148,180,148,210],[100,210,148,210],[148,210,148,210],[419.9,593.9,420,594]]){
+ const left=(pw-width)/2,top=(ph-height)/2,right=left+width,bottom=top+height;
+ const marks=run(`getCropMarks(${JSON.stringify({width,height,paper:{w:pw,h:ph}})})`);
+ const sides=[...(left>0?['left','right']:[]),...(top>0?['top','bottom']:[])];
+ assert.equal(marks.length,sides.length,'only edges that actually need cutting receive a guide');
+ for(const [l,t,r,b]of marks){assert.ok(l>=0&&t>=0&&r<=pw&&b<=ph&&r>l&&b>t);assert.ok(r<=left||l>=right||b<=top||t>=bottom,'no ink in the finished print');}
+ for(const order of cutOrders(sides)){
+  const sheet={l:0,t:0,r:pw,b:ph};
+  for(const side of order){
+   const visible=marks.map(([l,t,r,b])=>[Math.max(sheet.l,l),Math.max(sheet.t,t),Math.min(sheet.r,r),Math.min(sheet.b,b)]).filter(([l,t,r,b])=>r>l&&b>t);
+   const match=visible.find(([l,t,r,b])=>side==='left'?Math.abs(r-left)<1e-7&&t===sheet.t&&b===sheet.b:side==='right'?Math.abs(l-right)<1e-7&&t===sheet.t&&b===sheet.b:side==='top'?Math.abs(b-top)<1e-7&&l===sheet.l&&r===sheet.r:Math.abs(t-bottom)<1e-7&&l===sheet.l&&r===sheet.r);
+   assert.ok(match,`guide survives prior cuts: ${width}x${height} on ${pw}x${ph}, ${order.join(' → ')}, ${side}`);
+   if(side==='left')sheet.l=left;else if(side==='right')sheet.r=right;else if(side==='top')sheet.t=top;else sheet.b=bottom;
+  }
+  near(sheet.r-sheet.l,width);near(sheet.b-sheet.t,height);trimmingCases++;
+ }
+}
+console.log(`PASS continuous cut guides: ${trimmingCases} trimming sequences, A5–A2, landscape, one-axis/full sheet and thin offcuts; paper-edge coverage, exact end size and no ink inside the print.`);
 // Preview modes show the same job, with the complete sheet and exact exported marks.
 assert.equal(run('state.previewMode'),'print');
 function previewMarks() {
@@ -163,7 +184,7 @@ assert.equal(element('sheetMarks').hidden,false);
 assert.ok(element('sheetOffcut').innerHTML.includes('offcutHatch'));
 assert.ok(element('previewHelp').innerText.includes('nur Vorschau'));
 assert.ok(html.includes('id="sheetOffcut" class="sheet-overlay" data-html2canvas-ignore="true"'),'offcut hatching must never enter the PNG');
-assert.equal(previewMarks().length,8);
+assert.equal(previewMarks().length,4);
 previewMarks().forEach((rect,i)=>rect.forEach((v,j)=>near(v,sheet.ps.cropMarkRects[i][j])));
 near(run('getPrintQuality(getPrintLayout()).effectivePpi'),qualityBefore);
 // Scaling and keyboard interaction still work on the sheet without changing its size.
@@ -278,7 +299,7 @@ for(const [product,fitToFormat] of [['print',false],['print',true],['canvas',fal
   const dims=run('getVisualDimensions()');
   near(layout.width,product==='canvas'||fitToFormat?dims.w*10:layout.paper.w);
   near(layout.height,product==='canvas'||fitToFormat?dims.h*10:layout.paper.h);
-  if(product==='print'&&fitToFormat&&layout.paper.w-layout.width>=12&&layout.paper.h-layout.height>=12)assert.equal(ps.cropMarkRects.length,8);
+  if(product==='print'&&fitToFormat&&layout.paper.w-layout.width>=12&&layout.paper.h-layout.height>=12)assert.equal(ps.cropMarkRects.length,4);
   near(layout.imageWidth/layout.imageHeight,srcW/srcH);
   assert.ok(layout.left>=-1e-7&&layout.top>=-1e-7&&layout.right>=-1e-7&&layout.bottom>=-1e-7);
   const minimum=product==='canvas'||mode==='none'?0:Number(element('borderSizeTop').value);
