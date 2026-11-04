@@ -1,5 +1,11 @@
 # Änderungen
 
+## V14.10.1 · 04.11.2026
+
+- Ein gemeinsames, beschriftetes Datei-Menü in Print und Mockup: Öffnen, Speichern, Speichern unter sowie Als PNG exportieren. Icons unterstützen die Begriffe; die Dateifunktionen und gespeicherten Dateien bleiben unverändert.
+- «Photoshop-Script erstellen» bleibt der sichtbare blaue Hauptbutton der Druck-App. Im Mockup steht «Mockup als PNG exportieren» im Kopf; bei einem vorhandenen virtuellen Zimmer wird dieser Export ebenfalls zur Hauptaktion.
+- Menüs schliessen nach Auswahl, Aussenklick oder Escape; Escape gibt den Fokus an Datei zurück und erhält den offenen Mockup-Dialog. Mobile Anordnung ohne Überlauf. Druckberechnung, Originalbytes und Schnittmarken bleiben unverändert.
+
 ## V14.10.0 · 04.11.2026
 
 - Einheitlicher Dateiablauf für Prints und Mockups: sichtbares Öffnen/Speichern, Speichern unter im Menü und Dateiname mit Änderungsstatus. Erstes Speichern fragt nach Ordner/Name, weiteres Speichern aktualisiert in Chrome dieselbe Datei. Kein automatisches Öffnen des Verlaufs.

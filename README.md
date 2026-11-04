@@ -1,4 +1,4 @@
-# Print Studio V14.10.0
+# Print Studio V14.10.1
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 
@@ -16,10 +16,10 @@ Die helle Oberfläche folgt den lokalen Vorgaben aus `app-ui-foundation`, `flide
 
 ## Dateien öffnen und speichern
 
-In der Print-Arbeitsfläche und im Mockup stehen **Öffnen** und **Speichern** sichtbar im Kopf. Eine `.printstudio`-Datei enthält das vollständige Originalbild und alle Gestaltungsparameter; ein Mockup zusätzlich Zimmerfoto, Position und Wandmassstab. Es gibt keine getrennte Projekt-/Sicherungsaktion. Unter dem Dateinamen steht «Ungespeicherte Änderungen» oder «Gespeichert».
+Die Print-Arbeitsfläche zeigt **Datei** und den blauen Hauptbutton **Photoshop-Script erstellen**. Im Mockup stehen **Datei** und **Mockup als PNG exportieren** im Kopf. Das Datei-Menü enthält Öffnen, Speichern, Speichern unter und Als PNG exportieren. Eine `.printstudio`-Datei enthält das vollständige Originalbild und alle Gestaltungsparameter; ein Mockup zusätzlich Zimmerfoto, Position und Wandmassstab. Es gibt keine getrennte Projekt-/Sicherungsaktion. Unter dem Dateinamen steht «Ungespeicherte Änderungen» oder «Gespeichert».
 
 - **Speichern:** Beim ersten Mal Name und Ordner wählen. In Chrome wird danach dieselbe Datei aktualisiert. Der Stand bleibt in der Bearbeitung; es öffnet sich kein Verlauf. Cmd/Ctrl+S ist die Tastaturalternative.
-- **Speichern unter …:** Im Drei-Punkte-Menü eine eigenständige Variante anlegen, beispielsweise ein zweites Mockup. Cmd/Ctrl+Shift+S bietet dieselbe Funktion.
+- **Speichern unter …:** Unter «Datei → Speichern unter …» eine eigenständige Variante anlegen, beispielsweise ein zweites Mockup. Cmd/Ctrl+Shift+S bietet dieselbe Funktion.
 - **Öffnen:** «Datei aus Ordner öffnen …» oder einen Eintrag unter «Zuletzt gespeichert» wählen. Prints und Mockups werden getrennt angezeigt. Öffnen liest die aktuelle Datei; fehlende Freigaben, verschobene Dateien und defekte Inhalte erhalten die laufende Bearbeitung. Vor dem Ersetzen ungespeicherter Arbeit kann gespeichert, verworfen oder abgebrochen werden. Cmd/Ctrl+O öffnet diese Ansicht.
 
 **Nur bewusst gespeicherte oder aus einem Ordner geöffnete Dateien erscheinen im Verlauf.** Photoshop-/PNG-Export und Zimmererzeugung speichern keine bearbeitbare Datei und erzeugen keinen Verlaufseintrag. «Aus Liste entfernen» löscht nur den Verweis, niemals die Datei im Ordner. Der Dateiname wird im normalen Speicherdialog gewählt; es gibt kein separates Umbenennen im Verlauf.

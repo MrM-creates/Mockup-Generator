@@ -4,7 +4,7 @@
 Ein lokales Werkzeug für Fotografen und Bildgestalter: vollständige Motive auf dem automatisch empfohlenen Papier mit freiem Rand simulieren und identisch für Photoshop vorbereiten. Kernaufgabe: Bild laden, Gestaltung am Bild beurteilen, Script herunterladen.
 
 ## Struktur und Layout
-Eine Arbeitsfläche ohne Navigation: Vorschau mit Upload und direkter Bildskalierung; Inspektor mit Format, Rand, optionalem Rahmen; Export. Der stabile Kopf enthält Marke und genau eine primäre Aktion „Photoshop-Script laden“. PNG, Anleitung und Mockup-Prompt sind sekundär. Der Fuss enthält Herkunft und keinen weiteren Aufruf.
+Eine Arbeitsfläche ohne Navigation: Vorschau mit Upload und direkter Bildskalierung; Inspektor mit Format, Rand, optionalem Rahmen; Export. Der stabile Kopf enthält Marke und genau eine primäre Aktion „Photoshop-Script erstellen“. PNG, Anleitung und Mockup-Prompt sind sekundär. Der Fuss enthält Herkunft und keinen weiteren Aufruf.
 
 Desktop: grosse Vorschau links, 336 px breiter Inspektor rechts. Tablet: schmalerer Inspektor, weiterhin Sichtkontakt zur Vorschau. Unter 800 px: Vorschau zuerst, danach Einstellungen, kompakter stabiler Kopf. Keine verschachtelten Karten. Vorschau bleibt auf grossen Bildschirmen beim Einstellen sichtbar.
 
@@ -121,3 +121,11 @@ Design/Interaktion: bestehende Flider-Tokens, native beschriftete Buttons, klare
 Chrome speichert File-System-Handles und Thumbnails lokal in einer separaten IndexedDB-Liste; Originale liegen in der vom Benutzer gewählten Datei. Nach Neustart kann erneut eine Dateifreigabe nötig sein. Öffnen liest immer die aktuelle Datei; fehlende, verschobene, defekte oder nicht freigegebene Dateien erhalten die aktuelle Bearbeitung. Andere Browser verwenden einen erklärten Download-Ablauf und verlangen beim Wiederöffnen erneut eine Dateiauswahl; kein falsches Versprechen über einen bekannten Speicherort. Zugangscodes und Bilddaten gelangen dafür nie zum Server. Alte V14.9-Daten bleiben unangetastet.
 
 Prüfung: erstes Speichern/Überschreiben/Speichern unter, Datei- und Ordnerwahl, Abbruch/Schreibfehler/Berechtigungen, Änderungen während Speichern, Wiederöffnen nach Reload, nur gespeicherte Dateien im Verlauf, beide Dokumenttypen und Wandmasse, bytegleicher JSX-Export, keine Hintergrundspeicherung oder KI-Aufrufe, Migration, Browser-Fallback, unsichere Dateiinhalte sowie Desktop/Mobil.
+
+## Einheitliches Datei-Menü
+
+Zweck: Bearbeitungsdateien bedienen und Druckvorlagen auf Knopfdruck erstellen. Die Print-Arbeitsfläche hat links im Aktionsbereich «Datei» mit Öffnen, Speichern, Speichern unter und Als PNG exportieren. Rechts bleibt «Photoshop-Script erstellen» die einzige blaue Hauptaktion. Die drei Dateifunktionen verwenden unverändert den getesteten Dateiablauf und dieselbe Öffnen-Ansicht mit zuletzt gespeicherten Dateien. Keine weitere Export-Hierarchie.
+
+Das Mockup erhält dasselbe Datei-Menü und einen eigenen sichtbaren «Mockup als PNG exportieren»-Button im Kopf. Vor dem ersten virtuellen Zimmer bleibt «Zimmer erzeugen» die nötige Hauptaktion; mit einem vorhandenen Zimmer wird der PNG-Export primär. Dateiname und Änderungsstatus bleiben sichtbar. Bestehende Flider-Tokens, beschriftete Icons, native Details/Buttons, Fokus und Tastaturbefehle werden wiederverwendet. Menü schliesst nach einer Aktion, bei Aussenklick oder Escape; Escape im Menü schliesst nicht den Mockup-Dialog.
+
+Desktop: kompakte Kopfzeile mit Datei und deutlich hervorgehobenem Druck-Export. Mobil: Marke/Dateiname dürfen umbrechen, Menü bleibt vollständig im Bildschirm; Mockup-Export und Schliessen bleiben erreichbar. Copy: «Speichern» für bearbeitbare Dateien, «exportieren» für PNG, «Photoshop-Script erstellen» für die Druckvorlage. Keine Änderung an Speicherung, Druckberechnung, Originalbytes oder Schnittmarken. Prüfung: Print-/Mockup-Menüs, PNG-Weiterleitung und deaktivierte Zustände, Fokus/Escape/Aussenklick, Desktop/Mobil sowie vorhandene Datei-/Drucktests.

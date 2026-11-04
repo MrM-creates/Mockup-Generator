@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.10.0"><title>Print Studio V14.10.0</title>
+<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.10.1"><title>Print Studio V14.10.1</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root {
@@ -66,19 +66,16 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 
 .file-state{font-size:12px;color:var(--text-muted);line-height:1.5;margin:0 0 12px;overflow-wrap:anywhere}.file-actions{display:flex;align-items:center;gap:8px}.room-file-header{gap:16px;flex-wrap:wrap}.room-file-header>div:first-child{min-width:0;flex:1}.room-file-header .file-state{margin-bottom:0}.file-recent-title{font-size:14px;margin:24px 0 12px}.file-entry-menu{position:relative}.file-entry-menu>summary{list-style:none;cursor:pointer;min-width:40px;justify-content:center}.file-entry-menu>summary::-webkit-details-marker{display:none}.file-entry-menu[open]>button{position:absolute;z-index:2;right:0;top:100%;white-space:nowrap;background:#fff;box-shadow:0 8px 24px #0002}.legacy-recovery{border-top:1px solid var(--border);padding-top:16px;margin-top:16px}.legacy-recovery p{font-size:12px}.file-confirm{max-width:520px}.file-confirm p{font-size:14px;line-height:1.6}.file-actions .more-menu>summary{font-size:16px}
 @media(max-width:600px){.app-header{flex-wrap:wrap;gap:12px}.app-header .brand{width:100%}.header-actions{width:100%;flex-wrap:wrap}.header-actions>.btn{padding:8px 10px;font-size:12px}.header-actions>#btnDownloadScript{margin-left:auto;flex:1;justify-content:center}.room-file-header>div:first-child{flex-basis:100%}.file-actions{width:100%;justify-content:flex-end}.file-actions>.btn{min-height:40px}.file-confirm .history-tools>.btn{flex-grow:1}.header-actions,.file-actions{position:relative}.header-actions>.more-menu,.file-actions>.more-menu{position:static}.header-actions>.more-menu>.more-content,.file-actions>.more-menu>.more-content{right:0;left:auto;top:100%;max-width:100%}}
+
+.file-menu>summary{display:flex;align-items:center;justify-content:center;width:auto;min-width:90px;padding:0 12px;gap:8px;font-size:13px;font-weight:550}.file-menu>summary>svg{width:18px;height:18px}.file-menu>summary>svg:last-child{width:14px;height:14px}.file-menu .more-content{width:252px;padding:8px}.file-menu .more-content>.btn{justify-content:flex-start;gap:10px;margin-bottom:2px;border:0;background:transparent}.file-menu .more-content>.btn:hover{background:var(--bg,#f5f5f7)}.file-actions .file-menu>summary{font-size:13px}.file-menu .more-content>.btn>svg{width:18px;height:18px;flex-shrink:0}.file-menu .more-content>.btn:last-child{border-top:1px solid var(--border);border-radius:0;padding-top:14px;margin-top:6px}.file-actions>#btnSaveRoom{max-width:270px}.file-actions>#btnSaveRoom>svg{width:18px;height:18px;flex-shrink:0}
+@media(max-width:600px){.file-menu>summary{min-width:82px;height:40px;font-size:12px}.header-actions .file-menu .more-content{left:0;right:auto}.file-actions .file-menu .more-content{left:0;right:auto}.file-actions>#btnSaveRoom{flex:1;min-width:0;max-width:none;font-size:12px;padding:8px}.file-actions>#btnCloseRoom{flex-shrink:0;padding:8px}.file-actions .file-menu>summary{min-width:78px;font-size:12px}.file-actions{justify-content:space-between}}
 </style></head>
 <body><div class="app">
 <header class="app-header">
- <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.10.0</small></div></div>
+ <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.10.1</small></div></div>
  <div class="header-actions">
-  <button id="btnHistory" class="btn" aria-haspopup="dialog" aria-controls="historyDialog">Öffnen</button>
-  <button id="btnSaveDraft" class="btn" disabled>Speichern</button>
-  <details class="more-menu"><summary aria-label="Weitere Aktionen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></summary><div class="more-content">
-   <button id="btnSaveAs" class="btn" disabled>Speichern unter …</button>
-   <button id="btnDownload" class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Vorschau als PNG sichern</button>
-   <p><strong>In Photoshop öffnen</strong><br>Das Script enthält dein Originalbild und deine Masse. In Photoshop ausführen – das Bild wird automatisch eingesetzt.</p>
-  </div></details>
-  <button id="btnDownloadScript" class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4"/></svg><span>Photoshop-Script laden</span></button>
+  <details id="printFileMenu" class="more-menu file-menu"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h6l2 2h10l-2 11H3z"/><path d="M3 7V4h6l2 2h8v3"/></svg><span>Datei</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></summary><div class="more-content"><button id="btnHistory" class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h6l2 2h10l-2 11H3z"/><path d="M3 7V4h6l2 2h8v3"/></svg><span>Öffnen …</span></button><button id="btnSaveDraft" class="btn" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3h13l3 3v15H4z"/><path d="M8 3v6h8V3M8 21v-8h8v8"/></svg><span>Speichern</span></button><button id="btnSaveAs" class="btn" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3h13l3 3v6M4 3v18h8M8 3v6h8V3M15 18h6m-3-3v6"/></svg><span>Speichern unter …</span></button><button id="btnDownload" class="btn" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span>Als PNG exportieren …</span></button></div></details>
+  <button id="btnDownloadScript" class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4"/></svg><span>Photoshop-Script erstellen</span></button>
  </div>
 </header>
 <main class="app-body">
@@ -157,7 +154,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
   <section class="inspector-section"><h2>Mockup im Raum</h2><p class="room-launch-copy">Deinen fertigen Print im virtuellen oder eigenen Zimmer ansehen.</p><button id="btnOpenRoom" class="btn room-launch" disabled>Mockup öffnen</button><details class="extras"><summary>Raum-Prompt als Alternative</summary><div class="extras-body"><p class="help">Eine passende Raumbeschreibung für dein Motiv und seine Masse.</p><label class="field-label" for="aiRoomStyle">Raumstil</label><select id="aiRoomStyle" class="select"><option value="swiss">Modern Swiss</option><option value="gallery">Galerie</option><option value="midcentury">Mid-Century</option><option value="industrial">Industrial Loft</option><option value="scandi">Skandinavisch</option></select><textarea id="aiPromptOutput" class="input" aria-label="Mockup-Prompt" readonly></textarea><button id="btnCopyPrompt" class="btn">Prompt kopieren</button><p id="aiLoading" class="help" role="status" style="display:none">Prompt kopiert.</p></div></details></section>
  </aside>
 </main>
-<footer class="footer"><span>© 2026 by MrM · V14.10.0</span><span>Das Original bleibt vollständig erhalten.</span></footer>
+<footer class="footer"><span>© 2026 by MrM · V14.10.1</span><span>Das Original bleibt vollständig erhalten.</span></footer>
 <details class="extras" style="margin-bottom:16px"><summary>Open-Source-Hinweise</summary><div class="help" style="padding:12px 0"><p>Lokaler HEIC-Decoder: heic-to 1.6.7 von Hopper Gee, libheif 1.23.7 von struktur AG und libde265 1.0.16. Lizenz: LGPL-3.0 oder neuer. Die Anwendung kommuniziert mit dem separat eingebetteten Decoder über einen Web Worker.</p><p>Quellcode und Bauanleitung: <a href="https://github.com/hoppergee/heic-to/tree/v1.6.7" target="_blank" rel="noopener noreferrer">heic-to</a> · <a href="https://github.com/strukturag/libheif/tree/v1.23.7" target="_blank" rel="noopener noreferrer">libheif</a> · <a href="https://github.com/strukturag/libde265/tree/v1.0.16" target="_blank" rel="noopener noreferrer">libde265</a> · <a href="https://github.com/MrM-creates/Mockup-Generator/blob/main/scripts/embed-heic.cjs" target="_blank" rel="noopener noreferrer">Einbettung und Anpassung</a>. Der Decoder kann durch einen eigenen kompatiblen Build ersetzt werden; siehe docs/HEIC-DECODER.md im Projekt.</p><pre style="white-space:pre-wrap;max-height:240px;overflow:auto;font-size:11px">heic-to is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -1014,7 +1011,7 @@ Public License instead of this License.  But first, please read
 <input type="checkbox" id="chkTransparent" checked hidden aria-hidden="true">
 </div>
 <dialog id="roomDialog" class="room-dialog" aria-labelledby="roomTitle">
- <header class="guide-header room-file-header"><div><h2 id="roomTitle">Mockup im Raum</h2><p id="roomPrintSize" class="help"></p><p id="roomFileStatus" class="file-state" role="status" aria-live="polite" hidden></p></div><div class="file-actions"><button id="btnRoomOpenFile" class="btn" aria-haspopup="dialog" aria-controls="historyDialog">Öffnen</button><button id="btnSaveRoomDraft" class="btn" disabled>Speichern</button><details class="more-menu"><summary aria-label="Weitere Dateiaktionen"><span aria-hidden="true">•••</span></summary><div class="more-content"><button id="btnSaveRoomAs" class="btn" disabled>Speichern unter …</button></div></details><button id="btnCloseRoom" class="btn btn-quiet" aria-label="Mockup schliessen">✕</button></div></header>
+ <header class="guide-header room-file-header"><div><h2 id="roomTitle">Mockup im Raum</h2><p id="roomPrintSize" class="help"></p><p id="roomFileStatus" class="file-state" role="status" aria-live="polite" hidden></p></div><div class="file-actions"><details id="roomFileMenu" class="more-menu file-menu"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h6l2 2h10l-2 11H3z"/><path d="M3 7V4h6l2 2h8v3"/></svg><span>Datei</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></summary><div class="more-content"><button id="btnRoomOpenFile" class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h6l2 2h10l-2 11H3z"/><path d="M3 7V4h6l2 2h8v3"/></svg><span>Öffnen …</span></button><button id="btnSaveRoomDraft" class="btn" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3h13l3 3v15H4z"/><path d="M8 3v6h8V3M8 21v-8h8v8"/></svg><span>Speichern</span></button><button id="btnSaveRoomAs" class="btn" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3h13l3 3v6M4 3v18h8M8 3v6h8V3M15 18h6m-3-3v6"/></svg><span>Speichern unter …</span></button><button id="btnRoomExportMenu" class="btn" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span>Als PNG exportieren …</span></button></div></details><button id="btnSaveRoom" class="btn" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><span>Mockup als PNG exportieren</span></button><button id="btnCloseRoom" class="btn btn-quiet" aria-label="Mockup schliessen">✕</button></div></header>
  <div class="room-body">
   <section class="room-workspace" aria-label="Raumvorschau">
    <div id="roomStage" class="room-stage" tabindex="0" aria-label="Print im Raum. Mit der Maus ziehen oder mit Pfeiltasten verschieben.">
@@ -1033,7 +1030,6 @@ Public License instead of this License.  But first, please read
    <button id="btnCenterRoom" class="btn" hidden>Print zentrieren</button>
    <details id="roomMeasure" class="advanced" hidden><summary>Massstab festlegen</summary><div class="room-measure-body"><p class="help">Markiere die vier Ecken einer rechteckigen Wandfläche mit bekannten Massen. Reihenfolge: oben links, oben rechts, unten rechts, unten links.</p><button id="btnRoomMeasure" class="btn">Wandfläche markieren</button><div class="room-measure-dims"><div><label class="field-label" for="roomWallWidth">Bekannte Breite, cm</label><input id="roomWallWidth" class="input" type="number" min="5" max="2000" step="any" placeholder="z. B. 200" aria-describedby="roomWallWidthHelp"><p id="roomWallWidthHelp" class="help"></p></div><div><label class="field-label" for="roomWallHeight">Bekannte Höhe, cm</label><input id="roomWallHeight" class="input" type="number" min="5" max="2000" step="any" placeholder="z. B. 150" aria-describedby="roomWallHeightHelp"><p id="roomWallHeightHelp" class="help"></p></div></div><p id="roomMeasureHelp" class="help" role="status">Markiere eine Wandfläche und trage ihre gemessene Breite und Höhe ein.</p><button id="btnApplyRoomMeasure" class="btn" disabled>Massstab anwenden</button><button id="btnResetRoomMeasure" class="btn btn-quiet">Zur geschätzten Ansicht</button></div></details>
    <section id="roomGeneration" class="room-ai" aria-label="Virtuelles Zimmer erzeugen"><h3>Zimmer erzeugen</h3><p id="roomPrivacy" class="help">Die KI erzeugt nur das Zimmer. Dein Motiv bleibt lokal und wird unverändert eingesetzt.</p><label class="field-label" for="roomAccessCode">Zugangscode für die KI</label><input id="roomAccessCode" class="input" type="password" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Dein Mockup-Zugangscode"><p class="help">Schützt die kostenpflichtigen Aufrufe. Kein OpenAI-API-Schlüssel.</p><label class="room-consent"><input id="roomConsent" type="checkbox"><span id="roomConsentText">Ich möchte ein kostenpflichtiges Zimmerbild mit OpenAI erzeugen.</span></label><button id="btnGenerateRoom" class="btn btn-primary" disabled>Zimmer erzeugen</button><button id="btnCancelRoom" class="btn btn-quiet" hidden>Anfrage abbrechen</button><p id="roomServiceNote" class="help">Die Verfügbarkeit wird beim Öffnen geprüft.</p></section>
-   <button id="btnSaveRoom" class="btn" disabled>Mockup als PNG sichern</button>
   </aside>
  </div>
  <footer class="room-footer"><p id="roomStatus" role="status" aria-live="polite"></p><button id="btnDoneRoom" class="btn">Schliessen</button></footer>
@@ -1882,7 +1878,7 @@ Public License instead of this License.  But first, please read
 #target photoshop
 app.bringToFront();
 
-// --- GENERATED BY PRINT STUDIO V14.10.0 ---
+// --- GENERATED BY PRINT STUDIO V14.10.1 ---
 // Embedded image bytes stay local. No external image download is performed.
 // Print at 100% / actual size. Printer "fit to page" changes the calculated dimensions.
 // Source pixels: ${settings.quality ? settings.quality.sourceWidth + ' x ' + settings.quality.sourceHeight : 'unknown (template without original)'}.
@@ -2037,7 +2033,7 @@ finally {
       const link = document.createElement('a');
       const downloadUrl = URL.createObjectURL(blob);
       link.href = downloadUrl;
-      link.download = `PS_V14.10.0_${settings.fileName}_${formatCM(layout.width)}x${formatCM(layout.height)}cm_auf_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
+      link.download = `PS_V14.10.1_${settings.fileName}_${formatCM(layout.width)}x${formatCM(layout.height)}cm_auf_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 60000);
     }
@@ -2136,7 +2132,7 @@ finally {
       roomEl('btnGenerateRoom').innerText=room.busy?'KI arbeitet …':room.virtual?'Neues Zimmer erzeugen':'Zimmer erzeugen';
       roomEl('btnGenerateRoom').disabled=own||room.busy||!room.ready||!state.imgSrc||!layout.valid||roomEl('roomAccessCode').value.length<12||!roomEl('roomConsent').checked;
       roomEl('btnCancelRoom').hidden=!room.busy;
-      roomEl('btnSaveRoom').classList.toggle('btn-primary',own);
+      roomEl('btnSaveRoom').classList.toggle('btn-primary',own||has);roomEl('btnGenerateRoom').classList.toggle('btn-primary',!has);
       roomEl('btnCenterRoom').hidden=!has;roomEl('btnCenterRoom').disabled=room.busy||room.editing;
       roomEl('roomZoomRow').hidden=!has||Boolean(scene?.calibrated);roomEl('roomMeasure').hidden=!has;roomEl('roomPlacementHelp').hidden=!has||room.editing;
       if(has){roomEl('roomZoom').value=Math.round(scene.zoom*100);roomEl('roomZoomValue').innerText=Math.round(scene.zoom*100)+' %';}
@@ -2144,7 +2140,7 @@ finally {
       roomEl('btnRoomMeasure').disabled=room.busy;roomEl('btnResetRoomMeasure').disabled=room.busy;roomEl('roomZoom').disabled=room.busy;
       roomEl('roomHandles').hidden=!has||!room.editing;
       const quad=has?roomArtQuad(scene,layout):null;
-      roomEl('btnSaveRoom').disabled=!has||!quad||room.editing||room.busy;
+      roomEl('btnSaveRoom').disabled=!has||!quad||room.editing||room.busy;roomEl('btnRoomExportMenu').disabled=roomEl('btnSaveRoom').disabled;
       roomEl('roomScaleNote').innerText=!has?'Die Raumdarstellung verändert deine Druckmasse nicht.':!quad?'Der Print passt nicht in die gewählte Wandfläche. Bitte die Ansicht verkleinern oder eine grössere Fläche festlegen.':room.editing?'Ziehe die vier Punkte auf die Ecken deiner bekannten rechteckigen Wandfläche.':scene.calibrated?'Massstab aus deinen Referenzmassen berechnet. Die Genauigkeit hängt von den gewählten Punkten und Massen ab.':'Massstab geschätzt. Für eine verlässliche Grössenwirkung unter «Massstab festlegen» eine bekannte Wandfläche markieren.';
       if(!has)return;
       const canvas=roomEl('roomCanvas'),factor=Math.min(1,2048/Math.max(scene.image.width,scene.image.height));
@@ -2275,7 +2271,7 @@ finally {
       ['roomAccessCode','roomConsent','roomWallWidth','roomWallHeight'].forEach(id=>roomEl(id).addEventListener('input',renderRoom));
       roomEl('roomZoom').addEventListener('input',e=>{const scene=roomScene();if(scene&&!scene.calibrated){scene.zoom=Math.max(.5,Math.min(2,Number(e.target.value)/100));renderRoom();}});
       roomEl('btnGenerateRoom').addEventListener('click',generateRoom);roomEl('btnCancelRoom').addEventListener('click',()=>cancelRoom('Anfrage abgebrochen. Ein gestarteter KI-Versuch kann bereits Kosten verursacht haben.'));
-      roomEl('btnSaveRoom').addEventListener('click',saveRoom);roomEl('btnRoomMeasure').addEventListener('click',beginRoomMeasure);roomEl('btnApplyRoomMeasure').addEventListener('click',applyRoomMeasure);
+      roomEl('btnSaveRoom').addEventListener('click',saveRoom);roomEl('btnRoomExportMenu').addEventListener('click',saveRoom);roomEl('btnRoomMeasure').addEventListener('click',beginRoomMeasure);roomEl('btnApplyRoomMeasure').addEventListener('click',applyRoomMeasure);
       roomEl('btnResetRoomMeasure').addEventListener('click',()=>{const scene=roomScene();if(!scene)return;room[room.mode]={...roomNewScene(scene.image,scene.url),sourceFile:scene.sourceFile,displayBlob:scene.displayBlob};roomEl('roomWallWidth').value='';roomEl('roomWallHeight').value='';room.editing=false;room.draft=null;roomNotice('Zur geschätzten Raumansicht gewechselt.');renderRoom();});
       roomEl('btnCenterRoom').addEventListener('click',()=>{const scene=roomScene();if(!scene||room.busy||room.editing)return;scene.center={x:.5,y:.5};roomNotice('Dein Print ist zentriert. Grösse und Wandmasse bleiben erhalten.');renderRoom();});
       const stage=roomEl('roomStage');let drag=null;
@@ -2660,7 +2656,18 @@ Licht: Realistischer, weicher Schattenwurf des Objekts auf die Wand. 8k, photore
         }));target.append(row);}
       }catch{/* No old data: the normal file workflow is independent. */}
     }
+    function initFileMenus(){
+      window.addEventListener('click',event=>{
+        const active=event.target?.closest?.('.file-menu'),action=event.target?.closest?.('button');
+        document.querySelectorAll('.file-menu[open]').forEach(menu=>{if(menu!==active||action)menu.open=false;});
+      });
+      window.addEventListener('keydown',event=>{
+        if(event.key!=='Escape')return;const menu=document.querySelector('.file-menu[open]');if(!menu||!menu.open)return;
+        event.preventDefault();event.stopPropagation();menu.open=false;menu.querySelector('summary').focus();
+      },true);
+    }
     function initHistory(){
+      initFileMenus();
       historyEl('btnHistory').addEventListener('click',()=>{historyKind='print';void openHistory();});historyEl('btnRoomOpenFile').addEventListener('click',()=>{historyKind='mockup';void openHistory();});historyEl('btnCloseHistory').addEventListener('click',()=>historyEl('historyDialog').close());
       for(const [id,kind,saveAs] of [['btnSaveDraft','print',false],['btnSaveAs','print',true],['btnSaveRoomDraft','mockup',false],['btnSaveRoomAs','mockup',true]])historyEl(id).addEventListener('click',()=>{void fileSave(kind,saveAs);});
       historyEl('btnProjectImport').addEventListener('click',fileChooseOpen);historyEl('historyFile').addEventListener('change',e=>{void fileOpen(e.target.files[0]);e.target.value='';});
