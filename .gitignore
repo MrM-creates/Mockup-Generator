@@ -15,3 +15,6 @@ dist/
 !/Photoshop Script/Print_30x40_3mm.jsx
 !/Photoshop Script/Print_A2_1cm_ohne_Beschnitt.jsx
 !/Photoshop Script/Print_A2_2cm_ohne_Beschnitt.jsx
+
+# Private project files contain original artwork and room photos.
+*.printstudio

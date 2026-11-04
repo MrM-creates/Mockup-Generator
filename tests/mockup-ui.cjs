@@ -1,8 +1,8 @@
 const test=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const vm=require('node:vm');
 const html=fs.readFileSync('index.html','utf8'),source=html.match(/<script>\s*([\s\S]*?)<\/script>/)[1];
 const jpeg='data:image/jpeg;base64,'+Buffer.from([255,216,255,...Array(30).fill(0)]).toString('base64');
-function setup({failHeic=false}={}){
- const elements=new Map(),canvases=[],network=[];let nextFetch=async()=>new Response(JSON.stringify({quad:[{x:.2,y:.1},{x:.8,y:.1},{x:.8,y:.8},{x:.2,y:.8}],remaining:8,limit:10}));
+function setup({failHeic=false,idb}={}){
+ const elements=new Map(),canvases=[],network=[],downloads=[];let nextFetch=async()=>new Response(JSON.stringify({quad:[{x:.2,y:.1},{x:.8,y:.1},{x:.8,y:.8},{x:.2,y:.8}],remaining:8,limit:10}));
  const make=id=>{if(elements.has(id))return elements.get(id);const classes=new Set();const n={id,value:'',checked:false,style:{},dataset:{},clientWidth:600,events:{},attributes:{},classList:{add:v=>classes.add(v),remove:v=>classes.delete(v),toggle(v,b){b?classes.add(v):classes.delete(v);}},setAttribute(k,v){this.attributes[k]=v;},addEventListener(k,v){this.events[k]=v;},querySelector(){return make(id+'-child');},querySelectorAll(){return [];},closest(){return make(id+'-parent');},getBoundingClientRect(){return {left:0,top:0,width:600,height:400};},showModal(){this.open=true;},close(){this.open=false;},setPointerCapture(){},focus(){this.focused=true;},click(){this.clicked=true;},contains(t){return t===this;}};elements.set(id,n);return n;};
  let count=0;const create=tag=>{const n=make('created-'+tag+'-'+count++);if(tag==='canvas'){n.draws=[];n.commands=[];n.context=new Proxy({drawImage(...args){n.draws.push(args);}}, {get(t,k){return k in t?t[k]:(...args)=>{n.commands.push([k,...args]);};}});n.getContext=()=>n.context;n.toDataURL=()=>{n.encoded=true;return jpeg;};n.toBlob=cb=>cb(new Blob(['png']));canvases.push(n);}return n;};
  for(const tag of html.matchAll(/<(?:input|select)[^>]*id="([^"]+)"[^>]*>/g))make(tag[1]).value=tag[0].match(/value="([^"]*)"/)?.[1]||'';
@@ -10,10 +10,10 @@ function setup({failHeic=false}={}){
  const main=create('canvas');elements.set('roomCanvas',main);
  class FakeImage{constructor(){this.width=1600;this.height=1000;}set src(v){this.url=v;if(failHeic&&v==='blob:heic'){if(this.onerror)this.onerror();}else if(this.onload)this.onload();}}
  const handles=[0,1,2,3].map(i=>{const n=make('room-handle-'+i);n.dataset.roomCorner=String(i);return n;});
- const context=vm.createContext({document:{getElementById:make,querySelector:make,querySelectorAll:s=>s==='[data-room-corner]'?handles:[],createElement:create},window:{addEventListener(){}},location:{protocol:'http:'},Image:FakeImage,URL:{createObjectURL:blob=>blob.type==='image/heic'?'blob:heic':'blob:local-room',revokeObjectURL(){}},navigator:{clipboard:{writeText:async()=>{}}},setTimeout(){},requestAnimationFrame:fn=>fn(),AbortController,crypto:require('node:crypto').webcrypto,Blob,fetch:async(url,options)=>{network.push({url,options});return nextFetch(url,options);},console,alert(m){throw Error(m);}});
+ const context=vm.createContext({document:{getElementById:make,querySelector:make,querySelectorAll:s=>s==='[data-room-corner]'?handles:[],createElement:create},window:{addEventListener(){}},location:{protocol:'http:'},Image:FakeImage,URL:{createObjectURL:blob=>{downloads.push(blob);return blob.type==='image/heic'?'blob:heic':'blob:local-room';},revokeObjectURL(){}},navigator:{clipboard:{writeText:async()=>{}}},setTimeout(){},requestAnimationFrame:fn=>fn(),AbortController,File,TextEncoder,Uint8Array,indexedDB:idb,atob,btoa,crypto:require('node:crypto').webcrypto,Blob,fetch:async(url,options)=>{network.push({url,options});return nextFetch(url,options);},console,alert(m){throw Error(m);}});
  vm.runInContext(source,context);const run=code=>vm.runInContext(code,context);
  run("state.imgSrc='blob:original-artwork';state.imgW_PX=4000;state.imgH_PX=5000;state.sourceFile={name:'private-original.jpg'};els.inWidth.value=40;els.inHeight.value=50;els.borderMode.value='equal';els.bTop.value=10;roomEl('roomDialog').open=true;room.ready=true;roomEl('roomAccessCode').value='local-test-access-code';roomEl('roomConsent').checked=true;");
- return {run,make,network,canvases,handles,setFetch:f=>{nextFetch=f;}};
+ return {run,make,network,canvases,handles,downloads,setFetch:f=>{nextFetch=f;}};
 }
 const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
 test('perspective mapping and inverse preserve all four corners and interior points',()=>{
@@ -122,4 +122,32 @@ test('centering changes only position and retains known wall dimensions and prin
  const before=JSON.stringify(run('getPrintLayout()')),quad=JSON.stringify(run('room.own.quad'));
  make('btnCenterRoom').events.click();near(run('room.own.center.x'),.5);near(run('room.own.center.y'),.5);
  assert.equal(run('room.own.planeW'),2000);assert.equal(run('room.own.planeH'),1500);assert.equal(run('room.own.calibrated'),true);assert.equal(JSON.stringify(run('room.own.quad')),quad);assert.equal(JSON.stringify(run('getPrintLayout()')),before);assert.equal(network.length,0);
+});
+test('history restores all print settings and byte-exact JSX after asynchronous save without network',async()=>{
+ const {IDBFactory}=require('fake-indexeddb');const {run,make,network}=setup({idb:new IDBFactory()});
+ run("state.sourceFile=new File([new Uint8Array([0,255,17,128])],'exact.png',{type:'image/png'});state.imgW_PX=1600;state.imgH_PX=1000;state.fileName='Foto';state.frameStyle='frame-style-oak';state.showFrame=true;state.matColor='#f5f0e6';state.userScale=.73;state.fitToFormat=false;state.previewMode='sheet';els.framePreset.value='custom';els.inWidth.value=47;els.inHeight.value=62;els.borderMode.value='passepartout';els.bTop.value=20;els.bBottom.value=35;els.chkLightBg.checked=true;els.chkTransparent.checked=false;state.orientation='landscape';var beforeLayout=JSON.stringify(getPrintLayout());var snapshot=historyCapture('print');");
+ const saved=await run('localHistory.save(snapshot)');run("state.userScale=1;state.showFrame=false;state.fitToFormat=true;state.matColor='#ffffff';els.bTop.value=0;state.imgSrc=null;");
+ await run(`historyRestore(${JSON.stringify(saved.id)})`);
+ assert.equal(run('JSON.stringify(getPrintLayout())'),run('beforeLayout'));assert.equal(run('state.frameStyle'),'frame-style-oak');assert.equal(run('state.showFrame'),true);assert.equal(run('state.previewMode'),'sheet');assert.equal(make('chkShowFrame').checked,true);assert.equal(make('borderSizeBottom').value,35);
+ assert.deepEqual([...new Uint8Array(await run('state.sourceFile.arrayBuffer()'))],[0,255,17,128]);
+ run('var emitted;emitPhotoshopScript=(layout,settings,chunks)=>{emitted={layout,settings,chunks}}');await run('downloadPhotoshopScript()');assert.deepEqual([...Buffer.from(run("emitted.chunks.join('')"),'base64')],[0,255,17,128]);assert.equal(JSON.stringify(run('emitted.layout')),run('beforeLayout'));assert.equal(network.length,0);
+});
+test('history restores own and generated mockups without any API call or stored access code',async()=>{
+ const {IDBFactory}=require('fake-indexeddb');const {run,network}=setup({idb:new IDBFactory()});
+ run("state.sourceFile=new File(['art'],'art.jpg',{type:'image/jpeg'});state.imgW_PX=1600;state.imgH_PX=1000;state.fileName='Foto';els.framePreset.value='30x40';els.chkLightBg.checked=false;els.chkTransparent.checked=true;loadRoomFile(new File(['room'],'my-room.jpg',{type:'image/jpeg'}));room.own.center={x:.42,y:.35};room.own.zoom=1.7;var snapshot=historyCapture('mockup');");
+ assert.ok(!JSON.stringify(run('snapshot')).includes('local-test-access-code'));const entry=await run('localHistory.save(snapshot)');run("room.own=null;room.mode='virtual';");await run(`historyRestore(${JSON.stringify(entry.id)})`);assert.equal(run('room.mode'),'own');assert.equal(run('room.own.zoom'),1.7);assert.equal(run('room.own.center.x'),.42);assert.equal(await run('room.own.sourceFile.text()'),'room');assert.equal(run("roomEl('roomConsent').checked"),false);
+ run("room.mode='virtual';room.virtual={...room.own,url:'data:image/jpeg;base64,YWJj',displayBlob:undefined,sourceFile:null};var virtualSnapshot=historyCapture('mockup');");const virtual=await run('localHistory.save(virtualSnapshot)');await run(`historyRestore(${JSON.stringify(virtual.id)})`);assert.equal(run('room.mode'),'virtual');assert.equal(run("roomEl('roomDialog').open"),true);assert.equal(network.length,0);
+});
+test('invalid project settings are rejected before replacing current artwork',async()=>{
+ const {run}=setup();const old=run('state.imgSrc');assert.throws(()=>run("historyValidate({kind:'print',name:'bad',settings:{},original:{name:'bad.jpg',fileName:'bad'}})"));assert.equal(run('state.imgSrc'),old);
+ run("historyEl('historyStatus').textContent='';");await run("historyImport(new File([JSON.stringify({format:'PrintStudioProject',version:99})],'bad.printstudio'))");assert.match(run("historyEl('historyStatus').textContent"),/nicht importiert/);assert.equal(run('state.imgSrc'),old);
+});
+test('portable project round-trip preserves source bytes, room calibration and no secrets',async()=>{
+ const {IDBFactory}=require('fake-indexeddb');const {run,downloads,network}=setup({idb:new IDBFactory()});
+ run("state.sourceFile=new File([new Uint8Array([0,255,17,128])],'exact.jpg',{type:'image/jpeg'});state.imgW_PX=1600;state.imgH_PX=1000;state.fileName='Foto';els.framePreset.value='30x40';els.chkLightBg.checked=false;els.chkTransparent.checked=true;loadRoomFile(new File(['private-room'],'my-room.jpg',{type:'image/jpeg'}));beginRoomMeasure();roomEl('roomWallWidth').value=200;roomEl('roomWallHeight').value=150;applyRoomMeasure();var portable=historyCapture('mockup');");
+ await run('historyExport(()=>portable)');const project=downloads.find(b=>b.type==='application/json');assert.ok(project);const text=await project.text();assert.ok(!text.includes('local-test-access-code'));const payload=JSON.parse(text);assert.equal(payload.format,'PrintStudioProject');assert.deepEqual([...Buffer.from(payload.assets.art.data,'base64')],[0,255,17,128]);
+ run(`var projectText=${JSON.stringify(text)}`);await run("historyImport(new File([projectText],'portable.printstudio'))");const entries=await run('localHistory.list()');assert.equal(entries.length,1);await run(`historyRestore(${JSON.stringify(entries[0].id)})`);assert.equal(run('room.own.calibrated'),true);assert.equal(run('room.own.planeW'),2000);assert.equal(run('room.own.planeH'),1500);assert.equal(await run('room.own.sourceFile.text()'),'private-room');assert.equal(network.length,0);
+});
+test('invalid imported layout and undecodable image retain current print before any state commit',async()=>{
+ const {run}=setup();run("state.sourceFile=new File(['art'],'art.jpg',{type:'image/jpeg'});state.fileName='Foto';els.framePreset.value='30x40';els.chkLightBg.checked=false;els.chkTransparent.checked=true;var broken=historyCapture('print');broken.settings.top=4000;");const before=run('state.imgSrc');await assert.rejects(run('historyPrepare(broken)'),/layout/);assert.equal(run('state.imgSrc'),before);run("broken.settings.top=10;roomImage=async()=>{throw Error('decode-failed')}");await assert.rejects(run('historyPrepare(broken)'),/decode-failed/);assert.equal(run('state.imgSrc'),before);
 });

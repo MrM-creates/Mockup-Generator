@@ -1,5 +1,12 @@
 # Änderungen
 
+## V14.9.0 · 04.11.2026
+
+- Lokaler Verlauf mit getrennten Prints/Mockups, Vorschaubildern, Namen, Datum, Umbenennen und Löschen. Originaldateien werden mit ausdrücklicher Zustimmung lokal in IndexedDB gespeichert; gemeinsame Bilddateien werden dedupliziert.
+- Entwürfe manuell sichern; Photoshop-/PNG-Exporte sichern Momentaufnahmen, virtuelle Zimmer werden direkt nach Erzeugung gesichert. Wiederöffnen übernimmt Original, gesamte Druckgestaltung und bei Mockups Zimmer/Position/Wandmasse ohne neue KI-Erzeugung.
+- Portable `.printstudio`-Projektdateien mit Originalbytes exportieren und importieren. Chrome bietet eine Ordnerwahl; sonst normaler Download. Dateiprüfung und vorbereitendes Bildladen schützen den bisherigen Stand bei defekten Projekten. Keine Originalbilder, Raumfotos oder Zugangscodes werden dafür an einen Server gesendet.
+- Tests für Persistenz, Deduplizierung, parallele Speicherung, gemeinsam verwendete Dateien, Originalbytes im erneuten JSX, sämtliche Gestaltungsoptionen, eigene/generierte Räume, Projekt-Rundreise und Fehler. Browserprüfung mit Neuladen, Chrome-Ordnerwahl/Import und mobiler Ansicht.
+
 ## V14.8.0 · 04.11.2026
 
 - Objektentfernung vorerst vollständig aus Oberfläche und API entfernt. Auch die KI-Platzierungssuche für eigene Fotos entfällt. Bestehende Foto-KI-Aufrufe aus alten Clients werden vor Quotenreservierung oder Anbieteraufruf zurückgewiesen.
