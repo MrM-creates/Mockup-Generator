@@ -1,5 +1,13 @@
 # Änderungen
 
+## V14.10.0 · 04.11.2026
+
+- Einheitlicher Dateiablauf für Prints und Mockups: sichtbares Öffnen/Speichern, Speichern unter im Menü und Dateiname mit Änderungsstatus. Erstes Speichern fragt nach Ordner/Name, weiteres Speichern aktualisiert in Chrome dieselbe Datei. Kein automatisches Öffnen des Verlaufs.
+- Nur gespeicherte oder aus einem Ordner geöffnete Dateien in «Zuletzt gespeichert». Keine automatische Speicherung bei Photoshop-/PNG-Export oder Zimmererzeugung. Neue lokale Liste enthält nur Dateiverweise, Thumbnails und Metadaten. Dateien bleiben im gewählten Ordner.
+- Speichern unter erstellt unabhängige Varianten. Öffnen liest aktuelle Dateidaten; Zugriff verweigert, fehlende Dateien, Abbruch und Schreibfehler erhalten die laufende Bearbeitung. Rückfrage vor dem Verwerfen ungespeicherter Änderungen. Tastaturbefehle für Öffnen/Speichern/Speichern unter.
+- Browser ohne Dateizugriff erhalten einen benannten Download mit klarer Erklärung und erneuter Dateiauswahl beim Öffnen. Kein vorgetäuschter Eintrag für einen nicht bestätigten Download. Alte V14.9-Dateien bleiben kompatibel, frühere lokale Stände separat übernehmbar.
+- Getestet: Originalbytes/JSX, Parameter, Raumfoto und Wandreferenz, Save/Save As, Berechtigungen und Fehler, parallele Änderungen, Download-Fallback, Listenpersistenz und Verwerfungsdialog. Native Chrome-Prüfung mit realen Dateien, Aktualisierung ohne erneute Ordnerwahl, zwei Mockup-Dateien und Wiederöffnen nach Reload; mobile Print-/Mockup-Bedienung.
+
 ## V14.9.0 · 04.11.2026
 
 - Lokaler Verlauf mit getrennten Prints/Mockups, Vorschaubildern, Namen, Datum, Umbenennen und Löschen. Originaldateien werden mit ausdrücklicher Zustimmung lokal in IndexedDB gespeichert; gemeinsame Bilddateien werden dedupliziert.

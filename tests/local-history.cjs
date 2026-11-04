@@ -28,3 +28,9 @@ test('storage failure never reports success or partially commits an entry',async
  const store=factory(new IDBFactory(),async()=>{throw Error('read-failed');});await assert.rejects(store.save(snapshot()),/read-failed/);assert.equal((await store.list()).length,0);
  await assert.rejects(factory(null,digest).save(snapshot()),/storage-unavailable/);
 });
+const recentSource=fs.readFileSync('index.html','utf8').split('// RECENT_FILE_STORE_START')[1].split('// RECENT_FILE_STORE_END')[0];
+const recentFactory=vm.runInNewContext('//'+recentSource+';createRecentFileStore');
+test('recent file references survive reload, update by id, contain no originals, and removal touches only the list',async()=>{
+ const idb=new IDBFactory(),first=recentFactory(idb),entry={id:'file-1',kind:'print',name:'Print.printstudio',thumbnail:new Blob(['thumb']),handle:null,updated:1};
+ await first.remember(entry);await first.remember({...entry,updated:2});const second=recentFactory(idb),entries=await second.list();assert.equal(entries.length,1);assert.equal(entries[0].updated,2);assert.equal(entries[0].blobs,undefined);assert.equal(entries[0].settings,undefined);await second.remove('file-1');assert.equal((await first.list()).length,0);assert.equal((await idb.databases()).length,1);
+});

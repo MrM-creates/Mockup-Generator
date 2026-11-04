@@ -1,4 +1,4 @@
-# Print Studio V14.9.0
+# Print Studio V14.10.0
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 
@@ -14,15 +14,21 @@ Die helle Oberfläche folgt den lokalen Vorgaben aus `app-ui-foundation`, `flide
 - **Export:** „Photoshop-Script laden“ ist die Hauptaktion. PNG-Export und Photoshop-Hilfe stehen im Menü mit den drei Punkten. Das PNG zeigt die gewählte Ansicht; Eckgriffe und Papierrest-Schraffur werden nicht exportiert. Die manuelle Bildgrösse geht direkt in die gemeinsame Berechnung für das Script ein.
 - **Mockup im Raum:** Im Inspektor „Mockup öffnen“. Ein virtuelles Zimmer erzeugen oder ein eigenes Zimmerfoto direkt in die Raumvorschau ziehen. Eigene Fotos werden ausschliesslich lokal platziert. Der Zugangscode schützt nur die virtuelle Zimmererzeugung; die Druck-App bleibt frei zugänglich.
 
-## Lokaler Verlauf und Sicherung
+## Dateien öffnen und speichern
 
-«Verlauf» im Kopf zeigt Prints und Mockups getrennt, jeweils mit Vorschau, Namen und Datum. «Weiterbearbeiten» stellt Originalbild, Formatmodus, Masse, Rand, Rahmen und Skalierung wieder her; bei Mockups zusätzlich Zimmerfoto, Printposition und Wandmassstab. Anschliessend lassen sich PNG und Photoshop-Script erneut exportieren. Wiederöffnen startet keinen KI-Aufruf.
+In der Print-Arbeitsfläche und im Mockup stehen **Öffnen** und **Speichern** sichtbar im Kopf. Eine `.printstudio`-Datei enthält das vollständige Originalbild und alle Gestaltungsparameter; ein Mockup zusätzlich Zimmerfoto, Position und Wandmassstab. Es gibt keine getrennte Projekt-/Sicherungsaktion. Unter dem Dateinamen steht «Ungespeicherte Änderungen» oder «Gespeichert».
 
-«Entwurf sichern» steht im Drei-Punkte-Menü sowie im Mockup. Photoshop-/PNG-Exporte sichern automatisch den aktuellen Stand; erzeugte Zimmer werden sofort gesichert. Identische Stände erscheinen nur einmal, Änderungen werden als eigene Stände behalten. Umbenennen und Löschen sind im Verlauf möglich.
+- **Speichern:** Beim ersten Mal Name und Ordner wählen. In Chrome wird danach dieselbe Datei aktualisiert. Der Stand bleibt in der Bearbeitung; es öffnet sich kein Verlauf. Cmd/Ctrl+S ist die Tastaturalternative.
+- **Speichern unter …:** Im Drei-Punkte-Menü eine eigenständige Variante anlegen, beispielsweise ein zweites Mockup. Cmd/Ctrl+Shift+S bietet dieselbe Funktion.
+- **Öffnen:** «Datei aus Ordner öffnen …» oder einen Eintrag unter «Zuletzt gespeichert» wählen. Prints und Mockups werden getrennt angezeigt. Öffnen liest die aktuelle Datei; fehlende Freigaben, verschobene Dateien und defekte Inhalte erhalten die laufende Bearbeitung. Vor dem Ersetzen ungespeicherter Arbeit kann gespeichert, verworfen oder abgebrochen werden. Cmd/Ctrl+O öffnet diese Ansicht.
 
-Gespeichert wird in IndexedDB (`print-studio-history`) dieser Browser-App auf diesem Gerät, **nicht im Downloads-Ordner und nicht auf Vercel**. Browserprofil und Website-Adresse müssen gleich bleiben. Chrome und seine installierte App verwenden bei gleicher Adresse dasselbe Profil; andere Browser, Geräte und lokale/Preview-Adressen haben getrennte Verläufe. Originaldateien bleiben unverändert; mehrfach verwendete Dateien werden nach Inhalt dedupliziert. Der Zugriffscode wird nie gespeichert. Website-Daten löschen oder privates Surfen können den Verlauf entfernen; Browser-Speicher ist kein dauerhaftes Backup. Speicherfehler lassen aktuelle Bearbeitung und Export bestehen und zeigen einen Hinweis.
+**Nur bewusst gespeicherte oder aus einem Ordner geöffnete Dateien erscheinen im Verlauf.** Photoshop-/PNG-Export und Zimmererzeugung speichern keine bearbeitbare Datei und erzeugen keinen Verlaufseintrag. «Aus Liste entfernen» löscht nur den Verweis, niemals die Datei im Ordner. Der Dateiname wird im normalen Speicherdialog gewählt; es gibt kein separates Umbenennen im Verlauf.
 
-**Dauerhafte Sicherung:** Im Verlauf «Aktuellen Stand als Projektdatei sichern» oder beim Eintrag «Projektdatei sichern». Die `.printstudio`-Datei enthält Originalbild, Einstellungen und gegebenenfalls Zimmer samt Platzierung. Chrome bietet eine Ordnerwahl; Browser ohne diese Funktion verwenden den normalen Download. Die Dateien lassen sich in einem eigenen Ordner sichern, selbst kopieren und über «Projektdatei öffnen» importieren. Keine Ordnerfreigabe nötig, kein automatischer Cloud-Abgleich. Projektdateien sind privat und werden im Repository ignoriert.
+Chrome/Chrome-App können File-System-Handles lokal behalten und erneut verwenden. Nach einem Neustart kann eine Freigabe nötig sein. Andere Browser bieten einen erklärten Download-Ablauf: Datei benennen, herunterladen und im eigenen Ordner aufbewahren. Jede weitere Speicherung erzeugt dort erneut einen Download. Downloads werden ausdrücklich als solche bezeichnet; ein Eintrag in «Zuletzt gespeichert» entsteht erst, wenn diese Datei aus dem Ordner geöffnet wurde. Beim Wiederöffnen ohne gespeicherten Dateizugriff ist erneut eine Dateiauswahl nötig.
+
+Originale liegen in der gewählten Datei, **nicht auf Vercel**. Die neue IndexedDB-Liste `print-studio-files` enthält nur Dateiverweise, Vorschaubilder und Metadaten. Kein Cloud-Abgleich; Dateiberechtigungen und Verlauf gehören zum Browserprofil und zur Website-Adresse. Website-Daten löschen entfernt diese Liste, nicht die selbst gespeicherten Dateien. Zugangscodes werden nie gespeichert. Änderungen während einer laufenden Speicherung bleiben ungespeichert markiert; ein Fehler der lokalen Liste kann eine erfolgreich geschriebene Datei nicht rückgängig machen.
+
+Frühere V14.9-Stände bleiben unverändert in der alten lokalen Ablage. Unter «Öffnen → Frühere lokale Stände übernehmen» lassen sie sich laden und anschliessend als Datei speichern. Bestehende V14.9-Dateien sind weiterhin lesbar. Private `.printstudio`-Dateien werden im Repository ignoriert.
 
 ## Mockup im Raum
 
@@ -30,7 +36,7 @@ Das vollständige Motiv, der eingestellte Rand und der optionale Rahmen werden l
 
 Print mit der Maus ziehen oder mit Pfeiltasten verschieben. „Grösse in der Ansicht“ verändert die geschätzte Raumdarstellung, nicht die Druckmasse. Für eine Grössenreferenz unter „Massstab festlegen“ die vier Ecken einer bekannten rechteckigen Wandfläche markieren und deren tatsächliche Breite/Höhe eingeben. Die Genauigkeit hängt von diesen Angaben und der ebenen Wandfläche ab. Ohne bekannte Masse ist die Darstellung ausdrücklich eine Schätzung.
 
-„Mockup als PNG sichern“ speichert den Raum mit dem lokal eingesetzten Print, ohne Bedienhilfen. Die lange Bildkante beträgt maximal 2.048 px; das Mockup ist eine Raumvisualisierung. Das Photoshop-Script enthält weiterhin die unveränderten Originalbytes für den Druck. Beim Umschalten bleiben beide Zimmer im Arbeitsspeicher erhalten. Für später speichert der lokale Verlauf den jeweils gesicherten Stand inklusive aktivem Zimmer.
+„Mockup als PNG sichern“ speichert den Raum mit dem lokal eingesetzten Print, ohne Bedienhilfen. Die lange Bildkante beträgt maximal 2.048 px; das Mockup ist eine Raumvisualisierung. Das Photoshop-Script enthält weiterhin die unveränderten Originalbytes für den Druck. Beim Umschalten bleiben beide Zimmer im Arbeitsspeicher erhalten. Für später speichert «Speichern» den aktuellen Stand inklusive aktivem Zimmer als Datei.
 
 Die Serverfunktion verwendet einen separaten Zugangscode und standardmässig zehn KI-Versuche pro Zürcher Kalendertag, gemeinsam für alle Personen mit diesem Code. Der dauerhafte Zähler liegt in kostenlosem Upstash Redis mit ausgeschalteten automatischen Tarif-Upgrades. Er enthält nur Anfragekennungen, Sperren und Zähler, keine Fotos. Gleichzeitige oder doppelte Anfragen werden abgefangen. Fehlende Einrichtung oder ein nicht erreichbarer Zähler starten keine neue kostenpflichtige Anfrage. Ein abgebrochener/fehlgeschlagener Versuch bleibt vorsichtshalber im Tageslimit, da OpenAI bereits gearbeitet haben kann. Es gibt kein automatisches Wiederholen.
 
