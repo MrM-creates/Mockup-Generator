@@ -1,5 +1,13 @@
 # Änderungen
 
+## V14.7.0 · 04.11.2026
+
+- Optionale Objektentfernung im eigenen Raum: gezielt bis zu acht Bereiche markieren, per Maus/Touch oder mit Tastaturhilfe. Bestehende Bilder bleiben standardmässig erhalten. Eigene Einwilligung und Zugangscode vor jedem bewusst gestarteten KI-Aufruf.
+- Nur ausgewählte Bereiche aus der KI-Ausgabe werden lokal übernommen. Original/Bearbeitet-Vergleich und Rücksetzung behalten Wandmasse und Printposition. Der Originalprint bleibt lokal und wird nicht mitgesendet; keine Fotoablage auf dem Server.
+- Geführte Wandmasse: fehlende oder ungeeignete Werte direkt an Breite/Höhe erklären; «Massstab anwenden» erst mit zwei gültigen Messwerten aktiv. Gespeicherte Referenzmasse klar kennzeichnen.
+- Raumvorschau bleibt auf Desktop beim Scrollen durch die Einstellungen sichtbar. Mobile nutzt weiterhin die gestapelte Ansicht.
+- API-Prüfung für Auswahl und JPEG-Grösse, serverseitig erzeugte PNG-Alphamaske, dieselbe atomische Tagesquote wie bisher. Tests für Zustimmung, Auswahl, Vergleich, Fehler und veraltete Antworten. Echte KI-Bearbeitung eines synthetischen Zimmers: erstes Bild entfernt, zweites erhalten; ausserhalb der Auswahl pixelidentische Browser-Exporte.
+
 ## V14.6.2 · 04.11.2026
 
 - HEIC-/HEIF-Zimmerfotos werden bei fehlender Browserunterstützung automatisch lokal konvertiert und anschliessend direkt in der Raumvorschau angezeigt. Kein JPEG-Export durch den Benutzer nötig.

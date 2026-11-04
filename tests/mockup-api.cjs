@@ -95,3 +95,22 @@ test('HTTP endpoint bounds bodies, rejects cross-origin/invalid requests, never 
  const post=await httpCall({method:'POST',headers:{origin:'https://mockup-generator-sable.vercel.app','content-type':'application/json'},body:body()});assert.equal(post.status,200);
  const failure=await httpCall({method:'POST',headers:{'content-type':'application/json'},body:body()},{request(){throw Error('private API key');}});assert.equal(failure.status,500);assert.ok(!JSON.stringify(failure.data).includes('private API key'));
 });
+const roomJPEG=(width=1536,height=1024)=>'data:image/jpeg;base64,'+Buffer.from([255,216,255,192,0,17,8,height>>8,height&255,width>>8,width&255,3,1,17,0,2,17,0,3,17,0,255,217]).toString('base64');
+const regions=[{x:.15,y:.2,width:.2,height:.25},{x:.55,y:.22,width:.18,height:.25}];
+test('object removal requires separate consent, valid bounded regions and real JPEG dimensions before quota',async()=>{
+ const {service,calls}=harness();const request={...body(),mode:'remove',room:roomJPEG(),regions,editConsent:true};
+ for(const change of [{editConsent:false},{regions:[]},{regions:Array(9).fill(regions[0])},{regions:[{x:-1,y:0,width:.1,height:.1}]},{regions:[{x:.9,y:.1,width:.2,height:.1}]},{regions:[{x:0,y:0,width:1,height:1}]},{room:roomJPEG(2000,1024)},{room:roomJPEG(1535,1024)},{room:'data:image/jpeg;base64,'+jpeg}])await assert.rejects(()=>service.request({...request,...change},auth),e=>e.status===400);
+ assert.equal(calls.length,0);
+});
+test('removal uses a matching alpha mask and one image edit; photos never enter the quota store',async()=>{
+ const {jpegSize,removalMask}=require('../lib/mockup-service.cjs');
+ const {service,calls}=harness();const result=await service.request({...body(),mode:'remove',room:roomJPEG(),regions,editConsent:true},auth);
+ assert.ok(result.image);assert.deepEqual(jpegSize(roomJPEG()),{width:1536,height:1024});
+ const ai=calls.find(c=>c.url.includes('openai')),tool=ai.data.tools[0];assert.equal(tool.action,'edit');assert.equal(tool.size,'1536x1024');assert.equal(ai.data.max_tool_calls,1);assert.equal(ai.data.store,false);
+ assert.equal(tool.input_image_mask.image_url,removalMask(1536,1024,regions));assert.ok(ai.data.input[0].content[0].text.includes('unselected artwork unchanged'));
+ assert.equal(ai.data.input[0].content[1].image_url,roomJPEG());assert.equal(ai.data.text,undefined);
+ for(const call of calls.filter(c=>c.url.includes('upstash')))assert.ok(!JSON.stringify(call.data).includes('data:image'));
+ const png=Buffer.from(tool.input_image_mask.image_url.split(',')[1],'base64');assert.equal(png.readUInt32BE(16),1536);assert.equal(png.readUInt32BE(20),1024);assert.equal(png[25],6);
+ let idat;for(let i=8;i<png.length;){const length=png.readUInt32BE(i);if(png.toString('ascii',i+4,i+8)==='IDAT')idat=png.subarray(i+8,i+8+length);i+=length+12;}
+ const raw=require('node:zlib').inflateSync(idat),alpha=(x,y)=>raw[y*(1536*4+1)+1+x*4+3];assert.equal(alpha(250,250),0);assert.equal(alpha(900,300),0);assert.equal(alpha(10,10),255);assert.equal(alpha(760,500),255);
+});

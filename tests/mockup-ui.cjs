@@ -3,8 +3,8 @@ const html=fs.readFileSync('index.html','utf8'),source=html.match(/<script>\s*([
 const jpeg='data:image/jpeg;base64,'+Buffer.from([255,216,255,...Array(30).fill(0)]).toString('base64');
 function setup({failHeic=false}={}){
  const elements=new Map(),canvases=[],network=[];let nextFetch=async()=>new Response(JSON.stringify({quad:[{x:.2,y:.1},{x:.8,y:.1},{x:.8,y:.8},{x:.2,y:.8}],remaining:8,limit:10}));
- const make=id=>{if(elements.has(id))return elements.get(id);const classes=new Set();const n={id,value:'',checked:false,style:{},dataset:{},clientWidth:600,events:{},attributes:{},classList:{add:v=>classes.add(v),remove:v=>classes.delete(v),toggle(v,b){b?classes.add(v):classes.delete(v);}},setAttribute(k,v){this.attributes[k]=v;},addEventListener(k,v){this.events[k]=v;},querySelector(){return make(id+'-child');},querySelectorAll(){return [];},closest(){return make(id+'-parent');},getBoundingClientRect(){return {left:0,top:0,width:600,height:400};},showModal(){this.open=true;},close(){this.open=false;},setPointerCapture(){},click(){this.clicked=true;},contains(t){return t===this;}};elements.set(id,n);return n;};
- let count=0;const create=tag=>{const n=make('created-'+tag+'-'+count++);if(tag==='canvas'){n.draws=[];n.context=new Proxy({drawImage(...args){n.draws.push(args);}}, {get(t,k){return k in t?t[k]:(...args)=>{};}});n.getContext=()=>n.context;n.toDataURL=()=>{n.encoded=true;return jpeg;};n.toBlob=cb=>cb(new Blob(['png']));canvases.push(n);}return n;};
+ const make=id=>{if(elements.has(id))return elements.get(id);const classes=new Set();const n={id,value:'',checked:false,style:{},dataset:{},clientWidth:600,events:{},attributes:{},classList:{add:v=>classes.add(v),remove:v=>classes.delete(v),toggle(v,b){b?classes.add(v):classes.delete(v);}},setAttribute(k,v){this.attributes[k]=v;},addEventListener(k,v){this.events[k]=v;},querySelector(){return make(id+'-child');},querySelectorAll(){return [];},closest(){return make(id+'-parent');},getBoundingClientRect(){return {left:0,top:0,width:600,height:400};},showModal(){this.open=true;},close(){this.open=false;},setPointerCapture(){},focus(){this.focused=true;},click(){this.clicked=true;},contains(t){return t===this;}};elements.set(id,n);return n;};
+ let count=0;const create=tag=>{const n=make('created-'+tag+'-'+count++);if(tag==='canvas'){n.draws=[];n.commands=[];n.context=new Proxy({drawImage(...args){n.draws.push(args);}}, {get(t,k){return k in t?t[k]:(...args)=>{n.commands.push([k,...args]);};}});n.getContext=()=>n.context;n.toDataURL=()=>{n.encoded=true;return jpeg;};n.toBlob=cb=>cb(new Blob(['png']));canvases.push(n);}return n;};
  for(const tag of html.matchAll(/<(?:input|select)[^>]*id="([^"]+)"[^>]*>/g))make(tag[1]).value=tag[0].match(/value="([^"]*)"/)?.[1]||'';
  make('borderMode').value='equal';make('aiRoomStyle').value='swiss';make('roomStyle').value='swiss';make('framePreset').options=[{value:'30x40'}];
  const main=create('canvas');elements.set('roomCanvas',main);
@@ -104,4 +104,40 @@ test('HEIC failures retain the previous room and stale conversion cannot reopen 
  run("var finishHeic;roomConvertHeic=()=>new Promise(resolve=>finishHeic=resolve);loadRoomFile({type:'image/heic',size:100});setRoomMode('virtual');finishHeic(new Blob(['jpeg'],{type:'image/jpeg'}))");await new Promise(resolve=>setImmediate(resolve));
  assert.equal(run('room.mode'),'virtual');assert.equal(run('room.own'),previous);assert.equal(network.length,0);
  run("setRoomMode('own');loadRoomFile({type:'image/heic',size:100});roomEl('btnDoneRoom').events.click();finishHeic(new Blob(['jpeg'],{type:'image/jpeg'}))");await new Promise(resolve=>setImmediate(resolve));assert.equal(run('room.own'),previous);assert.equal(make('roomDialog').open,false);
+});
+test('wall measurements show field guidance and enable apply only for two valid physical values',()=>{
+ const {run,make}=setup();run("loadRoomFile({type:'image/png',size:10});beginRoomMeasure()");
+ assert.equal(make('btnApplyRoomMeasure').disabled,true);assert.match(make('roomWallWidthHelp').innerText,/gemessene Breite/);assert.match(make('roomWallHeightHelp').innerText,/gemessene Höhe/);
+ make('roomWallWidth').value='200';make('roomWallWidth').events.input();assert.equal(make('btnApplyRoomMeasure').disabled,true);
+ make('roomWallHeight').value='20';make('roomWallHeight').events.input();assert.equal(make('roomWallHeight').attributes['aria-invalid'],'true');assert.match(make('roomWallHeightHelp').innerText,/mindestens/);
+ make('roomWallHeight').value='150.5';make('roomWallHeight').events.input();assert.equal(make('btnApplyRoomMeasure').disabled,false);assert.equal(make('roomWallHeight').attributes['aria-invalid'],'false');
+ run('applyRoomMeasure()');assert.equal(run('room.own.planeH'),1505);assert.equal(run('room.own.calibrated'),true);
+});
+test('object marking has keyboard and pointer paths, separate consent and no automatic network',()=>{
+ const {run,make,network}=setup();run("loadRoomFile({type:'image/png',size:10});room.ready=true;roomToggleRemoval();roomAddRegion()");
+ assert.equal(make('roomStage').focused,true);assert.equal(run('room.removing'),true);assert.equal(make('btnRemoveRoomObjects').disabled,true);
+ const stage=make('roomStage'),x=run('room.regions[0].x'),width=run('room.regions[0].width');
+ const key=(key,shiftKey=false)=>stage.events.keydown({key,shiftKey,target:{dataset:{}},preventDefault(){},stopPropagation(){}});
+ key('ArrowRight');near(run('room.regions[0].x'),x+.01);key('ArrowRight',true);near(run('room.regions[0].width'),width+.05);
+ run("roomEl('roomRemoveConsent').checked=true;renderRoom()");assert.equal(make('btnRemoveRoomObjects').disabled,false);key('ArrowDown');assert.equal(make('roomRemoveConsent').checked,false);
+ const pointer=(x,y)=>({button:0,clientX:x,clientY:y,pointerId:1,target:{dataset:{}},preventDefault(){}});
+ stage.events.pointerdown(pointer(300,200));stage.events.pointermove(pointer(420,300));stage.events.pointerup();assert.equal(run('room.regions.length'),2);near(run('room.regions[1].width'),.2);near(run('room.regions[1].height'),.25);
+ key('Delete');assert.equal(run('room.regions.length'),1);key('Escape');assert.equal(run('room.removing'),false);assert.equal(network.length,0);
+});
+test('only background/marked regions are sent for removal; compare/reset keep calibration, position and print',async()=>{
+ const {run,make,network,canvases,setFetch}=setup();run("loadRoomFile({type:'image/png',size:10});beginRoomMeasure();roomEl('roomWallWidth').value=200;roomEl('roomWallHeight').value=150;applyRoomMeasure();roomAddRegion();room.ready=true;roomEl('roomRemoveConsent').checked=true;renderRoom();roomImage=async()=>({width:1536,height:960})");
+ const before=JSON.stringify(run('getPrintLayout()')),position=JSON.stringify(run('room.own.center')),quad=JSON.stringify(run('room.own.quad'));
+ setFetch(async()=>new Response(JSON.stringify({image:'data:image/jpeg;base64,test',remaining:6,limit:10})));
+ await run('removeRoomObjects()');
+ assert.ok(run('room.own.edited'));const payload=JSON.parse(network[0].options.body);assert.equal(payload.mode,'remove');assert.equal(payload.editConsent,true);assert.equal(payload.room,jpeg);assert.ok(!JSON.stringify(payload).includes('original-artwork'));
+ const prepared=canvases.find(c=>c.encoded);assert.equal(prepared.draws.length,1);assert.equal(prepared.draws[0][0],run('room.own.image'));
+ const composite=run('room.own.edited');assert.ok(composite.commands.some(c=>c[0]==='clip'));assert.ok(composite.commands.some(c=>c[0]==='rect'));
+ run('roomCompareOriginal(true)');assert.equal(run('roomBackground(room.own)'),run('room.own.image'));
+ run('roomCompareOriginal(false)');assert.equal(run('roomBackground(room.own)'),composite);
+ run('roomResetEdit()');assert.equal(run('room.own.edited'),null);assert.equal(JSON.stringify(run('room.own.center')),position);assert.equal(JSON.stringify(run('room.own.quad')),quad);assert.equal(run('room.own.calibrated'),true);assert.equal(JSON.stringify(run('getPrintLayout()')),before);
+});
+test('failed or stale object removal leaves the photo and original intact',async()=>{
+ const {run,setFetch}=setup();run("loadRoomFile({type:'image/png',size:10});roomAddRegion();room.ready=true;roomEl('roomRemoveConsent').checked=true;renderRoom()");const original=run('room.own.image');
+ setFetch(async()=>new Response(JSON.stringify({error:'no result'}),{status:502}));await run('removeRoomObjects()');assert.equal(run('room.own.edited'),undefined);assert.equal(run('room.own.image'),original);
+ let resolve;setFetch(()=>new Promise(r=>resolve=r));const pending=run('removeRoomObjects()');run("setRoomMode('virtual')");resolve(new Response(JSON.stringify({image:'data:image/jpeg;base64,test'})));await pending;assert.equal(run('room.mode'),'virtual');assert.equal(run('room.own.edited'),undefined);
 });

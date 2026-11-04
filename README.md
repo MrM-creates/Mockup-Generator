@@ -1,4 +1,4 @@
-# Print Studio V14.6.2
+# Print Studio V14.7.0
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 
@@ -95,7 +95,7 @@ Prüft 3.960 Kombinationen in beiden Print-Modi und für Leinwand aus allen neun
 
 ## Originalbild im Script
 
-Ein geladenes Original wird unverändert in das heruntergeladene JSX eingebettet. Es wird weder komprimiert noch neu als Bildschirmvorschau gerastert. Die Datei ist dadurch ungefähr ein Drittel grösser als das Original. Die Browser-App lädt keine Bilder zu einem Server hoch. Photoshop rekonstruiert das Bild kurz im lokalen temporären Ordner, platziert es als eingebettetes Smartobjekt und entfernt die temporäre Datei danach. Ein Export ohne geladenes Bild bleibt als leere Vorlage mit optionaler Dateiauswahl möglich.
+Ein geladenes Original wird unverändert in das heruntergeladene JSX eingebettet. Es wird weder komprimiert noch neu als Bildschirmvorschau gerastert. Die Datei ist dadurch ungefähr ein Drittel grösser als das Original. Die Druckfunktion lädt keine Bilder zu einem Server hoch. Nur ausdrücklich gestartete KI-Raumfunktionen dürfen nach eigener Zustimmung eine verkleinerte Zimmerkopie verarbeiten. Photoshop rekonstruiert das Bild kurz im lokalen temporären Ordner, platziert es als eingebettetes Smartobjekt und entfernt die temporäre Datei danach. Ein Export ohne geladenes Bild bleibt als leere Vorlage mit optionaler Dateiauswahl möglich.
 
 ## Druck-Info
 
@@ -118,3 +118,9 @@ Der alte unterbrochene Rebase wurde mit gesichertem Arbeitsstand abgebrochen. De
 V14.1: Die Auflösungsberechnung wird für alle 2.640 Layoutkombinationen mitgeprüft. Zusätzliche Beispiele prüfen 300/150-ppi-Grenzen, Aufrundung des Pixelbedarfs, Rundung der Anzeige unter 300 ppi, ungültige und fehlende Daten, unveränderte Papierwahl bei anderer Pixelzahl sowie die Auflösungs-Momentaufnahme während des Exports. Im lokalen Chrome wurde ein 600 × 800 px Testbild geladen: 38,1 ppi auf 40 × 53,33 cm; nach Verkleinern auf 10 % korrekt 381 ppi mit unverändertem A2-Papier. Desktop und 390 × 844 px wurden visuell geprüft, inklusive aufklappbarer Pixelangaben; keine Konsolenmeldungen.
 
 V14.4 wurde in Chrome auf Desktop und bei 390 × 844 px visuell geprüft: sichtbare Endmass-Auswahl, 40 × 50 cm, ohne Rand, A2 sowie getrennte Angaben für Papier/Endmass/Bildfläche/Ränder. Der echte Browserdownload enthält das synthetische 800 × 1.000 px 4:5-Original bytegenau. Native Photoshop-Prüfung: Dokument `PrintTemplate_400x500_auf_A2`, eingebettetes vollständiges Smartobjekt, 10 mm seitlicher und 47 mm oberer/unterer Papierüberschuss; acht sichtbare schwarze Schnittmarken ausserhalb des Endmasses. Nicht druckende Hilfslinien wurden für die Sichtprüfung ausgeblendet und danach wiederhergestellt; das eigene Testdokument wurde ohne Speichern geschlossen. Das Download-Dateiformat nennt jetzt das Endmass und bei ausgeschaltetem Rand korrekt 0 mm.
+
+## Eigenes Zimmer: Objekte und Wandmasse
+
+Bestehende Bilder und Einrichtung bleiben zunächst vollständig erhalten. Unter «Objekte entfernen · optional» können ein bis acht einzelne Bereiche inklusive Rahmen und Schatten markiert werden. Ziehen funktioniert mit Maus und Touch; «Bereich hinzufügen», Bereichsauswahl und Pfeiltasten bieten eine Tastaturalternative. Umschalt+Pfeiltasten ändern die Grösse. Erst eine eigene ausdrückliche Einwilligung, Zugangscode und Klick starten die kostenpflichtige KI-Bearbeitung. Nur eine neu codierte Kopie des Raumhintergrunds und die Markierungen werden übertragen. Der Print wird nie mitgesendet. Aus der KI-Ausgabe übernimmt die App nur die markierten Flächen. «Original» / «Bearbeitet» vergleichen den Hintergrund; «Bearbeitung zurücksetzen» stellt das ursprüngliche Zimmerfoto wieder her. Printposition und Referenzmasse bleiben dabei erhalten.
+
+«Massstab festlegen» benötigt eine markierte rechteckige Wandfläche sowie deren tatsächlich gemessene Breite und Höhe. Die grauen Beispielwerte sind keine Eingaben. Fehlende, zu kleine oder ungültige Angaben werden direkt an den Feldern erklärt. «Massstab anwenden» ist erst mit einer gültigen Fläche und zwei geeigneten Massen aktiv.
