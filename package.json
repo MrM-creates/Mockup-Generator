@@ -1,10 +1,11 @@
 {
   "name": "print-studio",
-  "version": "14.5.0",
+  "version": "14.6.0",
   "private": true,
   "description": "Local-first print and frame simulation with self-contained Photoshop export",
   "scripts": {
-    "test": "node tests/print-layout.cjs",
+    "test": "node tests/print-layout.cjs && node --test tests/mockup-api.cjs tests/mockup-ui.cjs",
+    "dev": "node --env-file-if-exists=.env.local scripts/dev.cjs",
     "build": "node scripts/build.cjs"
   },
   "engines": { "node": ">=22" }

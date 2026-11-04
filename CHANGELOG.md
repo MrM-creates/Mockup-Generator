@@ -1,5 +1,14 @@
 # Änderungen
 
+## V14.6.0 · 04.11.2026
+
+- Neuer Bereich „Mockup im Raum“: virtuelles Zimmer mit Sol 6.1 und GPT Image 2.5 Sunburst erzeugen oder ein eigenes Zimmerfoto lokal verwenden.
+- Das Originalmotiv wird lokal mit den aktuellen Print-, Rand- und Rahmenmassen eingesetzt und nie an die KI übertragen. Beim eigenen Zimmerfoto analysiert Sol 6.1 nach ausdrücklicher Zustimmung nur eine verkleinerte, neu codierte Kopie und schlägt eine freie Wandfläche vor.
+- Print im Raum ziehen, per Pfeiltasten verschieben, die geschätzte Ansichtsgrösse ändern oder eine Wandfläche mit vier Punkten und bekannten Massen für die perspektivische Darstellung festlegen. PNG-Export ohne Bedienhilfen.
+- Separater Zugangscode für kostenpflichtige Aufrufe, atomarer Tageszähler in kostenlosem Upstash Redis, standardmässig zehn Versuche pro Zürcher Kalendertag. Doppelte oder parallele Aufrufe werden abgefangen; bei fehlender Einrichtung startet keine KI-Anfrage. Automatische Tarif-Upgrades sind ausgeschaltet.
+- Keine Bildablage im Backend oder Zähler, keine API-Schlüssel im Browser. Druckberechnung und Photoshop-Platzierung bleiben unverändert. Öffnen, Skalieren und Gestaltungsänderungen starten keine KI-Anfragen.
+- Lokaler Entwicklungsserver, API-/Projektions-/Datenschutztests, echte Zimmergenerierung und Wandflächenanalyse sowie verteilte Quotenprüfung mit zwölf parallelen Anfragen.
+
 ## V14.5.0 · 04.11.2026
 
 - Neue Vorschauauswahl direkt über dem Motiv: „Fertiger Print“ oder „Druckbogen“ mit ganzem Papier und schwarzen Schnittmarken.

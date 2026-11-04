@@ -1,8 +1,12 @@
-.git
-Generated Pics
-Generated Mockups
-HTML Script
-Photoshop Script
-tests
-docs
-**/.DS_Store
+*
+!index.html
+!version.json
+!package.json
+!package-lock.json
+!vercel.json
+!scripts/
+!scripts/build.cjs
+!api/
+!api/mockup.js
+!lib/
+!lib/mockup-service.cjs

@@ -1,4 +1,4 @@
-# Print Studio V14.5.0
+# Print Studio V14.6.0
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 
@@ -12,6 +12,19 @@ Die helle Oberfläche folgt den lokalen Vorgaben aus `app-ui-foundation`, `flide
 - **Bildgrösse:** An einer Bildecke ziehen oder den Prozentregler verwenden. 100 % ist die maximale unbeschnittene Einpassung innerhalb der eingestellten Mindestränder; 10–100 % sind möglich. Proportionen und Bildmitte bleiben erhalten. Die tatsächlichen Ränder und die Druckauflösung aktualisieren sich live. Pfeiltasten am Eckgriff ändern die Grösse; Home/End wählen Minimum/Maximum.
 - **Zurück zur maximalen Grösse:** „Bild maximal einpassen“ beim Endmass bzw. „Papier optimal nutzen“ beim ganzen Papier. Beide behalten den Modus. Neue Format-, Ausrichtungs- und Randeinstellungen setzen die manuelle Verkleinerung auf 100 % zurück. Rahmen und Randfarbe ändern die Druckgrösse nicht.
 - **Export:** „Photoshop-Script laden“ ist die Hauptaktion. PNG-Export und Photoshop-Hilfe stehen im Menü mit den drei Punkten. Das PNG zeigt die gewählte Ansicht; Eckgriffe und Papierrest-Schraffur werden nicht exportiert. Die manuelle Bildgrösse geht direkt in die gemeinsame Berechnung für das Script ein.
+- **Mockup im Raum:** Im Inspektor „Mockup öffnen“. Ein virtuelles Zimmer erzeugen oder ein eigenes Zimmerfoto direkt in die Raumvorschau ziehen. Eigene Fotos lassen sich sofort ohne KI verwenden. Der Zugangscode schützt nur kostenpflichtige KI-Aktionen; die Druck-App bleibt frei zugänglich.
+
+## Mockup im Raum
+
+Das vollständige Motiv, der eingestellte Rand und der optionale Rahmen werden lokal aus derselben Druckberechnung in den Raum eingesetzt. Die KI erhält das Originalmotiv nie. Sol 6.1 und GPT Image 2.5 Sunburst erzeugen virtuelle Zimmer; beim eigenen Zimmerfoto analysiert Sol 6.1 nach ausdrücklicher Zustimmung eine verkleinerte, neu codierte Kopie und schlägt eine freie Wandfläche vor. Das eigene Zimmerfoto wird dabei nicht neu gezeichnet. Manuelle Bedienung und Gestaltungsänderungen starten keine KI-Aufrufe.
+
+Print mit der Maus ziehen oder mit Pfeiltasten verschieben. „Grösse in der Ansicht“ verändert die geschätzte Raumdarstellung, nicht die Druckmasse. Für eine Grössenreferenz unter „Massstab festlegen“ die vier Ecken einer bekannten rechteckigen Wandfläche markieren und deren tatsächliche Breite/Höhe eingeben. Die Genauigkeit hängt von diesen Angaben und der ebenen Wandfläche ab. Ohne bekannte Masse ist die Darstellung ausdrücklich eine Schätzung.
+
+„Mockup als PNG sichern“ speichert den Raum mit dem lokal eingesetzten Print, ohne Bedienhilfen. Die lange Bildkante beträgt maximal 2.048 px; das Mockup ist eine Raumvisualisierung. Das Photoshop-Script enthält weiterhin die unveränderten Originalbytes für den Druck. Virtuelles Zimmer und eigenes Zimmerfoto bleiben beim Umschalten bis zum Schliessen der App im Arbeitsspeicher erhalten.
+
+Die Serverfunktion verwendet einen separaten Zugangscode und standardmässig zehn KI-Versuche pro Zürcher Kalendertag, gemeinsam für alle Personen mit diesem Code. Der dauerhafte Zähler liegt in kostenlosem Upstash Redis mit ausgeschalteten automatischen Tarif-Upgrades. Er enthält nur Anfragekennungen, Sperren und Zähler, keine Fotos. Gleichzeitige oder doppelte Anfragen werden abgefangen. Fehlende Einrichtung oder ein nicht erreichbarer Zähler starten keine neue kostenpflichtige Anfrage. Ein abgebrochener/fehlgeschlagener Versuch bleibt vorsichtshalber im Tageslimit, da OpenAI bereits gearbeitet haben kann. Es gibt kein automatisches Wiederholen.
+
+Einrichtung, Datenfluss, Betrieb und Tests: [docs/MOCKUP-SERVER.md](docs/MOCKUP-SERVER.md).
 
 ## Ganzes Motiv und frei wählbare Ränder
 

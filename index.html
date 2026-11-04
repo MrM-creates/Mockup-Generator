@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.5.0"><title>Print Studio V14.5.0</title>
+<html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="application-version" content="14.6.0"><title>Print Studio V14.6.0</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root {
@@ -54,10 +54,12 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 .frame-style-oak { background-color: #d1bfae; background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(139, 90, 43, 0.05) 2px, transparent 3px), repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(139, 90, 43, 0.03) 22px, transparent 25px), linear-gradient(90deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.05) 15%, transparent 30%, rgba(0,0,0,0.1) 85%, rgba(255,255,255,0.05) 100%); box-shadow: inset 1px 1px 3px rgba(255,255,255,0.4), inset -1px -1px 4px rgba(0,0,0,0.3); }
 .frame-style-wood-dark { background-color: #4a3424; background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.15) 3px, transparent 4px), repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(0,0,0,0.08) 32px, transparent 40px), linear-gradient(45deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.3) 100%); box-shadow: inset 1px 1px 2px rgba(255,255,255,0.15), inset -1px -1px 5px rgba(0,0,0,0.6); }
 .frame-style-alu-silver { background-color: #e2e8f0; background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.3) 2px, transparent 3px), linear-gradient(105deg, #cbd5e1 0%, #f1f5f9 15%, #cbd5e1 40%, #94a3b8 70%, #f8fafc 90%, #64748b 100%); box-shadow: inset 1px 1px 1px rgba(255,255,255,0.8), inset -1px -1px 2px rgba(0,0,0,0.3); }
-.frame-style-gold { background-color: #d4af37; background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.1) 2px, transparent 3px), linear-gradient(120deg, #b45309 0%, #fcd34d 20%, #d4af37 40%, #78350f 70%, #fde68a 85%, #b45309 100%); box-shadow: inset 1px 1px 2px rgba(255,255,255,0.8), inset -1px -1px 3px rgba(90,40,0,0.6); }</style></head>
+.frame-style-gold { background-color: #d4af37; background-image: repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.1) 2px, transparent 3px), linear-gradient(120deg, #b45309 0%, #fcd34d 20%, #d4af37 40%, #78350f 70%, #fde68a 85%, #b45309 100%); box-shadow: inset 1px 1px 2px rgba(255,255,255,0.8), inset -1px -1px 3px rgba(90,40,0,0.6); }.room-launch{width:100%;margin-top:4px}.room-launch-copy{font-size:12px;color:var(--text-muted)}.room-dialog{width:min(1160px,calc(100vw - 24px));max-height:calc(100svh - 24px);padding:0;border:1px solid var(--border);border-radius:var(--radius-lg);color:var(--text-main);background:var(--surface);box-shadow:0 24px 80px #00000030}.room-dialog[open]{display:flex;flex-direction:column}.room-dialog::backdrop{background:#1d1d1f66}.room-dialog .guide-header{flex-shrink:0}.room-dialog .guide-header p{margin-top:4px}.room-body{display:grid;grid-template-columns:minmax(0,1fr) 300px;min-height:0;overflow:auto}.room-workspace{padding:24px;min-width:0;background:var(--bg)}.room-stage{position:relative;width:100%;margin:0 auto;min-height:180px;background:#e9eaed;border-radius:var(--radius-md);overflow:hidden;touch-action:none}.room-stage:focus-visible{outline-offset:4px}.room-stage.is-dragging{box-shadow:inset 0 0 0 3px var(--accent)}.room-stage canvas{display:block;width:100%;height:auto;cursor:grab}.room-stage:active canvas{cursor:grabbing}.room-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px;color:var(--text-muted);background:#e9eaed}.room-empty h3{font-size:18px;font-weight:550;color:var(--text-main)}.room-empty p{font-size:13px;max-width:300px}.room-caption{font-size:12px;color:var(--text-muted);margin:14px 0 8px}.room-settings{padding:24px;border-left:1px solid var(--border);display:flex;flex-direction:column;gap:20px;min-width:0}.room-settings .segmented button{white-space:normal;line-height:1.35;min-height:38px}.room-settings input[type=range]{width:100%}.room-value{display:flex;justify-content:space-between;gap:8px}.room-value output{font-variant-numeric:tabular-nums}.room-photo-row .btn{width:100%}.room-measure-body{display:flex;flex-direction:column;gap:12px;padding-top:8px}.room-measure-dims{display:grid;grid-template-columns:1fr 1fr;gap:8px}.room-measure-dims .field-label{font-size:11px}.room-ai{border-top:1px solid var(--border);padding-top:20px;display:flex;flex-direction:column;gap:10px}.room-ai h3{font-size:13px;font-weight:600}.room-consent{display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5}.room-consent input{margin:3px 0 0;flex-shrink:0}.room-handles{position:absolute;inset:0;pointer-events:none}.room-handles button{position:absolute;width:32px;height:32px;border:2px solid white;border-radius:50%;background:var(--accent);color:white;box-shadow:0 1px 6px #00000040;transform:translate(-50%,-50%);font-size:12px;font-weight:600;pointer-events:auto;touch-action:none;padding:0}.room-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;border-top:1px solid var(--border);flex-shrink:0}.room-footer p{font-size:12px;line-height:1.5;overflow-wrap:anywhere}.room-footer p[data-error=true]{color:var(--quality-low)}.room-footer .btn{flex-shrink:0}
+@media(max-width:800px){.room-dialog{max-height:calc(100svh - 16px);width:calc(100vw - 16px)}.room-body{grid-template-columns:minmax(0,1fr)}.room-workspace,.room-settings{padding:16px}.room-settings{border-left:0;border-top:1px solid var(--border)}.room-footer{padding:12px 16px}.room-empty{padding:16px}.room-empty h3{font-size:16px}.room-empty p{font-size:12px}.room-settings .input{font-size:16px}}
+</style></head>
 <body><div class="app">
 <header class="app-header">
- <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.5.0</small></div></div>
+ <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M10 3v4m4 10v4"/></svg></span><div><h1>Print Studio</h1><small>Bild, Rand und Rahmen. · V14.6.0</small></div></div>
  <div class="header-actions">
   <details class="more-menu"><summary aria-label="Weitere Aktionen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></summary><div class="more-content">
    <button id="btnDownload" class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Vorschau als PNG sichern</button>
@@ -137,12 +139,37 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
   <section class="inspector-section" id="frameToggleSection"><div class="section-heading"><div><h2>Rahmen</h2><p class="help">Nur in der Vorschau</p></div><label class="switch"><span class="sr-only">Rahmen anzeigen</span><input type="checkbox" id="chkShowFrame"><span class="switch-track" aria-hidden="true"></span></label></div>
    <div id="sectionRahmen" class="frame-options" style="display:none"><div id="materialSelector" class="material-grid" aria-label="Rahmenmaterial"><button class="chip-toggle active" data-style="frame-style-black" aria-pressed="true"><span class="material-dot" style="background:#252525"></span>Schwarz</button><button class="chip-toggle " data-style="frame-style-white" aria-pressed="false"><span class="material-dot" style="background:#fff"></span>Weiss</button><button class="chip-toggle " data-style="frame-style-oak" aria-pressed="false"><span class="material-dot" style="background:#c9ae8b"></span>Eiche</button><button class="chip-toggle " data-style="frame-style-wood-dark" aria-pressed="false"><span class="material-dot" style="background:#62452f"></span>Nussbaum</button><button class="chip-toggle " data-style="frame-style-alu-silver" aria-pressed="false"><span class="material-dot" style="background:#c5c9cd"></span>Aluminium</button><button class="chip-toggle " data-style="frame-style-gold" aria-pressed="false"><span class="material-dot" style="background:#d4b762"></span>Gold</button></div><div><label class="field-label" for="frameThicknessInput">Rahmenbreite</label><div class="field-row"><input type="range" id="frameThickness" min="0" max="50" value="15" class="field-grow" aria-label="Rahmenbreite in Millimetern"><div class="number-field" style="width:92px"><input type="number" id="frameThicknessInput" value="15" class="input" min="0" max="100" step="0.1"><span>mm</span></div></div></div><div class="export-controls"><label class="switch"><span class="help">Helles Studio-Licht</span><input type="checkbox" id="chkLightBg" checked><span class="switch-track" aria-hidden="true"></span></label></div></div>
   </section>
-  <section class="inspector-section"><details class="extras"><summary>Mockup-Prompt</summary><div class="extras-body"><p class="help">Eine passende Raumbeschreibung für dein Motiv und seine Masse.</p><label class="field-label" for="aiRoomStyle">Raumstil</label><select id="aiRoomStyle" class="select"><option value="swiss">Modern Swiss</option><option value="gallery">Galerie</option><option value="midcentury">Mid-Century</option><option value="industrial">Industrial Loft</option><option value="scandi">Skandinavisch</option></select><textarea id="aiPromptOutput" class="input" aria-label="Mockup-Prompt" readonly></textarea><button id="btnCopyPrompt" class="btn">Prompt kopieren</button><p id="aiLoading" class="help" role="status" style="display:none">Prompt kopiert.</p></div></details></section>
+  <section class="inspector-section"><h2>Mockup im Raum</h2><p class="room-launch-copy">Deinen fertigen Print im virtuellen oder eigenen Zimmer ansehen.</p><button id="btnOpenRoom" class="btn room-launch" disabled>Mockup öffnen</button><details class="extras"><summary>Raum-Prompt als Alternative</summary><div class="extras-body"><p class="help">Eine passende Raumbeschreibung für dein Motiv und seine Masse.</p><label class="field-label" for="aiRoomStyle">Raumstil</label><select id="aiRoomStyle" class="select"><option value="swiss">Modern Swiss</option><option value="gallery">Galerie</option><option value="midcentury">Mid-Century</option><option value="industrial">Industrial Loft</option><option value="scandi">Skandinavisch</option></select><textarea id="aiPromptOutput" class="input" aria-label="Mockup-Prompt" readonly></textarea><button id="btnCopyPrompt" class="btn">Prompt kopieren</button><p id="aiLoading" class="help" role="status" style="display:none">Prompt kopiert.</p></div></details></section>
  </aside>
 </main>
-<footer class="footer"><span>© 2026 by MrM · V14.5.0</span><span>Das Original bleibt vollständig erhalten.</span></footer>
+<footer class="footer"><span>© 2026 by MrM · V14.6.0</span><span>Das Original bleibt vollständig erhalten.</span></footer>
 <input type="checkbox" id="chkTransparent" checked hidden aria-hidden="true">
 </div>
+<dialog id="roomDialog" class="room-dialog" aria-labelledby="roomTitle">
+ <header class="guide-header"><div><h2 id="roomTitle">Mockup im Raum</h2><p id="roomPrintSize" class="help"></p></div><button id="btnCloseRoom" class="btn btn-quiet" aria-label="Mockup schliessen">✕</button></header>
+ <div class="room-body">
+  <section class="room-workspace" aria-label="Raumvorschau">
+   <div id="roomStage" class="room-stage" tabindex="0" aria-label="Print im Raum. Mit der Maus ziehen oder mit Pfeiltasten verschieben.">
+    <canvas id="roomCanvas" width="1536" height="1024" aria-label="Dein unverändertes Motiv im Zimmer"></canvas>
+    <div id="roomEmpty" class="room-empty"><h3 id="roomEmptyTitle">Dein Print im Raum</h3><p id="roomEmptyHelp">Wähle einen Raumstil und erzeuge dein virtuelles Zimmer.</p><button id="btnRoomFile" class="btn" hidden>Zimmerfoto auswählen</button></div>
+    <div id="roomHandles" class="room-handles" hidden><button type="button" data-room-corner="0" aria-label="Wandfläche, Ecke oben links. Pfeiltasten verschieben die Ecke.">1</button><button type="button" data-room-corner="1" aria-label="Wandfläche, Ecke oben rechts. Pfeiltasten verschieben die Ecke.">2</button><button type="button" data-room-corner="2" aria-label="Wandfläche, Ecke unten rechts. Pfeiltasten verschieben die Ecke.">3</button><button type="button" data-room-corner="3" aria-label="Wandfläche, Ecke unten links. Pfeiltasten verschieben die Ecke.">4</button></div>
+   </div>
+   <p id="roomScaleNote" class="room-caption">Die Raumdarstellung verändert deine Druckmasse nicht.</p>
+   <p id="roomPlacementHelp" class="help" hidden>Ziehe den Print an die gewünschte Stelle. Pfeiltasten verschieben ihn ebenfalls.</p>
+  </section>
+  <aside class="room-settings" aria-label="Mockup gestalten">
+   <div><span id="roomModeLabel" class="field-label">Umgebung</span><div class="segmented" role="group" aria-labelledby="roomModeLabel"><button id="btnRoomVirtual" type="button" class="active" aria-pressed="true">Virtuelles Zimmer</button><button id="btnRoomOwn" type="button" aria-pressed="false">Eigenes Foto</button></div></div>
+   <div id="roomStyleRow"><label class="field-label" for="roomStyle">Raumstil</label><select id="roomStyle" class="select"><option value="swiss">Modern Swiss</option><option value="gallery">Galerie</option><option value="midcentury">Mid-Century</option><option value="industrial">Industrial Loft</option><option value="scandi">Skandinavisch</option></select></div>
+   <div id="roomPhotoRow" hidden><button id="btnChangeRoom" class="btn">Zimmerfoto laden</button><p class="help">Auch per Drag & Drop in die Raumvorschau. Ohne KI bleibt das Foto ausschliesslich in deinem Browser.</p><input id="roomFile" type="file" accept="image/jpeg,image/png,image/webp,image/avif" hidden aria-label="Eigenes Zimmerfoto auswählen"></div>
+   <div id="roomZoomRow" hidden><label class="field-label room-value" for="roomZoom">Grösse in der Ansicht <output id="roomZoomValue">100 %</output></label><input id="roomZoom" type="range" min="50" max="200" value="100" aria-describedby="roomScaleNote"></div>
+   <details id="roomMeasure" class="advanced" hidden><summary>Massstab festlegen</summary><div class="room-measure-body"><p class="help">Markiere die vier Ecken einer rechteckigen Wandfläche mit bekannten Massen. Reihenfolge: oben links, oben rechts, unten rechts, unten links.</p><button id="btnRoomMeasure" class="btn">Wandfläche markieren</button><div class="room-measure-dims"><div><label class="field-label" for="roomWallWidth">Bekannte Breite, cm</label><input id="roomWallWidth" class="input" type="number" min="5" max="2000" step="1" placeholder="z. B. 200"></div><div><label class="field-label" for="roomWallHeight">Bekannte Höhe, cm</label><input id="roomWallHeight" class="input" type="number" min="5" max="2000" step="1" placeholder="z. B. 150"></div></div><button id="btnApplyRoomMeasure" class="btn" disabled>Massstab anwenden</button><button id="btnResetRoomMeasure" class="btn btn-quiet">Zur geschätzten Ansicht</button></div></details>
+   <section class="room-ai" aria-label="KI-Unterstützung"><h3>KI-Unterstützung</h3><p id="roomPrivacy" class="help">Die KI erzeugt nur das Zimmer. Dein Motiv bleibt lokal und wird unverändert eingesetzt.</p><label class="field-label" for="roomAccessCode">Zugangscode für die KI</label><input id="roomAccessCode" class="input" type="password" autocomplete="off" spellcheck="false" maxlength="160" placeholder="Dein Mockup-Zugangscode"><p class="help">Schützt die kostenpflichtigen Aufrufe. Kein OpenAI-API-Schlüssel.</p><label class="room-consent"><input id="roomConsent" type="checkbox"><span id="roomConsentText">Ich möchte ein kostenpflichtiges Zimmerbild mit OpenAI erzeugen.</span></label><button id="btnGenerateRoom" class="btn btn-primary" disabled>Zimmer erzeugen</button><button id="btnCancelRoom" class="btn btn-quiet" hidden>Anfrage abbrechen</button><p id="roomServiceNote" class="help">Die Verfügbarkeit wird beim Öffnen geprüft.</p></section>
+   <button id="btnSaveRoom" class="btn" disabled>Mockup als PNG sichern</button>
+  </aside>
+ </div>
+ <footer class="room-footer"><p id="roomStatus" role="status" aria-live="polite"></p><button id="btnDoneRoom" class="btn">Schliessen</button></footer>
+</dialog>
+
 <dialog id="printGuide" class="print-guide" aria-labelledby="printGuideTitle" aria-describedby="printGuideIntro">
  <header class="guide-header"><h2 id="printGuideTitle">Druck-Info</h2><button id="btnClosePrintGuide" class="btn btn-quiet" aria-label="Druck-Info schliessen" autofocus><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></header>
  <div class="guide-body">
@@ -223,6 +250,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
     function init() {
       addEventListeners();
       addWorkspaceListeners();
+      initRoom();
       els.inWidth.value = 30; els.inHeight.value = 40; 
       els.borderMode.value = 'equal';
       calcAndRender();
@@ -451,6 +479,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 
     function syncWorkspace(layout) {
       const hasImage = Boolean(state.imgSrc);
+      document.getElementById('btnOpenRoom').disabled = !hasImage || !layout.valid;
       document.getElementById('emptyState').hidden = hasImage;
       els.captureContainer.hidden = !hasImage;
       document.getElementById('btnChangeImage').hidden = !hasImage;
@@ -964,7 +993,7 @@ h1 {font-size:20px;line-height:1.2;letter-spacing:-.6px;font-weight:650} .brand 
 #target photoshop
 app.bringToFront();
 
-// --- GENERATED BY PRINT STUDIO V14.5.0 ---
+// --- GENERATED BY PRINT STUDIO V14.6.0 ---
 // Embedded image bytes stay local. No external image download is performed.
 // Print at 100% / actual size. Printer "fit to page" changes the calculated dimensions.
 // Source pixels: ${settings.quality ? settings.quality.sourceWidth + ' x ' + settings.quality.sourceHeight : 'unknown (template without original)'}.
@@ -1119,12 +1148,213 @@ finally {
       const link = document.createElement('a');
       const downloadUrl = URL.createObjectURL(blob);
       link.href = downloadUrl;
-      link.download = `PS_V14.5.0_${settings.fileName}_${formatCM(layout.width)}x${formatCM(layout.height)}cm_auf_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
+      link.download = `PS_V14.6.0_${settings.fileName}_${formatCM(layout.width)}x${formatCM(layout.height)}cm_auf_${layout.paper ? layout.paper.name : "Custom"}_${settings.border}mm_${Math.round(settings.scale * 1000) / 10}pct.jsx`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 60000);
     }
 
-    // --- AI / NANO-BANANA INTEGRATION ---
+    // Room mockups: background generation/analysis is remote; original artwork is local.
+    const room = {mode:'virtual',virtual:null,own:null,ready:false,limit:10,busy:false,sequence:0,uploadSequence:0,controller:null,editing:false,draft:null,texture:null,textureKey:'',renderPending:false};
+    const roomEl = id => document.getElementById(id);
+    function roomScene(){return room[room.mode];}
+    function roomNotice(text,error=false){roomEl('roomStatus').innerText=text;roomEl('roomStatus').dataset.error=String(error);}
+    function roomValidQuad(q) {
+      if(!Array.isArray(q)||q.length!==4||!q.every(p=>Number.isFinite(p.x)&&Number.isFinite(p.y)&&p.x>=0&&p.x<=1&&p.y>=0&&p.y<=1))return false;
+      let area=0;
+      for(let i=0;i<4;i++){const a=q[i],b=q[(i+1)%4],c=q[(i+2)%4];if((b.x-a.x)*(c.y-b.y)-(b.y-a.y)*(c.x-b.x)<=.0001)return false;area+=a.x*b.y-b.x*a.y;}
+      return area/2>=.015;
+    }
+    function roomHomography(q) {
+      const [a,b,c,d]=q,dx1=b.x-c.x,dx2=d.x-c.x,dy1=b.y-c.y,dy2=d.y-c.y,dx3=a.x-b.x+c.x-d.x,dy3=a.y-b.y+c.y-d.y;
+      let g=0,h=0;
+      if(Math.abs(dx3)+Math.abs(dy3)>1e-10){const den=dx1*dy2-dx2*dy1;if(Math.abs(den)<1e-12)return null;g=(dx3*dy2-dx2*dy3)/den;h=(dx1*dy3-dx3*dy1)/den;}
+      return [b.x-a.x+g*b.x,d.x-a.x+h*d.x,a.x,b.y-a.y+g*b.y,d.y-a.y+h*d.y,a.y,g,h,1];
+    }
+    function roomProject(m,x,y){if(!m)return null;const d=m[6]*x+m[7]*y+m[8];if(Math.abs(d)<1e-10)return null;return {x:(m[0]*x+m[1]*y+m[2])/d,y:(m[3]*x+m[4]*y+m[5])/d};}
+    function roomInverse(m) {
+      if(!m)return null;
+      const [a,b,c,d,e,f,g,h,i]=m,co=[e*i-f*h,c*h-b*i,b*f-c*e,f*g-d*i,a*i-c*g,c*d-a*f,d*h-e*g,b*g-a*h,a*e-b*d],det=a*co[0]+b*co[3]+c*co[6];
+      return Math.abs(det)<1e-12?null:co.map(v=>v/det);
+    }
+    function roomOuterSize(layout=getPrintLayout()) {
+      const frame=state.productType==='print'&&state.showFrame?state.thicknessMM:0;
+      return {width:layout.width+2*frame,height:layout.height+2*frame,frame};
+    }
+    function roomNewScene(image,url) {
+      const outer=roomOuterSize(),w=Math.max(4200,outer.width*2.5);
+      return {image,url,quad:[{x:0,y:0},{x:1,y:0},{x:1,y:1},{x:0,y:1}],planeW:w,planeH:w*image.height/image.width,center:{x:.5,y:.4},zoom:1,calibrated:false};
+    }
+    function roomArtQuad(scene=roomScene(),layout=getPrintLayout()) {
+      if(!scene||!layout.valid)return null;
+      const size=roomOuterSize(layout),w=scene.planeW/(scene.calibrated?1:scene.zoom),h=scene.planeH/(scene.calibrated?1:scene.zoom);
+      const hw=size.width/w/2,hh=size.height/h/2;
+      if(hw>.5+1e-9||hh>.5+1e-9)return null;
+      scene.center.x=Math.max(hw,Math.min(1-hw,scene.center.x));scene.center.y=Math.max(hh,Math.min(1-hh,scene.center.y));
+      const m=roomHomography(scene.quad),{x,y}=scene.center;
+      return [[x-hw,y-hh],[x+hw,y-hh],[x+hw,y+hh],[x-hw,y+hh]].map(([u,v])=>roomProject(m,u,v));
+    }
+    function roomTexture(layout) {
+      const size=roomOuterSize(layout),key=JSON.stringify([state.imgSrc,layout,state.showFrame,state.frameStyle,state.thicknessMM,state.matColor]);
+      if(room.texture&&room.textureKey===key)return room.texture;
+      const texture=document.createElement('canvas'),scale=Math.min(2048/Math.max(size.width,size.height),5);
+      texture.width=Math.max(1,Math.round(size.width*scale));texture.height=Math.max(1,Math.round(size.height*scale));
+      const ctx=texture.getContext('2d'),sx=texture.width/size.width,sy=texture.height/size.height;
+      const colors={'frame-style-black':'#171717','frame-style-white':'#f5f5f3','frame-style-oak':'#c8ae8c','frame-style-wood-dark':'#4a3424','frame-style-alu-silver':'#b8bec6','frame-style-gold':'#c49a39'};
+      ctx.fillStyle=colors[state.frameStyle]||'#171717';ctx.fillRect(0,0,texture.width,texture.height);
+      ctx.fillStyle=state.productType==='canvas'?'#fff':state.matColor;ctx.fillRect(size.frame*sx,size.frame*sy,layout.width*sx,layout.height*sy);
+      ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+      ctx.drawImage(els.previewImg,(size.frame+layout.left)*sx,(size.frame+layout.top)*sy,layout.imageWidth*sx,layout.imageHeight*sy);
+      if(size.frame){ctx.strokeStyle='#ffffff35';ctx.lineWidth=Math.max(1,sx*.4);ctx.strokeRect(sx*.5,sy*.5,texture.width-sx,texture.height-sy);}
+      room.texture=texture;room.textureKey=key;return texture;
+    }
+    function roomPath(ctx,points){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();}
+    function roomDrawTriangle(ctx,texture,source,target) {
+      const [a,b,c]=source,[p,q,r]=target,den=(b.x-a.x)*(c.y-a.y)-(c.x-a.x)*(b.y-a.y);
+      if(Math.abs(den)<1e-8)return;
+      const m1=((q.x-p.x)*(c.y-a.y)-(r.x-p.x)*(b.y-a.y))/den;
+      const m2=((q.y-p.y)*(c.y-a.y)-(r.y-p.y)*(b.y-a.y))/den;
+      const m3=((r.x-p.x)*(b.x-a.x)-(q.x-p.x)*(c.x-a.x))/den;
+      const m4=((r.y-p.y)*(b.x-a.x)-(q.y-p.y)*(c.x-a.x))/den;
+      const cx=(p.x+q.x+r.x)/3,cy=(p.y+q.y+r.y)/3;
+      const expanded=target.map(t=>{const dx=t.x-cx,dy=t.y-cy,d=Math.hypot(dx,dy)||1;return {x:t.x+dx/d*.45,y:t.y+dy/d*.45};});
+      ctx.save();roomPath(ctx,expanded);ctx.clip();ctx.transform(m1,m2,m3,m4,p.x-m1*a.x-m3*a.y,p.y-m2*a.x-m4*a.y);ctx.drawImage(texture,0,0);ctx.restore();
+    }
+    function roomDrawArtwork(ctx,texture,quad) {
+      ctx.save();roomPath(ctx,quad);ctx.shadowColor='#00000055';ctx.shadowBlur=12;ctx.shadowOffsetX=4;ctx.shadowOffsetY=7;ctx.fillStyle='#333';ctx.fill();ctx.restore();
+      const m=roomHomography(quad),n=10;
+      ctx.save();roomPath(ctx,quad);ctx.clip();ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+      for(let y=0;y<n;y++)for(let x=0;x<n;x++) {
+        const uv=[[x/n,y/n],[(x+1)/n,y/n],[(x+1)/n,(y+1)/n],[x/n,(y+1)/n]];
+        const src=uv.map(([u,v])=>({x:u*texture.width,y:v*texture.height})),dst=uv.map(([u,v])=>roomProject(m,u,v));
+        roomDrawTriangle(ctx,texture,[src[0],src[1],src[2]],[dst[0],dst[1],dst[2]]);
+        roomDrawTriangle(ctx,texture,[src[0],src[2],src[3]],[dst[0],dst[2],dst[3]]);
+      }
+      ctx.restore();
+    }
+    function renderRoom() {
+      if(!roomEl('roomDialog').open)return;
+      const scene=roomScene(),layout=getPrintLayout(),own=room.mode==='own',has=Boolean(scene),outer=roomOuterSize(layout);
+      roomEl('roomPrintSize').innerText=`${formatCM(layout.width)} × ${formatCM(layout.height)} cm Print${outer.frame?` · mit Rahmen ${formatCM(outer.width)} × ${formatCM(outer.height)} cm`:''}`;
+      roomEl('btnRoomVirtual').setAttribute('aria-pressed',String(!own));roomEl('btnRoomOwn').setAttribute('aria-pressed',String(own));
+      roomEl('btnRoomVirtual').classList.toggle('active',!own);roomEl('btnRoomOwn').classList.toggle('active',own);
+      roomEl('roomStyleRow').hidden=own;roomEl('roomPhotoRow').hidden=!own;roomEl('btnRoomFile').hidden=!own;
+      roomEl('roomStage').style.minHeight=has?'0':'180px';
+      roomEl('roomStage').style.maxWidth=has?Math.round(Math.max(220,Math.min(680,(window.innerHeight||720)*.6))*scene.image.width/scene.image.height)+'px':'100%';
+      roomEl('roomEmpty').hidden=has;roomEl('roomEmptyTitle').innerText=own?'Dein eigenes Zimmer':'Dein Print im Raum';
+      roomEl('roomEmptyHelp').innerText=own?'Zimmerfoto hierher ziehen oder auswählen. Du kannst den Print sofort lokal platzieren.':'Wähle einen Raumstil und erzeuge dein virtuelles Zimmer.';
+      roomEl('btnChangeRoom').innerText=has?'Zimmerfoto wechseln':'Zimmerfoto laden';
+      roomEl('roomPrivacy').innerText=own?'Für einen Platzierungsvorschlag senden wir eine verkleinerte Kopie deines Zimmerfotos an OpenAI. Dein Motiv bleibt lokal; das Zimmerfoto wird nicht von der KI verändert.':'Die KI erzeugt nur das Zimmer. Dein Motiv bleibt lokal und wird unverändert eingesetzt.';
+      if(own&&scene?.calibrated)roomEl('roomPrivacy').innerText+=' Ein neuer Vorschlag ersetzt deine markierte Wandfläche und setzt den Massstab auf geschätzt zurück.';
+      roomEl('roomConsentText').innerText=own?'Ich stimme der kostenpflichtigen Analyse meines Zimmerfotos durch OpenAI zu.':'Ich möchte ein kostenpflichtiges Zimmerbild mit OpenAI erzeugen.';
+      roomEl('btnGenerateRoom').innerText=room.busy?'KI arbeitet …':own?'Platzierung vorschlagen':has?'Neues Zimmer erzeugen':'Zimmer erzeugen';
+      roomEl('btnGenerateRoom').disabled=room.busy||!room.ready||!state.imgSrc||!layout.valid||(own&&!has)||roomEl('roomAccessCode').value.length<12||!roomEl('roomConsent').checked;
+      roomEl('btnCancelRoom').hidden=!room.busy;
+      roomEl('roomZoomRow').hidden=!has||Boolean(scene?.calibrated);roomEl('roomMeasure').hidden=!has;roomEl('roomPlacementHelp').hidden=!has||room.editing;
+      if(has){roomEl('roomZoom').value=Math.round(scene.zoom*100);roomEl('roomZoomValue').innerText=Math.round(scene.zoom*100)+' %';}
+      roomEl('btnApplyRoomMeasure').disabled=!room.editing||room.busy;
+      roomEl('btnRoomMeasure').disabled=room.busy;roomEl('btnResetRoomMeasure').disabled=room.busy;roomEl('roomZoom').disabled=room.busy;
+      roomEl('roomHandles').hidden=!has||!room.editing;
+      const quad=has?roomArtQuad(scene,layout):null;
+      roomEl('btnSaveRoom').disabled=!has||!quad||room.editing;
+      roomEl('roomScaleNote').innerText=!has?'Die Raumdarstellung verändert deine Druckmasse nicht.':!quad?'Der Print passt nicht in die gewählte Wandfläche. Bitte die Ansicht verkleinern oder eine grössere Fläche festlegen.':room.editing?'Ziehe die vier Punkte auf die Ecken deiner bekannten rechteckigen Wandfläche.':scene.calibrated?'Massstab aus deinen Referenzmassen berechnet. Die Genauigkeit hängt von den gewählten Punkten und Massen ab.':'Massstab geschätzt. Für eine verlässliche Grössenwirkung unter «Massstab festlegen» eine bekannte Wandfläche markieren.';
+      if(!has)return;
+      const canvas=roomEl('roomCanvas'),factor=Math.min(1,2048/Math.max(scene.image.width,scene.image.height));
+      const w=Math.round(scene.image.width*factor),h=Math.round(scene.image.height*factor);
+      if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+      const ctx=canvas.getContext('2d');ctx.clearRect(0,0,w,h);ctx.drawImage(scene.image,0,0,w,h);
+      if(quad&&state.imgSrc&&layout.valid)roomDrawArtwork(ctx,roomTexture(layout),quad.map(p=>({x:p.x*w,y:p.y*h})));
+      if(room.editing&&room.draft) {
+        const points=room.draft.map(p=>({x:p.x*w,y:p.y*h}));ctx.save();roomPath(ctx,points);ctx.fillStyle='#007aff18';ctx.fill();ctx.strokeStyle='#007aff';ctx.lineWidth=2;ctx.setLineDash([7,5]);ctx.stroke();ctx.restore();
+        document.querySelectorAll('[data-room-corner]').forEach((button,i)=>{button.style.left=room.draft[i].x*100+'%';button.style.top=room.draft[i].y*100+'%';});
+      }
+    }
+    function scheduleRoom(){if(room.renderPending)return;room.renderPending=true;requestAnimationFrame(()=>{room.renderPending=false;renderRoom();});}
+    function cancelRoom(message='') {room.sequence++;if(room.controller)room.controller.abort();room.controller=null;room.busy=false;if(message)roomNotice(message);renderRoom();}
+    async function openRoom() {
+      if(!state.imgSrc||!getPrintLayout().valid){setNotice('Bitte zuerst ein Motiv laden und einen gültigen Rand wählen.');return;}
+      roomEl('roomDialog').showModal();roomNotice('');renderRoom();const sequence=++room.sequence;
+      if(location.protocol==='file:'){room.ready=false;roomEl('roomServiceNote').innerText='Die KI ist über die Online-App verfügbar. Eigene Zimmerfotos funktionieren auch hier lokal.';renderRoom();return;}
+      try{const response=await fetch('/api/mockup',{cache:'no-store'});if(!response.ok)throw Error('status');const status=await response.json();if(sequence!==room.sequence||!roomEl('roomDialog').open)return;room.ready=status.ready===true;room.limit=Number(status.limit)||10;roomEl('roomServiceNote').innerText=room.ready?`Bis zu ${room.limit} KI-Versuche pro Tag. Start nur per Klick; kein automatisches Wiederholen.`:'Die KI-Einrichtung ist noch nicht abgeschlossen. Eigene Zimmerfotos kannst du schon lokal verwenden.';}
+      catch{if(sequence===room.sequence){room.ready=false;roomEl('roomServiceNote').innerText='Die KI-Verbindung ist gerade nicht verfügbar. Eigene Zimmerfotos funktionieren weiterhin lokal.';}}
+      renderRoom();
+    }
+    function setRoomMode(mode){if(room.mode===mode)return;cancelRoom();room.mode=mode;room.editing=false;room.draft=null;roomEl('roomWallWidth').value=roomScene()?.calibrated?roomScene().planeW/10:'';roomEl('roomWallHeight').value=roomScene()?.calibrated?roomScene().planeH/10:'';roomEl('roomConsent').checked=false;roomNotice('');renderRoom();}
+    function loadRoomFile(file) {
+      if(!file)return;
+      if(!['image/jpeg','image/png','image/webp','image/avif'].includes(file.type)||file.size>30*1024*1024){roomNotice('Bitte ein JPG-, PNG-, WebP- oder AVIF-Zimmerfoto bis 30 MB auswählen.',true);return;}
+      const sequence=++room.uploadSequence,url=URL.createObjectURL(file),img=new Image();
+      img.onload=()=>{
+        if(sequence!==room.uploadSequence){URL.revokeObjectURL(url);return;}
+        if(img.width*img.height>60000000){URL.revokeObjectURL(url);roomNotice('Das Zimmerfoto ist sehr gross. Bitte eine Kopie mit maximal 60 Megapixeln laden.',true);return;}
+        cancelRoom();if(room.own?.url.startsWith('blob:'))URL.revokeObjectURL(room.own.url);
+        room.own=roomNewScene(img,url);room.mode='own';room.editing=false;room.draft=null;roomEl('roomWallWidth').value='';roomEl('roomWallHeight').value='';roomEl('roomConsent').checked=false;
+        roomNotice('Zimmerfoto lokal geladen. Ziehe deinen Print an die gewünschte Stelle.');renderRoom();
+      };
+      img.onerror=()=>{URL.revokeObjectURL(url);if(sequence===room.uploadSequence)roomNotice('Das Zimmerfoto konnte nicht gelesen werden. Bitte als JPG oder PNG laden.',true);};img.src=url;
+    }
+    function roomImage(data){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(Error('image'));img.src=data;});}
+    function roomPhotoForAI(scene) {
+      const copy=document.createElement('canvas'),scale=Math.min(1,1536/Math.max(scene.image.width,scene.image.height));
+      copy.width=Math.max(1,Math.round(scene.image.width*scale));copy.height=Math.max(1,Math.round(scene.image.height*scale));
+      const ctx=copy.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,copy.width,copy.height);ctx.drawImage(scene.image,0,0,copy.width,copy.height);
+      const data=copy.toDataURL('image/jpeg',.8);if(data.length>1600000)throw Error('room-size');return data;
+    }
+    async function generateRoom() {
+      if(roomEl('btnGenerateRoom').disabled||room.busy)return;
+      const mode=room.mode,scene=roomScene(),layout=getPrintLayout();
+      const sequence=++room.sequence,controller=new AbortController();room.controller=controller;room.busy=true;room.editing=false;room.draft=null;
+      roomNotice(mode==='virtual'?'Dein Zimmer wird erzeugt. Das kann ein bis zwei Minuten dauern.':'Die KI sucht eine freie Wandfläche. Dein Zimmerfoto und dein Motiv werden nicht neu gezeichnet.');renderRoom();
+      try {
+        const body={id:crypto.randomUUID(),mode,style:roomEl('roomStyle').value,width:layout.width,height:layout.height,consent:roomEl('roomConsent').checked};
+        if(mode==='own')body.room=roomPhotoForAI(scene);
+        const response=await fetch('/api/mockup',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+roomEl('roomAccessCode').value},body:JSON.stringify(body),signal:controller.signal});
+        const result=await response.json();if(sequence!==room.sequence||!roomEl('roomDialog').open)return;
+        if(!response.ok)throw Error(result.error||'Die KI-Anfrage konnte nicht abgeschlossen werden.');
+        if(mode==='virtual'){
+          if(typeof result.image!=='string'||!result.image.startsWith('data:image/jpeg;base64,'))throw Error('Das Zimmerbild konnte nicht gelesen werden.');
+          const image=await roomImage(result.image);if(sequence!==room.sequence||!roomEl('roomDialog').open)return;room.virtual=roomNewScene(image,result.image);roomEl('roomWallWidth').value='';roomEl('roomWallHeight').value='';
+        }else {
+          if(!roomValidQuad(result.quad))throw Error('Die vorgeschlagene Wandfläche ist ungültig. Bitte selbst markieren.');
+          scene.quad=result.quad;scene.calibrated=false;roomEl('roomWallWidth').value='';roomEl('roomWallHeight').value='';scene.zoom=1;scene.center={x:.5,y:.5};
+          const q=result.quad,edge=(a,b)=>Math.hypot((a.x-b.x)*scene.image.width,(a.y-b.y)*scene.image.height);
+          scene.planeW=Math.max(2200,roomOuterSize().width*3);scene.planeH=scene.planeW*(edge(q[0],q[3])+edge(q[1],q[2]))/(edge(q[0],q[1])+edge(q[3],q[2]));
+        }
+        roomNotice(mode==='virtual'?'Zimmer erzeugt. Dein Originalmotiv ist lokal eingesetzt.':'Freie Wandfläche vorgeschlagen. Position und Massstab kannst du weiter anpassen.');
+        roomEl('roomServiceNote').innerText=`Heute noch ${result.remaining} von ${result.limit} KI-Versuchen verfügbar. Auch unterbrochene Versuche können bereits Kosten verursacht haben.`;
+      }catch(error){if(sequence===room.sequence&&roomEl('roomDialog').open)roomNotice(error.name==='AbortError'?'Anfrage abgebrochen. Ein bereits gestarteter KI-Versuch kann Kosten verursacht haben.':error.message==='room-size'?'Bitte das Zimmerfoto etwas verkleinern und neu laden.':error.message==='Failed to fetch'?'Die Verbindung wurde unterbrochen. Bitte nicht sofort mehrfach erneut starten.':error.message,true);}
+      finally{if(sequence===room.sequence){room.busy=false;room.controller=null;renderRoom();}}
+    }
+    function beginRoomMeasure(){const scene=roomScene();if(!scene)return;room.editing=true;room.draft=scene.calibrated?scene.quad.map(p=>({...p})):[{x:.15,y:.12},{x:.85,y:.12},{x:.85,y:.75},{x:.15,y:.75}];roomNotice('Markiere eine rechteckige Wandfläche und trage deren bekannte Masse ein.');renderRoom();}
+    function applyRoomMeasure(){const scene=roomScene(),w=Number(roomEl('roomWallWidth').value),h=Number(roomEl('roomWallHeight').value);if(!scene||!room.editing||!roomValidQuad(room.draft)||![w,h].every(v=>Number.isFinite(v)&&v>=5&&v<=2000)){roomNotice('Bitte eine gültige rechteckige Wandfläche und ihre Breite/Höhe zwischen 5 und 2.000 cm angeben.',true);return;}const outer=roomOuterSize();if(outer.width>w*10||outer.height>h*10){roomNotice('Die markierte Wandfläche ist kleiner als dein Print. Bitte eine grössere Fläche verwenden.',true);return;}scene.quad=room.draft.map(p=>({...p}));scene.planeW=w*10;scene.planeH=h*10;scene.center={x:.5,y:.5};scene.zoom=1;scene.calibrated=true;room.editing=false;room.draft=null;roomNotice('Deine Referenzmasse sind übernommen. Die Druckmasse bleiben unverändert.');renderRoom();}
+    function saveRoom() {
+      if(roomEl('btnSaveRoom').disabled)return;renderRoom();const name=state.fileName;
+      try { roomEl('roomCanvas').toBlob(blob=>{if(!blob){roomNotice('Das Mockup konnte nicht gespeichert werden. Bitte erneut versuchen.',true);return;}const link=document.createElement('a'),url=URL.createObjectURL(blob);link.href=url;link.download=`Mockup_${name}_im_Raum.png`;link.click();setTimeout(()=>URL.revokeObjectURL(url),60000);roomNotice('Mockup als PNG gespeichert. Dein Druck-Script bleibt unverändert.');},'image/png'); } catch { roomNotice('Das Mockup konnte nicht als PNG gespeichert werden. Bitte das Motiv als JPG oder PNG neu laden.',true); }
+    }
+    function initRoom() {
+      roomEl('btnOpenRoom').addEventListener('click',openRoom);
+      const close=()=>{room.uploadSequence++;cancelRoom();room.editing=false;room.draft=null;roomEl('roomDialog').close();};
+      ['btnCloseRoom','btnDoneRoom'].forEach(id=>roomEl(id).addEventListener('click',close));
+      roomEl('roomDialog').addEventListener('cancel',()=>{room.uploadSequence++;cancelRoom();room.editing=false;room.draft=null;});
+      roomEl('btnRoomVirtual').addEventListener('click',()=>setRoomMode('virtual'));roomEl('btnRoomOwn').addEventListener('click',()=>setRoomMode('own'));
+      ['btnRoomFile','btnChangeRoom'].forEach(id=>roomEl(id).addEventListener('click',()=>roomEl('roomFile').click()));
+      roomEl('roomFile').addEventListener('change',e=>{loadRoomFile(e.target.files[0]);e.target.value='';});
+      ['roomAccessCode','roomConsent'].forEach(id=>roomEl(id).addEventListener('input',renderRoom));
+      roomEl('roomZoom').addEventListener('input',e=>{const scene=roomScene();if(scene&&!scene.calibrated){scene.zoom=Math.max(.5,Math.min(2,Number(e.target.value)/100));renderRoom();}});
+      roomEl('btnGenerateRoom').addEventListener('click',generateRoom);roomEl('btnCancelRoom').addEventListener('click',()=>cancelRoom('Anfrage abgebrochen. Ein gestarteter KI-Versuch kann bereits Kosten verursacht haben.'));
+      roomEl('btnSaveRoom').addEventListener('click',saveRoom);roomEl('btnRoomMeasure').addEventListener('click',beginRoomMeasure);roomEl('btnApplyRoomMeasure').addEventListener('click',applyRoomMeasure);
+      roomEl('btnResetRoomMeasure').addEventListener('click',()=>{const scene=roomScene();if(!scene)return;room[room.mode]=roomNewScene(scene.image,scene.url);roomEl('roomWallWidth').value='';roomEl('roomWallHeight').value='';room.editing=false;room.draft=null;roomNotice('Zur geschätzten Raumansicht gewechselt.');renderRoom();});
+      const stage=roomEl('roomStage');let drag=null;
+      stage.addEventListener('dragover',e=>{if(Array.from(e.dataTransfer?.types||[]).includes('Files')){e.preventDefault();e.stopPropagation();stage.classList.add('is-dragging');}});
+      stage.addEventListener('dragleave',()=>stage.classList.remove('is-dragging'));
+      stage.addEventListener('drop',e=>{e.preventDefault();e.stopPropagation();stage.classList.remove('is-dragging');if(e.dataTransfer.files.length!==1){roomNotice('Bitte jeweils ein Zimmerfoto ablegen.',true);return;}loadRoomFile(e.dataTransfer.files[0]);});
+      const point=e=>{const r=roomEl('roomCanvas').getBoundingClientRect();return {x:Math.max(.01,Math.min(.99,(e.clientX-r.left)/r.width)),y:Math.max(.01,Math.min(.99,(e.clientY-r.top)/r.height))};};
+      stage.addEventListener('pointerdown',e=>{const scene=roomScene();if(e.button!==0||!scene||room.busy)return;const p=point(e),corner=e.target.dataset.roomCorner;if(room.editing){if(corner===undefined)return;drag={corner:Number(corner)};}else{const inv=roomInverse(roomHomography(scene.quad)),v=roomProject(inv,p.x,p.y);if(!v)return;drag={dx:scene.center.x-v.x,dy:scene.center.y-v.y};}stage.setPointerCapture(e.pointerId);e.preventDefault();});
+      stage.addEventListener('pointermove',e=>{if(!drag)return;const scene=roomScene(),p=point(e);if(!scene)return;if(drag.corner!==undefined){const candidate=room.draft.map(v=>({...v}));candidate[drag.corner]=p;if(roomValidQuad(candidate))room.draft=candidate;}else{const v=roomProject(roomInverse(roomHomography(scene.quad)),p.x,p.y);if(v)scene.center={x:v.x+drag.dx,y:v.y+drag.dy};}scheduleRoom();});
+      ['pointerup','pointercancel','lostpointercapture'].forEach(type=>stage.addEventListener(type,()=>{drag=null;}));
+      stage.addEventListener('keydown',e=>{const scene=roomScene();if(!scene||room.busy||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;const step=e.shiftKey ? .05 : .01,dx=e.key==='ArrowLeft'?-step:e.key==='ArrowRight'?step:0,dy=e.key==='ArrowUp'?-step:e.key==='ArrowDown'?step:0;const corner=e.target.dataset.roomCorner;if(room.editing&&corner!==undefined){const q=room.draft.map(p=>({...p})),i=Number(corner);q[i]={x:Math.max(.01,Math.min(.99,q[i].x+dx)),y:Math.max(.01,Math.min(.99,q[i].y+dy))};if(roomValidQuad(q))room.draft=q;}else if(!room.editing){scene.center.x+=dx;scene.center.y+=dy;}e.preventDefault();renderRoom();});
+    }
+
+    // --- OPTIONAL ROOM PROMPT ---
     function generatePrompt() {
       const style = els.aiRoomStyle.value;
       const layout = getPrintLayout();
@@ -1161,6 +1391,7 @@ Licht: Realistischer, weicher Schattenwurf des Objekts auf die Wand. 8k, photore
     calcAndRender = function() {
       originalCalcRender();
       generatePrompt();
+      renderRoom();
     };
 
     function copyPromptToClipboard() {
