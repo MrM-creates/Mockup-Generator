@@ -1,4 +1,4 @@
-# Print Studio V14.4.1
+# Print Studio V14.4.2
 
 `index.html` im Browser öffnen. `HTML Script/print-mockup generator V14.html` ist identisch. V13 bleibt als unverändertes Originalarchiv erhalten.
 
@@ -15,6 +15,8 @@ Die helle Oberfläche folgt den lokalen Vorgaben aus `app-ui-foundation`, `flide
 ## Ganzes Motiv und frei wählbare Ränder
 
 Das Motiv wird immer vollständig und proportional dargestellt. Weder Vorschau noch Photoshop-Script beschneiden das Bild. Bei einem hochgeladenen Motiv zählen dessen tatsächliche Pixelproportionen; vor dem Upload dienen die Proportionen des gewählten Referenzformats als Beispiel.
+
+Eine kurze, dauerhaft sichtbare Hilfe erklärt direkt bei den beiden Auswahlbuttons, wann welcher Modus passt: vorhandener Rahmen/feste Grösse oder möglichst grosser Print ohne feste Zielgrösse.
 
 Direkt bei der Formatwahl wählst du die Druckgrösse: **Fertiges Endmass** ist die Voreinstellung und begrenzt den Print inklusive Rand auf die gewählten Masse. **Papier ausnutzen** vergrössert das ganze Motiv innerhalb der Mindestränder auf den passenden Druckbogen. Beide erhalten das vollständige Original und sein Seitenverhältnis. Das kleinste passende Papier aus A5, A4, A3 oder A2 wird automatisch berechnet; darüber ergibt sich ein benutzerdefinierter Bogen.
 

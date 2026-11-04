@@ -61,3 +61,7 @@ Das Endmass enthält den gewünschten Rand. Das vollständige Original wird prop
 Layout und Design bleiben beim Flider-System. Keine weitere Navigation oder Hauptaktion. Papier, fertiges Endmass, Bildfläche und tatsächliche Ränder erhalten je eine beschriftete Angabe; unter 1000 px stehen sie als 2 × 2 Raster. Native Buttons mit aria-pressed, klare Modus-Hilfe direkt am Format, bestehende Fokuszustände und mobile Umbrüche. Die Skalierungsrücksetzung verändert nur die Bildgrösse und behält den Modus.
 
 Prüfung: exakte Endmasse für alle Formate/Ausrichtungen, freier und asymmetrischer Rand, abweichende Motivproportionen, Modus-/Produktwechsel und Skalierung. Für 40 × 50 cm auf A2 liegen Schnittkanten bei x=10/410 mm und y=47/547 mm; acht druckbare Marken müssen ausserhalb liegen. Native Photoshop-Sichtprüfung und Vergleich mit der Browser-Vorschau.
+
+## Ergänzung: Entscheidungshilfe zur Druckgrösse
+
+Direkt unter „Fertiges Endmass“ / „Papier ausnutzen“ stehen beide Zwecke dauerhaft sichtbar in zwei kurzen Zeilen: feste Grösse bzw. vorhandener Rahmen und möglichst grosser Print ohne feste Zielgrösse. Die Buttons verweisen für Screenreader auf diese Hilfe. Kein weiterer Dialog, keine zusätzliche Aktion. Die bestehende Hilfe am Format erklärt nur die jeweils aktive Berechnung. Die gesamte Entscheidungshilfe wird bei Leinwand mit der Modusauswahl ausgeblendet. Bestehende Flider-Abstände und Hilfetext-Stile gelten auch auf Mobilgeräten.

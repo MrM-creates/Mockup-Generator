@@ -1,5 +1,10 @@
 # Änderungen
 
+## V14.4.2 · 04.11.2026
+
+- Kurze Entscheidungshilfe direkt unter der Druckgrössen-Auswahl: „Fertiges Endmass“ für vorhandene Rahmen/feste Grössen, „Papier ausnutzen“ für möglichst grosse Prints ohne feste Zielgrösse.
+- Beide Erklärungen bleiben sichtbar; die Buttons verweisen für Screenreader auf die Hilfe. Berechnung und Photoshop-Platzierung bleiben unverändert.
+
 ## V14.4.1 · 04.11.2026
 
 - Schweizer Schreibweise mit ss in der aktuellen App, Druck-Info und Dokumentation: Endmass, Masse und Massstab. Als dauerhafte Projektvorgabe festgehalten.
