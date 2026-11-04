@@ -1,16 +1,16 @@
 const test=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const vm=require('node:vm');
 const html=fs.readFileSync('index.html','utf8'),source=html.match(/<script>\s*([\s\S]*?)<\/script>/)[1];
 const jpeg='data:image/jpeg;base64,'+Buffer.from([255,216,255,...Array(30).fill(0)]).toString('base64');
-function setup(){
+function setup({failHeic=false}={}){
  const elements=new Map(),canvases=[],network=[];let nextFetch=async()=>new Response(JSON.stringify({quad:[{x:.2,y:.1},{x:.8,y:.1},{x:.8,y:.8},{x:.2,y:.8}],remaining:8,limit:10}));
  const make=id=>{if(elements.has(id))return elements.get(id);const classes=new Set();const n={id,value:'',checked:false,style:{},dataset:{},clientWidth:600,events:{},attributes:{},classList:{add:v=>classes.add(v),remove:v=>classes.delete(v),toggle(v,b){b?classes.add(v):classes.delete(v);}},setAttribute(k,v){this.attributes[k]=v;},addEventListener(k,v){this.events[k]=v;},querySelector(){return make(id+'-child');},querySelectorAll(){return [];},closest(){return make(id+'-parent');},getBoundingClientRect(){return {left:0,top:0,width:600,height:400};},showModal(){this.open=true;},close(){this.open=false;},setPointerCapture(){},click(){this.clicked=true;},contains(t){return t===this;}};elements.set(id,n);return n;};
  let count=0;const create=tag=>{const n=make('created-'+tag+'-'+count++);if(tag==='canvas'){n.draws=[];n.context=new Proxy({drawImage(...args){n.draws.push(args);}}, {get(t,k){return k in t?t[k]:(...args)=>{};}});n.getContext=()=>n.context;n.toDataURL=()=>{n.encoded=true;return jpeg;};n.toBlob=cb=>cb(new Blob(['png']));canvases.push(n);}return n;};
  for(const tag of html.matchAll(/<(?:input|select)[^>]*id="([^"]+)"[^>]*>/g))make(tag[1]).value=tag[0].match(/value="([^"]*)"/)?.[1]||'';
  make('borderMode').value='equal';make('aiRoomStyle').value='swiss';make('roomStyle').value='swiss';make('framePreset').options=[{value:'30x40'}];
  const main=create('canvas');elements.set('roomCanvas',main);
- class FakeImage{constructor(){this.width=1600;this.height=1000;}set src(v){this.url=v;if(this.onload)this.onload();}}
+ class FakeImage{constructor(){this.width=1600;this.height=1000;}set src(v){this.url=v;if(failHeic&&v==='blob:heic'){if(this.onerror)this.onerror();}else if(this.onload)this.onload();}}
  const handles=[0,1,2,3].map(i=>{const n=make('room-handle-'+i);n.dataset.roomCorner=String(i);return n;});
- const context=vm.createContext({document:{getElementById:make,querySelector:make,querySelectorAll:s=>s==='[data-room-corner]'?handles:[],createElement:create},window:{addEventListener(){}},location:{protocol:'http:'},Image:FakeImage,URL:{createObjectURL:()=> 'blob:local-room',revokeObjectURL(){}},navigator:{clipboard:{writeText:async()=>{}}},setTimeout(){},requestAnimationFrame:fn=>fn(),AbortController,crypto:require('node:crypto').webcrypto,Blob,fetch:async(url,options)=>{network.push({url,options});return nextFetch(url,options);},console,alert(m){throw Error(m);}});
+ const context=vm.createContext({document:{getElementById:make,querySelector:make,querySelectorAll:s=>s==='[data-room-corner]'?handles:[],createElement:create},window:{addEventListener(){}},location:{protocol:'http:'},Image:FakeImage,URL:{createObjectURL:blob=>blob.type==='image/heic'?'blob:heic':'blob:local-room',revokeObjectURL(){}},navigator:{clipboard:{writeText:async()=>{}}},setTimeout(){},requestAnimationFrame:fn=>fn(),AbortController,crypto:require('node:crypto').webcrypto,Blob,fetch:async(url,options)=>{network.push({url,options});return nextFetch(url,options);},console,alert(m){throw Error(m);}});
  vm.runInContext(source,context);const run=code=>vm.runInContext(code,context);
  run("state.imgSrc='blob:original-artwork';state.imgW_PX=4000;state.imgH_PX=5000;state.sourceFile={name:'private-original.jpg'};els.inWidth.value=40;els.inHeight.value=50;els.borderMode.value='equal';els.bTop.value=10;roomEl('roomDialog').open=true;room.ready=true;roomEl('roomAccessCode').value='local-test-access-code';roomEl('roomConsent').checked=true;");
  return {run,make,network,canvases,handles,setFetch:f=>{nextFetch=f;}};
@@ -89,4 +89,19 @@ test('HEIC and untyped photos are decoded locally; empty and unsupported files k
  const {run,make,network}=setup();run("loadRoomFile({type:'image/heic',size:100,name:'IMG_1234.HEIC'})");assert.ok(run('room.own'));
  const original=run('room.own');run("loadRoomFile({type:'',size:0,name:'pending.jpg'})");assert.equal(run('room.own'),original);assert.match(make('roomStatus').innerText,/keine Bilddaten/);
  run("loadRoomFile({type:'',size:120,name:'bad.txt'})");assert.equal(run('room.own'),original);assert.equal(network.length,0);
+});
+test('unsupported HEIC converts locally and keeps print/source data unchanged',async()=>{
+ const {run,make,network}=setup({failHeic:true});const before=JSON.stringify(run('getPrintLayout()'));
+ run("roomConvertHeic=async(file,sequence)=>{if(file.type!=='image/heic')throw Error('wrong file');return new Blob(['jpeg'],{type:'image/jpeg'});};loadRoomFile({type:'image/heic',size:100,name:'room.heic'})");
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.ok(run('room.own'));assert.match(make('roomStatus').innerText,/HEIC-Foto lokal vorbereitet/);
+ assert.equal(JSON.stringify(run('getPrintLayout()')),before);assert.equal(run('state.sourceFile.name'),'private-original.jpg');assert.equal(network.length,0);
+});
+test('HEIC failures retain the previous room and stale conversion cannot reopen a closed/switched view',async()=>{
+ const {run,make,network}=setup({failHeic:true});run("loadRoomFile({type:'image/png',size:100})");const previous=run('room.own');
+ run("roomConvertHeic=async()=>{throw Error('decode');};loadRoomFile({type:'image/heic',size:100})");await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(run('room.own'),previous);assert.match(make('roomStatus').innerText,/konnte nicht vorbereitet/);
+ run("var finishHeic;roomConvertHeic=()=>new Promise(resolve=>finishHeic=resolve);loadRoomFile({type:'image/heic',size:100});setRoomMode('virtual');finishHeic(new Blob(['jpeg'],{type:'image/jpeg'}))");await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(run('room.mode'),'virtual');assert.equal(run('room.own'),previous);assert.equal(network.length,0);
+ run("setRoomMode('own');loadRoomFile({type:'image/heic',size:100});roomEl('btnDoneRoom').events.click();finishHeic(new Blob(['jpeg'],{type:'image/jpeg'}))");await new Promise(resolve=>setImmediate(resolve));assert.equal(run('room.own'),previous);assert.equal(make('roomDialog').open,false);
 });

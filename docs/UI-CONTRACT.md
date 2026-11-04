@@ -91,3 +91,7 @@ Prüfung: unveränderte Druckgeometrie/Originaldaten, perspektivische Projektion
 ### Fotoablage im Mockup
 
 Der ganze Mockup-Dialog nimmt einzelne Zimmerfotos entgegen, auch wenn Apple Fotos beim Ziehen noch keinen Dateityp ankündigt. Die bestehende blaue Hervorhebung der Raumvorschau bestätigt das Ablageziel. Im Modus «Eigenes Foto» ist Einfügen aus der Zwischenablage zusätzlich möglich; Eingabefelder behalten ihre normale Texteingabe. Fehlende oder leere Bildübergaben nennen Kopieren/Einfügen und JPEG-Export als Abhilfe. HEIC/HEIF wird lokal decodiert, sofern der Browser es unterstützt; andernfalls erscheint eine konkrete Exporthilfe. Bestehender Raum und Motiv bleiben bei einem Fehler erhalten. Layout, Hauptaktionen, Tokens und die explizite KI-Zustimmung bleiben unverändert.
+
+### Automatische HEIC-Vorbereitung
+
+HEIC-/HEIF-Zimmerfotos werden zuerst nativ gelesen. Bei fehlender Browserunterstützung wird eine lokale JPEG-Raumkopie im Hintergrund erzeugt und sofort angezeigt. Status «HEIC-Foto wird auf deinem Gerät vorbereitet …», keine Bestätigungsfrage und kein Serveraufruf. Die Kopie bleibt vollständig und proportional, maximal 4.096 Pixel lange Seite. Dateigrenze 30 MB, Decodiergrenze 60 Megapixel, Zeitgrenze 45 Sekunden. Bild-/Moduswechsel und Schliessen verhindern veraltete Ergebnisse und beenden aktive Decoder. Die bestehende Flider-Anordnung bleibt bestehen; Open-Source-Hinweise sind unterhalb des Fussbereichs eingeklappt.

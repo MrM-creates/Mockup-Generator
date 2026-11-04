@@ -1,5 +1,12 @@
 # Änderungen
 
+## V14.6.2 · 04.11.2026
+
+- HEIC-/HEIF-Zimmerfotos werden bei fehlender Browserunterstützung automatisch lokal konvertiert und anschliessend direkt in der Raumvorschau angezeigt. Kein JPEG-Export durch den Benutzer nötig.
+- Eingebetteter Decoder ohne CDN oder Bildversand; separater, nach dem Vorgang beendeter Web Worker. Die Raumkopie bleibt vollständig und proportional, mit maximal 4.096 Pixeln an der langen Seite. Das Originalmotiv und der Photoshop-Export werden nicht verändert.
+- Sichtbarer Vorbereitungsstatus, Zeit-/Datei-/Pixelgrenzen, Abbruch bei Bildwechsel, Moduswechsel und Schliessen. Fehler behalten den bisherigen Raum bei.
+- Reproduzierbare Einbettung des fest versionierten LGPL-Decoders, Quellcode-/Lizenzhinweise und Tests für Konvertierung, Fehler und veraltete Ergebnisse. Mit echter HEIC-Beispieldatei im Browser geprüft.
+
 ## V14.6.1 · 04.11.2026
 
 - Zimmerfotos können im ganzen Mockup-Dialog abgelegt werden. Auch macOS-Dateiversprechen ohne vorab gemeldeten Dateityp werden angenommen; Dateien werden zusätzlich aus den Transfer-Items gelesen.
