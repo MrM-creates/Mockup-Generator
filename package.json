@@ -4,7 +4,7 @@
   "private": true,
   "description": "Local-first print and frame simulation with self-contained Photoshop export",
   "scripts": {
-    "test": "node scripts/embed-heic.cjs --check && node tests/print-layout.cjs && node --test tests/mockup-api.cjs tests/mockup-ui.cjs",
+    "test": "node scripts/embed-heic.cjs --check && node tests/print-layout.cjs && node --test tests/mockup-api.cjs tests/mockup-ui.cjs tests/heic-bundle.cjs",
     "dev": "node --env-file-if-exists=.env.local scripts/dev.cjs",
     "build": "node scripts/build.cjs"
   },

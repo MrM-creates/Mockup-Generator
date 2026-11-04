@@ -24,8 +24,21 @@ self.onmessage=async({data:file})=>{
 };`;
 const payload=zlib.gzipSync(worker,{level:9,mtime:0}).toString('base64');
 const tag='<script id="roomHeicDecoder" type="application/octet-stream" data-library="heic-to@1.6.7;libheif@1.23.7;LGPL-3.0">'+payload+'</script>';
-const file=path.join(root,'index.html');let html=fs.readFileSync(file,'utf8');
-if(process.argv.includes('--check')){if(!html.includes(tag))throw Error('HEIC payload is out of date; run node scripts/embed-heic.cjs');console.log('HEIC payload matches pinned decoder and worker source.');process.exit(0);}
-html=html.includes('id="roomHeicDecoder"')?html.replace(/<script id="roomHeicDecoder"[^>]*>[\s\S]*?<\/script>/,tag):html.replace('</body>',tag+'\n</body>');
-fs.writeFileSync(file,html);fs.copyFileSync(file,path.join(root,'HTML Script/print-mockup generator V14.html'));
-console.log('Embedded HEIC worker:',payload.length,'base64 bytes');
+// Compare the exact executable source. Gzip headers/streams differ across OS and
+// zlib versions even when the uncompressed content is byte-for-byte identical.
+function checkPayload(html) {
+  const match=html.match(/<script id="roomHeicDecoder"([^>]*)>([^<]*)<\/script>/);
+  let decoded;
+  try{decoded=match&&zlib.gunzipSync(Buffer.from(match[2],'base64')).toString('utf8');}catch{/* Report all corrupt payloads as a failed check. */}
+  if(!match||!match[1].includes('data-library="heic-to@1.6.7;libheif@1.23.7;LGPL-3.0"')||decoded!==worker)throw Error('HEIC payload is out of date; run node scripts/embed-heic.cjs');
+}
+module.exports={checkPayload};
+if(require.main===module){
+  const file=path.join(root,'index.html');let html=fs.readFileSync(file,'utf8');
+  if(process.argv.includes('--check')){checkPayload(html);console.log('HEIC payload matches pinned decoder and worker source.');}
+  else {
+    html=html.includes('id="roomHeicDecoder"')?html.replace(/<script id="roomHeicDecoder"[^>]*>[\s\S]*?<\/script>/,tag):html.replace('</body>',tag+'\n</body>');
+    fs.writeFileSync(file,html);fs.copyFileSync(file,path.join(root,'HTML Script/print-mockup generator V14.html'));
+    console.log('Embedded HEIC worker:',payload.length,'base64 bytes');
+  }
+}

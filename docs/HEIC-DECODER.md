@@ -15,8 +15,8 @@ Die vollständigen entsprechenden Quelltexte und Bauanweisungen sind in den verl
 
 1. Mit npm ci das exakt festgelegte Paket installieren.
 2. Optional den Decoder unter node_modules/heic-to/src/lib/libheif-without-unsafe-eval.js durch einen kompatiblen eigenen Build ersetzen. Der Build muss buildLibheif() mit HeifDecoder, primärem Bild, RGBA-display und heif_context_free bereitstellen.
-3. node scripts/embed-heic.cjs ausführen. Der Bibliothekscode und unser Adapter werden deterministisch gzip-komprimiert und als inaktiver Base64-Datenblock roomHeicDecoder in index.html eingebettet. Das V14-Archiv wird gleichzeitig synchronisiert. Kein weiterer öffentlicher statischer Endpunkt nötig.
-4. npm test und npm run build ausführen. Der Test vergleicht die eingebettete Nutzlast mit der installierten Bibliothek und dem lesbaren Worker-Adapter. Bei einem Bibliothekswechsel die Paketmetadaten entsprechend aktualisieren.
+3. node scripts/embed-heic.cjs ausführen. Der Bibliothekscode und unser Adapter werden gzip-komprimiert und als inaktiver Base64-Datenblock roomHeicDecoder in index.html eingebettet. Das V14-Archiv wird gleichzeitig synchronisiert. Kein weiterer öffentlicher statischer Endpunkt nötig.
+4. npm test und npm run build ausführen. Der Test entpackt die eingebettete Nutzlast und vergleicht den vollständigen Programmcode exakt mit der installierten Bibliothek und dem lesbaren Worker-Adapter. Gzip-Verpackungen dürfen zwischen Betriebssystemen und zlib-Versionen abweichen; abweichender Programmcode wird weiterhin abgelehnt. Bei einem Bibliothekswechsel die Paketmetadaten entsprechend aktualisieren.
 
 Die ausgelieferte HTML-Datei enthält bereits den vollständigen JavaScript-Decoder und benötigt zur Ausführung keine Verbindung zu npm oder den Quellcode-Repositories. Der Datenblock kann auch direkt durch eine eigene gzip-/Base64-codierte kompatible Worker-Fassung ersetzt werden. Die Anwendung verhindert solche Änderungen nicht.
 
